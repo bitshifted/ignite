@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<!--
+  ~ Copyright (c) 2019. Vladimir Djurovic
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  -->
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.bitshifted.xapps.ignite.ctrl.ProjectButtonsController">
+   <children>
+      <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
+      <Button fx:id="deployButton" mnemonicParsing="false" onAction="#deployProject" text="Deploy Project" />
+   </children>
+</HBox>
