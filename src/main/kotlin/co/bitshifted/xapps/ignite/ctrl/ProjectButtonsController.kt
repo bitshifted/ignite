@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019. Vladimir Djurovic
+ * Copyright (c) 2020. Bitshift (http://bitshifted.co)
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite.ctrl
 
+import co.bitshifted.xapps.ignite.logger
 import co.bitshifted.xapps.ignite.model.RuntimeData
 import co.bitshifted.xapps.ignite.persist.XMLPersister
 import javafx.fxml.FXML
@@ -15,7 +16,7 @@ import java.nio.file.Path
 
 class ProjectButtonsController {
 
-    //val LOGGER by  logger(ProjectButtonsController::class.java)
+    val log by  logger(ProjectButtonsController::class.java)
 
     @FXML
     fun saveProject() {
@@ -27,7 +28,7 @@ class ProjectButtonsController {
     fun deployProject() {
         val project = RuntimeData.selectedProjectItem.value.project ?: return
         val file = Path.of(project.location, "deployer-config.xml").toFile()
-        //LOGGER.info("Deploying project {} from configuration file {}", project.name, file.absolutePath)
+        log.info("Deploying project {} from configuration file {}", project.name, file.absolutePath)
 
 //        try {
 //            val deployerClient = DeployerClient()

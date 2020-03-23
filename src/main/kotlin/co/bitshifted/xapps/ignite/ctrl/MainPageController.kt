@@ -8,11 +8,13 @@
 
 package co.bitshifted.xapps.ignite.ctrl
 
+import co.bitshifted.xapps.ignite.logger
 import co.bitshifted.xapps.ignite.model.Project
 import co.bitshifted.xapps.ignite.model.ProjectItemType
 import co.bitshifted.xapps.ignite.model.RuntimeData
 import co.bitshifted.xapps.ignite.persist.ProjectPersistenceData
 import co.bitshifted.xapps.ignite.persist.XMLPersister
+import co.bitshifted.xapps.ignite.showAlert
 import co.bitshifted.xapps.ignite.ui.ProjectTreeCellFactory
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
 import co.bitshifted.xapps.ignite.ui.UIRegistry
@@ -21,13 +23,18 @@ import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonType
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.layout.AnchorPane
 import org.kordamp.ikonli.fontawesome.FontAwesome
 import org.kordamp.ikonli.javafx.FontIcon
+import java.lang.Exception
 
 class MainPageController : ListChangeListener<Project>  {
+
+    private val log by logger(MainPageController::class.java)
 
     private val ANCHOR_DISTANCE = 10.0
     private val TREE_ICONS_SIZE = 17
@@ -66,8 +73,14 @@ class MainPageController : ListChangeListener<Project>  {
 
         Platform.runLater {
             for(location in ProjectPersistenceData.loadProjectLocations()) {
-                val proj = XMLPersister.loadProject(location)
-                projectTree.root?.children?.add(createProjectNode(proj))
+                try {
+                    val proj = XMLPersister.loadProject(location)
+                    projectTree.root?.children?.add(createProjectNode(proj))
+                } catch (ex : Exception) {
+                    log.error("Failed to laod project file", ex)
+                    showAlert(Alert.AlertType.ERROR, "Failed to load project", ex.localizedMessage)
+                }
+
             }
         }
 
@@ -105,6 +118,7 @@ class MainPageController : ListChangeListener<Project>  {
             for(project in (change.addedSubList ?: emptyList())) {
                 projectTree.root?.children?.add(createProjectNode(project))
                 ProjectPersistenceData.saveProject(project)
+                XMLPersister.writeProject(project);
             }
         }
     }
