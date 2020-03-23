@@ -14,7 +14,7 @@ object ControllerRegistry {
 
     fun registerControllers() {
         controllerMap[NewProjectDialogController::class.java.name] = NewProjectDialogController()
-//        controllerMap[ProjectInfoController::class.java.name] = ProjectInfoController()
+        controllerMap[ProjectInfoController::class.java.name] = ProjectInfoController()
 //        controllerMap[NewMavenDependencyController::class.java.name] = NewMavenDependencyController()
 //        controllerMap[AddServerController::class.java.name] = AddServerController()
     }
