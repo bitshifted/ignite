@@ -17,7 +17,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.vektorsoft.xapps" level="DEBUG" additivity="false">
+    <logger name="co.bitshifted.xapps" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 

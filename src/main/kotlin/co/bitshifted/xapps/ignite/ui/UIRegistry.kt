@@ -20,7 +20,6 @@ object UIRegistry {
 
     const val MAIN_PAGE = "main_page"
     const val START_PANE = "start_pane"
-    const val NEW_PROJECT_DLG = "new_project_dlg"
     const val PROJECT_INFO_PANE = "project_info_pane"
     const val PROJECT_BUTTON_BAR = "project_button_bar"
     const val APP_INFO_PANE = "app_info_pane"
@@ -37,7 +36,6 @@ object UIRegistry {
     fun loadComponents() {
         val bundle = ResourceBundle.getBundle("i18n/strings")
         componentMap[START_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/start-pane.fxml"), bundle)
-        loadWithController("/fxml/new-project-dlg.fxml", NewProjectDialogController::class.java, NEW_PROJECT_DLG, bundle)
         loadWithController("/fxml/project-info.fxml", ProjectInfoController::class.java, PROJECT_INFO_PANE, bundle)
         componentMap[PROJECT_BUTTON_BAR] = FXMLLoader.load(javaClass.getResource("/fxml/project-button-bar.fxml"))
         componentMap[APP_INFO_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/app-info.fxml"))

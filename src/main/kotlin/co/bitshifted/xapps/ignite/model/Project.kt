@@ -8,20 +8,39 @@
 
 package co.bitshifted.xapps.ignite.model
 
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import javax.xml.bind.annotation.*
 
 const val PROJECT_XML_ELEMENT_NAME = "ignite-project"
 
 @XmlRootElement(name = PROJECT_XML_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.FIELD)
-class Project {
+class Project  {
 
-    @XmlAttribute
-    var name : String? = null
     @XmlTransient
-    var location : String? = null
+    val nameProperty = SimpleStringProperty("")
+    var name : String
+        @XmlAttribute
+        get() = nameProperty.get()
+        set(value) = nameProperty.set(value)
+
+    @XmlTransient
+    val locationProperty = SimpleStringProperty("")
+    var location : String
+        @XmlTransient
+        get() = locationProperty.get()
+        set(value) = locationProperty.set(value)
+
+    @XmlTransient
+    val dependencyManagementTypeProperty = SimpleObjectProperty(DependencyManagementType.MAVEN)
+    var dependencyManagementType : DependencyManagementType
+        @XmlAttribute(name = "dependency-management-type")
+        get() = dependencyManagementTypeProperty.get()
+        set(value) = dependencyManagementTypeProperty.set(value)
 
     @XmlElement
     var application : Application? = null
+
 
 }
