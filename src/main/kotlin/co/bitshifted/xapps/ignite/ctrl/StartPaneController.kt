@@ -12,6 +12,7 @@ import co.bitshifted.xapps.ignite.model.Project
 import co.bitshifted.xapps.ignite.model.RuntimeData
 import co.bitshifted.xapps.ignite.persist.XMLPersister
 import co.bitshifted.xapps.ignite.ui.UIRegistry
+import javafx.beans.value.ChangeListener
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.ButtonType
@@ -27,10 +28,10 @@ class StartPaneController {
         val dialog = Dialog<Project?>()
         dialog.title = "Create New Project"
         dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
-        dialog.dialogPane.content = UIRegistry.getComponent(UIRegistry.NEW_PROJECT_DLG)
-        dialog.resultConverter = ControllerRegistry.getController(NewProjectDialogController::class.java).getResultConverter()
+        dialog.dialogPane.content = UIRegistry.getComponent(UIRegistry.PROJECT_INFO_PANE)
+        dialog.resultConverter = ControllerRegistry.getController(ProjectInfoController::class.java).getResultConverter()
         dialog.dialogPane.lookupButton(ButtonType.OK).addEventFilter(ActionEvent.ACTION,  {
-            if(!ControllerRegistry.getController(NewProjectDialogController::class.java).validateInput()) {
+            if(!ControllerRegistry.getController(ProjectInfoController::class.java).validateInput()) {
                 it.consume()
             }
         })

@@ -13,7 +13,6 @@ object ControllerRegistry {
     private val controllerMap = mutableMapOf<String, Any>()
 
     fun registerControllers() {
-        controllerMap[NewProjectDialogController::class.java.name] = NewProjectDialogController()
         controllerMap[ProjectInfoController::class.java.name] = ProjectInfoController()
 //        controllerMap[NewMavenDependencyController::class.java.name] = NewMavenDependencyController()
 //        controllerMap[AddServerController::class.java.name] = AddServerController()

@@ -8,10 +8,15 @@
 
 package co.bitshifted.xapps.ignite.ctrl
 
+import co.bitshifted.xapps.ignite.model.DependencyManagementType
 import co.bitshifted.xapps.ignite.model.Project
+import co.bitshifted.xapps.ignite.ui.UIRegistry
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
+import javafx.scene.control.ComboBox
 import javafx.scene.control.TextField
+import javafx.stage.DirectoryChooser
 import javafx.util.Callback
 
 class NewProjectDialogController {
@@ -20,6 +25,16 @@ class NewProjectDialogController {
     private lateinit  var projectNameField : TextField
     @FXML
     private lateinit var projectLocationField : TextField
+    @FXML
+    private lateinit var dependencyCombo : ComboBox<DependencyManagementType>
+    @FXML
+    private lateinit var browseButton : Button
+
+    @FXML
+    fun initialize() {
+        dependencyCombo.items?.addAll(DependencyManagementType.values())
+        dependencyCombo.selectionModel?.selectFirst()
+    }
 
 
 
@@ -35,14 +50,21 @@ class NewProjectDialogController {
     }
 
     fun validateInput() : Boolean {
-        return (projectLocationField.text?.isNotEmpty() == true && projectNameField?.text?.isNotEmpty() == true)
+        return (projectLocationField.text?.isNotEmpty() == true && projectNameField.text?.isNotEmpty() == true)
     }
 
     private fun createProject() : Project {
          val project = Project()
         project.name = projectNameField.text
         project.location = projectLocationField.text
+        project.dependencyManagementType = dependencyCombo.value
         return project
+    }
+
+    @FXML
+    fun chooseProjectDirectory() {
+        val dirChooser = DirectoryChooser()
+        val selectedDir = dirChooser.showDialog(UIRegistry.getMainWindow())
     }
 
 

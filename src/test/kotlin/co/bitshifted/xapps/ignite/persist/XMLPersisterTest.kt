@@ -10,6 +10,7 @@ package co.bitshifted.xapps.ignite.persist
 
 
 import co.bitshifted.xapps.ignite.model.Application
+import co.bitshifted.xapps.ignite.model.DependencyManagementType
 import co.bitshifted.xapps.ignite.model.Project
 import org.junit.After
 import org.junit.Before

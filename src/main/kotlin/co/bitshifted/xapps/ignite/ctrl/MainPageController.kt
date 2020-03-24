@@ -24,7 +24,6 @@ import javafx.beans.value.ObservableValue
 import javafx.collections.ListChangeListener
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
-import javafx.scene.control.ButtonType
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.layout.AnchorPane
@@ -36,26 +35,14 @@ class MainPageController : ListChangeListener<Project>  {
 
     private val log by logger(MainPageController::class.java)
 
-    private val ANCHOR_DISTANCE = 10.0
-    private val TREE_ICONS_SIZE = 17
+    private val anchorDistance = 10.0
+    private val treeIconsSIze = 17
 
     @FXML
     lateinit private var detailsPane : AnchorPane
     @FXML
     lateinit private var projectTree : TreeView<ProjectTreeItem>
 
-    private val treeRootIcon : FontIcon
-    private val projectIcon : FontIcon
-    private val applicationIcon : FontIcon
-
-    init {
-        treeRootIcon = FontIcon(FontAwesome.POWER_OFF)
-        treeRootIcon.iconSize = TREE_ICONS_SIZE
-        projectIcon = FontIcon(FontAwesome.BRIEFCASE)
-        projectIcon.iconSize = 17
-        applicationIcon = FontIcon(FontAwesome.FLASK)
-        projectIcon.iconSize = 17
-    }
 
     @FXML
     fun initialize() {
@@ -65,9 +52,8 @@ class MainPageController : ListChangeListener<Project>  {
     }
 
     private fun createProjectTree() {
-        treeRootIcon.iconSize = 17
         projectTree.cellFactory = ProjectTreeCellFactory()
-        val root = TreeItem(ProjectTreeItem(ProjectItemType.ROOT), treeRootIcon)
+        val root = TreeItem(ProjectTreeItem(ProjectItemType.ROOT), getIcon(FontAwesome.POWER_OFF))
         root.expandedProperty().set(true)
         projectTree.root = root
 
@@ -124,8 +110,8 @@ class MainPageController : ListChangeListener<Project>  {
     }
 
     private fun createProjectNode(project : Project) : TreeItem<ProjectTreeItem> {
-        val projectNode = TreeItem(ProjectTreeItem(ProjectItemType.PROJECT, project), projectIcon)
-        projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.APPLICATION, project), applicationIcon))
+        val projectNode = TreeItem(ProjectTreeItem(ProjectItemType.PROJECT, project), getIcon(FontAwesome.BRIEFCASE))
+        projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.APPLICATION, project), getIcon(FontAwesome.FLASK)))
 
         return projectNode
     }
@@ -133,10 +119,16 @@ class MainPageController : ListChangeListener<Project>  {
     private fun setupDetailsPane(name : String) {
         detailsPane.children.clear()
         detailsPane.children.addAll(UIRegistry.getComponent(name), UIRegistry.getComponent(UIRegistry.PROJECT_BUTTON_BAR))
-        AnchorPane.setTopAnchor(detailsPane.children[0], ANCHOR_DISTANCE)
-        AnchorPane.setLeftAnchor(detailsPane.children[0], ANCHOR_DISTANCE)
-        AnchorPane.setRightAnchor(detailsPane.children[0], ANCHOR_DISTANCE)
-        AnchorPane.setBottomAnchor(detailsPane.children[1], ANCHOR_DISTANCE)
+        AnchorPane.setTopAnchor(detailsPane.children[0], anchorDistance)
+        AnchorPane.setLeftAnchor(detailsPane.children[0], anchorDistance)
+        AnchorPane.setRightAnchor(detailsPane.children[0], anchorDistance)
+        AnchorPane.setBottomAnchor(detailsPane.children[1], anchorDistance)
+    }
+
+    private fun getIcon(font : FontAwesome) : FontIcon {
+        val icon = FontIcon(font);
+        icon.iconSize = treeIconsSIze
+        return icon
     }
 
 
