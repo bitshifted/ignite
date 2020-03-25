@@ -30,7 +30,6 @@ class XMLPersisterTest {
         project.name = "Test project"
         project.location = curDirectory
         print(curDirectory)
-        project.application = Application()
 
     }
 

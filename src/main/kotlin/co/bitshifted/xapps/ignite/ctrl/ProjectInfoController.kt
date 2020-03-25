@@ -9,10 +9,8 @@
 package co.bitshifted.xapps.ignite.ctrl
 
 import co.bitshifted.xapps.ignite.logger
-import co.bitshifted.xapps.ignite.model.DependencyManagementType
-import co.bitshifted.xapps.ignite.model.Project
-import co.bitshifted.xapps.ignite.model.ProjectItemType
-import co.bitshifted.xapps.ignite.model.RuntimeData
+import co.bitshifted.xapps.ignite.model.*
+import co.bitshifted.xapps.ignite.persist.ProjectPersistenceData
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
 import co.bitshifted.xapps.ignite.ui.UIRegistry
 import javafx.beans.binding.Bindings
@@ -23,9 +21,11 @@ import javafx.fxml.FXML
 import javafx.scene.Node
 import javafx.scene.control.ButtonType
 import javafx.scene.control.ComboBox
+import javafx.scene.control.Dialog
 import javafx.scene.control.TextField
 import javafx.stage.DirectoryChooser
 import javafx.util.Callback
+import java.util.*
 
 
 class ProjectInfoController : ChangeListener<ProjectTreeItem> {
@@ -38,12 +38,17 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     private lateinit var projectLocationField : TextField
     @FXML
     private lateinit var   dependencyCombo : ComboBox<DependencyManagementType>
+    @FXML
+    private lateinit var serverCombo : ComboBox<Server>
 
     private var boundProject : Project? = null
+    private lateinit var resourceBundle: ResourceBundle
 
 
     @FXML
     fun initialize() {
+        serverCombo.items.addAll(ProjectPersistenceData.loadServers())
+        resourceBundle = ResourceBundle.getBundle("i18n/strings")
         RuntimeData.selectedProjectItem.addListener(this)
         dependencyCombo.items?.addAll(DependencyManagementType.values())
         dependencyCombo.selectionModel?.selectFirst()
@@ -90,6 +95,26 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
         }
     }
 
+    @FXML
+    fun addServer() {
+        val dialog = Dialog<Server?>()
+        dialog.title = resourceBundle.getString("app.newServer")
+        dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
+        dialog.dialogPane.content = UIRegistry.getComponent(UIRegistry.ADD_SERVER_PANE)
+        dialog.resultConverter = ControllerRegistry.getController(AddServerController::class.java).getResultConverter()
+        dialog.dialogPane.lookupButton(ButtonType.OK).addEventFilter(ActionEvent.ACTION,  {
+            if(!ControllerRegistry.getController(AddServerController::class.java).validateInput()) {
+                it.consume()
+            }
+        })
+        val optServer = dialog.showAndWait()
+        if(optServer.isPresent) {
+            serverCombo.items.add(optServer.get())
+            serverCombo.selectionModel.select(optServer.get())
+        }
+
+    }
+
     private fun createProject() : Project {
         val project = Project()
         project.name = projectNameField.text
@@ -102,6 +127,7 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
         projectNameField.textProperty().bindBidirectional(project.nameProperty)
         projectLocationField.textProperty().bindBidirectional(project.locationProperty)
         dependencyCombo.valueProperty().bindBidirectional(project.dependencyManagementTypeProperty)
+        serverCombo.valueProperty().bindBidirectional(project.serverProperty)
         boundProject = project
 
     }

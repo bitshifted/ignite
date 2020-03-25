@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite.ui
 
+import co.bitshifted.xapps.ignite.ctrl.AddServerController
 import co.bitshifted.xapps.ignite.ctrl.ControllerRegistry
 import co.bitshifted.xapps.ignite.ctrl.NewProjectDialogController
 import co.bitshifted.xapps.ignite.ctrl.ProjectInfoController
@@ -26,7 +27,7 @@ object UIRegistry {
 //    const val DEPENDENCY_INFO_PANE = "dependency_info_pane"
 //    const val PLATFORM_DEPENDENCY_PANE = "platform_dependency_pane"
 //    const val ADD_MAVEN_DEPENDENCY_PANE = "add_maven_dependency_pane"
-//    const val ADD_SERVER_PANE = "add_server_pane"
+    const val ADD_SERVER_PANE = "add_server_pane"
 //    const val JVM_PROPERTIES_PANE = "jvm_properties_pane"
 
 
@@ -43,7 +44,7 @@ object UIRegistry {
 //        componentMap[PLATFORM_DEPENDENCY_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/platform-deps-info.fxml"))
 //        componentMap[JVM_PROPERTIES_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/jvm-properties.fxml"))
 //        loadWithController("/fxml/maven-dependency-pane.fxml", NewMavenDependencyController::class.java, ADD_MAVEN_DEPENDENCY_PANE, bundle)
-//        loadWithController("/fxml/new-server.fxml", AddServerController::class.java, ADD_SERVER_PANE, bundle)
+        loadWithController("/fxml/new-server.fxml", AddServerController::class.java, ADD_SERVER_PANE, bundle)
 
         // load main window last, to make sure all children are loaded
         componentMap[MAIN_PAGE] = FXMLLoader.load<Parent>(javaClass.getResource("/fxml/main.fxml"))

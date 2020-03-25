@@ -9,6 +9,7 @@
 package co.bitshifted.xapps.ignite
 
 import javafx.scene.control.Alert
+import javafx.stage.FileChooser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -17,8 +18,24 @@ fun <T : Any> T.logger(clazz : Class<T>) : Lazy<Logger> {
 }
 
 fun showAlert(type : Alert.AlertType, headerText : String, contentText : String) {
-    val alert = Alert(Alert.AlertType.ERROR)
+    val alert = Alert(type)
     alert.headerText = headerText
     alert.contentText = contentText
     alert.showAndWait()
+}
+
+fun iconExtensionFilters() : List<FileChooser.ExtensionFilter> {
+    return listOf(
+        FileChooser.ExtensionFilter("All Icons", "*.png", "*.ico", "*.icns"),
+        FileChooser.ExtensionFilter("PNG", ".png"),
+        FileChooser.ExtensionFilter("ICO", "*.ico"),
+        FileChooser.ExtensionFilter("ICNS", "*.icns")
+    )
+}
+
+fun filePathRelative(filePath : String, parent : String) : String {
+    if(filePath.startsWith(parent)) {
+        return filePath.substring(parent.length + 1)
+    }
+    return filePath
 }

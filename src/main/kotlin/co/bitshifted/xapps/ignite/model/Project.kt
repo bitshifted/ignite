@@ -39,8 +39,15 @@ class Project  {
         get() = dependencyManagementTypeProperty.get()
         set(value) = dependencyManagementTypeProperty.set(value)
 
+    @XmlTransient
+    val serverProperty = SimpleObjectProperty<Server>()
+    var server : Server
+        @XmlElement
+        get() = serverProperty.get()
+        set(value) = serverProperty.set(value)
+
     @XmlElement
-    var application : Application? = null
+    val application = Application()
 
 
 }
