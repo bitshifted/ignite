@@ -64,7 +64,7 @@ class MainPageController : ListChangeListener<Project>  {
                     projectTree.root?.children?.add(createProjectNode(proj))
                 } catch (ex : Exception) {
                     log.error("Failed to laod project file", ex)
-                    showAlert(Alert.AlertType.ERROR, "Failed to load project", ex.localizedMessage)
+                    showAlert(Alert.AlertType.ERROR, "Failed to load project", ex.message ?: "")
                 }
 
             }

@@ -15,7 +15,7 @@ object ControllerRegistry {
     fun registerControllers() {
         controllerMap[ProjectInfoController::class.java.name] = ProjectInfoController()
 //        controllerMap[NewMavenDependencyController::class.java.name] = NewMavenDependencyController()
-//        controllerMap[AddServerController::class.java.name] = AddServerController()
+        controllerMap[AddServerController::class.java.name] = AddServerController()
     }
 
     fun <T>  getController(clazz : Class<T>) : T = controllerMap[clazz.name] as T
