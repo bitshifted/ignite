@@ -48,6 +48,8 @@ class Project  {
 
     @XmlElement
     val application = Application()
+    @XmlElement
+    val jvm = Jvm()
 
 
 }
