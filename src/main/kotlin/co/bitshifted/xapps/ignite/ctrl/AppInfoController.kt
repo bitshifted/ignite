@@ -14,26 +14,18 @@ import co.bitshifted.xapps.ignite.iconExtensionFilters
 import co.bitshifted.xapps.ignite.model.BinaryData
 import co.bitshifted.xapps.ignite.model.ProjectItemType
 import co.bitshifted.xapps.ignite.model.RuntimeData
-import co.bitshifted.xapps.ignite.model.Server
-import co.bitshifted.xapps.ignite.persist.ProjectPersistenceData
 import co.bitshifted.xapps.ignite.ui.IconBar
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
 import co.bitshifted.xapps.ignite.ui.UIRegistry
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.*
+import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
-import org.apache.commons.codec.digest.DigestUtils
-import org.apache.commons.codec.digest.MessageDigestAlgorithms
 import java.io.File
-import java.util.*
 
 class AppInfoController : ChangeListener<ProjectTreeItem> {
-
-    private val digestUtil = DigestUtils(MessageDigestAlgorithms.SHA_1)
 
     @FXML
     private lateinit var appNameField : TextField

@@ -10,13 +10,11 @@ package co.bitshifted.xapps.ignite.ctrl
 
 import co.bitshifted.xapps.ignite.model.DependencyManagementType
 import co.bitshifted.xapps.ignite.model.Project
-import co.bitshifted.xapps.ignite.ui.UIRegistry
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TextField
-import javafx.stage.DirectoryChooser
 import javafx.util.Callback
 
 class NewProjectDialogController {
@@ -60,12 +58,5 @@ class NewProjectDialogController {
         project.dependencyManagementType = dependencyCombo.value
         return project
     }
-
-    @FXML
-    fun chooseProjectDirectory() {
-        val dirChooser = DirectoryChooser()
-        val selectedDir = dirChooser.showDialog(UIRegistry.getMainWindow())
-    }
-
 
 }

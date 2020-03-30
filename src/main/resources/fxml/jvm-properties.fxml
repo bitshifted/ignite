@@ -61,6 +61,7 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -69,16 +70,16 @@
                <children>
                   <Label text="Main Class:" />
                   <TextField fx:id="mainClassField" GridPane.columnIndex="1" />
-                  <Label text="JVM Options:" GridPane.rowIndex="1" />
-                  <TextArea fx:id="jvmOptionsTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="System Properties:" GridPane.rowIndex="2" />
-                  <TextArea fx:id="sysPropertiesTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="Splash Screen Image:" GridPane.rowIndex="4">
+                  <Label text="JVM Options:" GridPane.rowIndex="2" />
+                  <TextArea fx:id="jvmOptionsTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label text="System Properties:" GridPane.rowIndex="3" />
+                  <TextArea fx:id="sysPropertiesTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Splash Screen Image:" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <BorderPane fx:id="splashScreenImgPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <BorderPane fx:id="splashScreenImgPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <top>
                         <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
@@ -91,8 +92,10 @@
                         </HBox>
                      </top>
                   </BorderPane>
-                  <Label text="Arguments:" GridPane.rowIndex="3" />
-                  <TextField fx:id="argumentsTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Arguments:" GridPane.rowIndex="4" />
+                  <TextField fx:id="argumentsTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label text="Module:" GridPane.rowIndex="1" />
+                  <TextField fx:id="moduleNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>

@@ -23,19 +23,18 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
 import javafx.stage.FileChooser
 import javafx.util.Callback
-import org.apache.commons.codec.digest.DigestUtils
-import org.apache.commons.codec.digest.MessageDigestAlgorithms
 import java.io.File
 import java.nio.file.Paths
 
 class JvmDataController : ChangeListener<ProjectTreeItem> {
 
-    private val digestUtil = DigestUtils(MessageDigestAlgorithms.SHA_1)
     private val SPLASH_PREVIEW_WIDTH = 100.0
     private val SPLASH_PREVIEW_HEIGHT = 80.0
 
     @FXML
     private lateinit var mainClassField : TextField
+    @FXML
+    private lateinit var moduleNameField : TextField
     @FXML
     private lateinit var jvmOptionsTextArea : TextArea
     @FXML
@@ -67,6 +66,7 @@ class JvmDataController : ChangeListener<ProjectTreeItem> {
     override fun changed(observable: ObservableValue<out ProjectTreeItem>?, oldValue: ProjectTreeItem?, newValue: ProjectTreeItem?) {
         if(oldValue?.type == ProjectItemType.JVM) {
             mainClassField.textProperty().unbindBidirectional(oldValue.project?.jvm?.mainClassProperty)
+            moduleNameField.textProperty().unbindBidirectional(oldValue.project?.jvm?.moduleNameProperty)
             jvmOptionsTextArea.textProperty().unbindBidirectional(oldValue.project?.jvm?.jvmOptionsProperty)
             sysPropertiesTextArea.textProperty().unbindBidirectional(oldValue.project?.jvm?.sysPropertiesProperty)
             argumentsTextField.textProperty().unbindBidirectional(oldValue.project?.jvm?.argumentsProperty)
@@ -77,6 +77,7 @@ class JvmDataController : ChangeListener<ProjectTreeItem> {
         }
         if(newValue?.type == ProjectItemType.JVM) {
             mainClassField.textProperty().bindBidirectional(newValue.project?.jvm?.mainClassProperty)
+            moduleNameField.textProperty().bindBidirectional(newValue.project?.jvm?.moduleNameProperty)
             jvmOptionsTextArea.textProperty().bindBidirectional(newValue.project?.jvm?.jvmOptionsProperty)
             sysPropertiesTextArea.textProperty().bindBidirectional(newValue.project?.jvm?.sysPropertiesProperty)
             argumentsTextField.textProperty().bindBidirectional(newValue.project?.jvm?.argumentsProperty)

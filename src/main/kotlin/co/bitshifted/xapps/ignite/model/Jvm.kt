@@ -10,6 +10,7 @@ package co.bitshifted.xapps.ignite.model
 
 import javafx.beans.property.SimpleListProperty
 import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javax.xml.bind.annotation.*
 
@@ -35,6 +36,11 @@ class Jvm {
     var mainClass : String?
         @XmlElement(name = "main-class") get()  = mainClassProperty.get()
         set(value) = mainClassProperty.set(value)
+
+    val moduleNameProperty = SimpleStringProperty();
+    var moduleName : String?
+        @XmlElement(name = "module-name") get() = moduleNameProperty.get()
+        set(value) = moduleNameProperty.set(value)
 
     @XmlTransient
     val jvmOptionsProperty = SimpleObjectProperty<String>()
