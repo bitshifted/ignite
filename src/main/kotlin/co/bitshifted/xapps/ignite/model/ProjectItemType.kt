@@ -11,5 +11,6 @@ package co.bitshifted.xapps.ignite.model
 enum class ProjectItemType {
     ROOT,
     PROJECT,
-    APPLICATION
+    APPLICATION,
+    JVM
 }

@@ -28,6 +28,7 @@ class Converter : StringConverter<ProjectTreeItem>() {
         when(item?.type) {
             ProjectItemType.ROOT -> return "Projects"
             ProjectItemType.APPLICATION -> return "Application"
+            ProjectItemType.JVM -> return "JVM"
             ProjectItemType.PROJECT -> return item.project?.name ?: "Unknown"
             else -> return ""
 

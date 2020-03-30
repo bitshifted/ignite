@@ -8,11 +8,6 @@
 
 package co.bitshifted.xapps.ignite.model
 
-import javax.xml.bind.annotation.XmlAttribute
-
-
-open class BinaryData(@XmlAttribute val path : String = "",
-                      @XmlAttribute(name = "file-name") val fileName : String = "",
-                      @XmlAttribute val size : Long = 0) {
-
+enum class JdkProvider {
+    OPENJDK
 }

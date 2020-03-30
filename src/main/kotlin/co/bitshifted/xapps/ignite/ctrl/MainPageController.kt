@@ -27,6 +27,8 @@ import javafx.scene.control.Alert
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.layout.AnchorPane
+import org.kordamp.ikonli.Ikon
+import org.kordamp.ikonli.devicons.Devicons
 import org.kordamp.ikonli.fontawesome.FontAwesome
 import org.kordamp.ikonli.javafx.FontIcon
 import java.lang.Exception
@@ -93,6 +95,9 @@ class MainPageController : ListChangeListener<Project>  {
                     ProjectItemType.APPLICATION -> {
                         setupDetailsPane(UIRegistry.APP_INFO_PANE)
                     }
+                    ProjectItemType.JVM -> {
+                        setupDetailsPane(UIRegistry.JVM_PROPERTIES_PANE)
+                    }
 
                 }
             }
@@ -112,6 +117,7 @@ class MainPageController : ListChangeListener<Project>  {
     private fun createProjectNode(project : Project) : TreeItem<ProjectTreeItem> {
         val projectNode = TreeItem(ProjectTreeItem(ProjectItemType.PROJECT, project), getIcon(FontAwesome.BRIEFCASE))
         projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.APPLICATION, project), getIcon(FontAwesome.FLASK)))
+        projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.JVM, project), getIcon(Devicons.JAVA)))
 
         return projectNode
     }
@@ -125,7 +131,7 @@ class MainPageController : ListChangeListener<Project>  {
         AnchorPane.setBottomAnchor(detailsPane.children[1], anchorDistance)
     }
 
-    private fun getIcon(font : FontAwesome) : FontIcon {
+    private fun getIcon(font : Ikon) : FontIcon {
         val icon = FontIcon(font);
         icon.iconSize = treeIconsSIze
         return icon

@@ -28,7 +28,7 @@ object UIRegistry {
 //    const val PLATFORM_DEPENDENCY_PANE = "platform_dependency_pane"
 //    const val ADD_MAVEN_DEPENDENCY_PANE = "add_maven_dependency_pane"
     const val ADD_SERVER_PANE = "add_server_pane"
-//    const val JVM_PROPERTIES_PANE = "jvm_properties_pane"
+    const val JVM_PROPERTIES_PANE = "jvm_properties_pane"
 
 
     private val componentMap = mutableMapOf<String, Parent>()
@@ -42,7 +42,7 @@ object UIRegistry {
         componentMap[APP_INFO_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/app-info.fxml"))
 //        componentMap[DEPENDENCY_INFO_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/dependency-info.fxml"))
 //        componentMap[PLATFORM_DEPENDENCY_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/platform-deps-info.fxml"))
-//        componentMap[JVM_PROPERTIES_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/jvm-properties.fxml"))
+        componentMap[JVM_PROPERTIES_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/jvm-properties.fxml"))
 //        loadWithController("/fxml/maven-dependency-pane.fxml", NewMavenDependencyController::class.java, ADD_MAVEN_DEPENDENCY_PANE, bundle)
         loadWithController("/fxml/new-server.fxml", AddServerController::class.java, ADD_SERVER_PANE, bundle)
 

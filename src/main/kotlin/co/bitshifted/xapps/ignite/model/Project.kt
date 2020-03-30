@@ -41,13 +41,15 @@ class Project  {
 
     @XmlTransient
     val serverProperty = SimpleObjectProperty<Server>()
-    var server : Server
+    var server : Server?
         @XmlElement
         get() = serverProperty.get()
         set(value) = serverProperty.set(value)
 
     @XmlElement
     val application = Application()
+    @XmlElement
+    val jvm = Jvm()
 
 
 }
