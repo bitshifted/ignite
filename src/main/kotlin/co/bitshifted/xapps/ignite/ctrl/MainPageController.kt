@@ -41,9 +41,9 @@ class MainPageController : ListChangeListener<Project>  {
     private val treeIconsSIze = 17
 
     @FXML
-    lateinit private var detailsPane : AnchorPane
+    private lateinit var detailsPane : AnchorPane
     @FXML
-    lateinit private var projectTree : TreeView<ProjectTreeItem>
+    private lateinit var projectTree : TreeView<ProjectTreeItem>
 
 
     @FXML
@@ -98,6 +98,9 @@ class MainPageController : ListChangeListener<Project>  {
                     ProjectItemType.JVM -> {
                         setupDetailsPane(UIRegistry.JVM_PROPERTIES_PANE)
                     }
+                    ProjectItemType.DEPENDENCIES -> {
+                        setupDetailsPane(UIRegistry.DEPENDENCY_INFO_PANE)
+                    }
 
                 }
             }
@@ -118,6 +121,7 @@ class MainPageController : ListChangeListener<Project>  {
         val projectNode = TreeItem(ProjectTreeItem(ProjectItemType.PROJECT, project), getIcon(FontAwesome.BRIEFCASE))
         projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.APPLICATION, project), getIcon(FontAwesome.FLASK)))
         projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.JVM, project), getIcon(Devicons.JAVA)))
+        projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.DEPENDENCIES, project), getIcon(FontAwesome.FILE_CODE_O)))
 
         return projectNode
     }

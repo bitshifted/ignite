@@ -24,7 +24,7 @@ object UIRegistry {
     const val PROJECT_INFO_PANE = "project_info_pane"
     const val PROJECT_BUTTON_BAR = "project_button_bar"
     const val APP_INFO_PANE = "app_info_pane"
-//    const val DEPENDENCY_INFO_PANE = "dependency_info_pane"
+    const val DEPENDENCY_INFO_PANE = "dependency_info_pane"
 //    const val PLATFORM_DEPENDENCY_PANE = "platform_dependency_pane"
 //    const val ADD_MAVEN_DEPENDENCY_PANE = "add_maven_dependency_pane"
     const val ADD_SERVER_PANE = "add_server_pane"
@@ -40,7 +40,7 @@ object UIRegistry {
         loadWithController("/fxml/project-info.fxml", ProjectInfoController::class.java, PROJECT_INFO_PANE, bundle)
         componentMap[PROJECT_BUTTON_BAR] = FXMLLoader.load(javaClass.getResource("/fxml/project-button-bar.fxml"))
         componentMap[APP_INFO_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/app-info.fxml"))
-//        componentMap[DEPENDENCY_INFO_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/dependency-info.fxml"))
+        componentMap[DEPENDENCY_INFO_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/dependency-info.fxml"))
 //        componentMap[PLATFORM_DEPENDENCY_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/platform-deps-info.fxml"))
         componentMap[JVM_PROPERTIES_PANE] = FXMLLoader.load(javaClass.getResource("/fxml/jvm-properties.fxml"))
 //        loadWithController("/fxml/maven-dependency-pane.fxml", NewMavenDependencyController::class.java, ADD_MAVEN_DEPENDENCY_PANE, bundle)

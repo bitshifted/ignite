@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlAttribute
 import javax.xml.bind.annotation.XmlTransient
 
 @XmlAccessorType(XmlAccessType.FIELD)
-open class JvmDependency  {
+open class JvmDependency : BinaryData {
 
     @XmlTransient
     val scopeProperty = SimpleObjectProperty<JvmDependencyScope>()
@@ -23,5 +23,9 @@ open class JvmDependency  {
     var scope : JvmDependencyScope
     @XmlAttribute get() = scopeProperty.get()
     set(value) = scopeProperty.set(value)
+
+    constructor(fileName : String, path : String, size : Long, scope : JvmDependencyScope)  : super(fileName = fileName, path = path, size = size ) {
+        this.scope = scope
+    }
 
 }

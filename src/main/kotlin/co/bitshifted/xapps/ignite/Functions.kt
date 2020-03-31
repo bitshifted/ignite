@@ -12,6 +12,8 @@ import javafx.scene.control.Alert
 import javafx.stage.FileChooser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
+import java.nio.file.Path
 
 fun <T : Any> T.logger(clazz : Class<T>) : Lazy<Logger> {
     return lazy { LoggerFactory.getLogger(clazz) }
@@ -38,4 +40,9 @@ fun filePathRelative(filePath : String, parent : String) : String {
         return filePath.substring(parent.length + 1)
     }
     return filePath
+}
+
+fun getLocalMavenRepoDir() : File {
+    val homeDir = System.getProperty("user.home")
+    return Path.of(homeDir, ".m2", "repository").toFile()
 }

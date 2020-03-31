@@ -19,6 +19,9 @@ const val PROJECT_XML_ELEMENT_NAME = "ignite-project"
 class Project  {
 
     @XmlTransient
+    var synced : Boolean = false
+
+    @XmlTransient
     val nameProperty = SimpleStringProperty("")
     var name : String
         @XmlAttribute

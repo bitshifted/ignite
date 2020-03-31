@@ -8,10 +8,8 @@
 
 package co.bitshifted.xapps.ignite.model
 
-enum class ProjectItemType {
-    ROOT,
-    PROJECT,
-    APPLICATION,
-    JVM,
-    DEPENDENCIES
+enum class OperatingSystem (val display : String) {
+    WINDOWS ("Windows"),
+    LINUX ("Linux"),
+    MAC_OS_X ("Mac OS X")
 }
