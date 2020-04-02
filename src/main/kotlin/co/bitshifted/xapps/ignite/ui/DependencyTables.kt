@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019. Vladimir Djurovic
+ * Copyright (c) 2020. Bitshift (http://bitshifted.co)
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,7 @@ package co.bitshifted.xapps.ignite.ui
 
 import co.bitshifted.xapps.ignite.model.JvmDependency
 import co.bitshifted.xapps.ignite.model.JvmDependencyScope
-import com.vektorsoft.xapps.deployer.model.MavenDependency
+import co.bitshifted.xapps.ignite.model.MavenDependency
 import javafx.beans.property.ListProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.control.TableColumn
@@ -19,7 +19,7 @@ import javafx.scene.control.cell.ComboBoxTableCell
 
 fun fillMavenDependencyTable(dependencies : ListProperty<JvmDependency>, table : TableView<JvmDependency>) {
 
-
+    table.itemsProperty().unbind()
     val groupCol = TableColumn<JvmDependency, String>("Group ID")
     groupCol.setCellValueFactory { SimpleObjectProperty<String>((it.value as MavenDependency).groupId) }
     val artifactCol = TableColumn<JvmDependency, String>("Artifact ID")
@@ -36,5 +36,5 @@ fun fillMavenDependencyTable(dependencies : ListProperty<JvmDependency>, table :
     table.columns.clear()
 
     table.columns.addAll(groupCol, artifactCol, versionCol, packagingCol, classifierCol, scopeCol)
-    table.itemsProperty().bindBidirectional(dependencies)
+    table.itemsProperty().bind(dependencies)
 }

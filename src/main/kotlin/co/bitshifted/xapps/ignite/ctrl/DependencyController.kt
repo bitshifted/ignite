@@ -9,6 +9,7 @@
 package co.bitshifted.xapps.ignite.ctrl
 
 
+import co.bitshifted.xapps.ignite.logger
 import co.bitshifted.xapps.ignite.maven.DependencySyncTask
 import co.bitshifted.xapps.ignite.model.*
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
@@ -16,18 +17,18 @@ import co.bitshifted.xapps.ignite.ui.fillMavenDependencyTable
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
-import javafx.collections.FXCollections
+import javafx.collections.ListChangeListener
 import javafx.concurrent.Worker
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import javafx.scene.control.cell.ComboBoxTableCell
-import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 
 
-class DependencyController : ChangeListener<ProjectTreeItem> {
+class DependencyController : ListChangeListener<Project>, ChangeListener<ProjectTreeItem> {
+
+    private val logger by logger(DependencyController::class.java)
 
     @FXML
     private lateinit var progressPane: BorderPane
@@ -52,6 +53,7 @@ class DependencyController : ChangeListener<ProjectTreeItem> {
 
     @FXML
     fun initialize() {
+        RuntimeData.projectList.addListener(this)
         RuntimeData.selectedProjectItem.addListener(this)
         progressPane.toBack()
         dependenciesPane.isVisible = true
@@ -65,6 +67,25 @@ class DependencyController : ChangeListener<ProjectTreeItem> {
         osxMenuItem.setOnAction { _ -> markDependencyAsPlatform(OperatingSystem.MAC_OS_X) }
         windowsMenuItem.setOnAction { _ -> markDependencyAsPlatform(OperatingSystem.WINDOWS) }
         linuxMenuItem.setOnAction { _ -> markDependencyAsPlatform(OperatingSystem.LINUX) }
+
+        RuntimeData.fileChangeQueue.addListener(ListChangeListener {
+            it.next()
+            if(it.wasAdded()) {
+                it.addedSubList.forEach {
+                    it.synced = false
+                    syncDependencies(it)
+                }
+            }
+        })
+    }
+
+    override fun onChanged(change: ListChangeListener.Change<out Project>?) {
+        while (change?.next() == true && change.wasAdded() == true) {
+            for(project in (change.addedSubList ?: emptyList())) {
+                logger.debug("Syncing dependencies for project ${project.name}")
+              syncDependencies(project)
+            }
+        }
     }
 
     override fun changed(
@@ -73,8 +94,9 @@ class DependencyController : ChangeListener<ProjectTreeItem> {
         newItem: ProjectTreeItem?
     ) {
         val project = newItem?.project ?: return
-        if (newItem.type == ProjectItemType.DEPENDENCIES) {
-            syncDependencies(project)
+        if (newItem.type == ProjectItemType.DEPENDENCIES && project.synced) {
+            logger.debug("Dependencies for project ${project.name}: ${project.jvm.dependenciesProperty}")
+            fillMavenDependencyTable(project.jvm.dependenciesProperty, dependencyTable)
         }
     }
 
@@ -100,7 +122,6 @@ class DependencyController : ChangeListener<ProjectTreeItem> {
                         buttonBar.isVisible = false
                     }
                     Worker.State.SUCCEEDED -> {
-                        fillMavenDependencyTable(project.jvm.dependenciesProperty, dependencyTable)
                         dependenciesPane.toFront()
                         dependenciesPane.isVisible = true
                         buttonBar.isVisible = true
@@ -117,5 +138,11 @@ class DependencyController : ChangeListener<ProjectTreeItem> {
         val selectedItems = dependencyTable.selectionModel.selectedItems
         RuntimeData.selectedProjectItem.get().project?.jvm?.platformDependencies?.addPlatformSpecificDependency(selectedItems, os)
         dependencyTable.items.removeAll(selectedItems)
+    }
+
+    private fun processDependencyChangeNotification() {
+        while(true) {
+
+        }
     }
 }

@@ -24,8 +24,10 @@ open class JvmDependency : BinaryData {
     @XmlAttribute get() = scopeProperty.get()
     set(value) = scopeProperty.set(value)
 
-    constructor(fileName : String, path : String, size : Long, scope : JvmDependencyScope)  : super(fileName = fileName, path = path, size = size ) {
+    constructor(fileName : String, path : String, size : Long, scope : JvmDependencyScope)  : super(fileName, path, size ) {
         this.scope = scope
     }
+
+    constructor() : this ("", "", 0, JvmDependencyScope.MODULEPATH)
 
 }

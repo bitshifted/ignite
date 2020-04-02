@@ -18,6 +18,7 @@ import co.bitshifted.xapps.ignite.showAlert
 import co.bitshifted.xapps.ignite.ui.ProjectTreeCellFactory
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
 import co.bitshifted.xapps.ignite.ui.UIRegistry
+import co.bitshifted.xapps.ignite.watch.PomWatcher
 import javafx.application.Platform
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
@@ -62,8 +63,7 @@ class MainPageController : ListChangeListener<Project>  {
         Platform.runLater {
             for(location in ProjectPersistenceData.loadProjectLocations()) {
                 try {
-                    val proj = XMLPersister.loadProject(location)
-                    projectTree.root?.children?.add(createProjectNode(proj))
+                    RuntimeData.projectList.addAll(XMLPersister.loadProject(location))
                 } catch (ex : Exception) {
                     log.error("Failed to laod project file", ex)
                     showAlert(Alert.AlertType.ERROR, "Failed to load project", ex.message ?: "")

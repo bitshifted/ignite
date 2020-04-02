@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite.model
 
+import co.bitshifted.xapps.ignite.watch.PomWatcher
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javax.xml.bind.annotation.*
@@ -54,5 +55,10 @@ class Project  {
     @XmlElement
     val jvm = Jvm()
 
+    init {
+        locationProperty.addListener { _, _, newVal -> if(newVal != null){
+            PomWatcher.registerProject(this)
+        } }
+    }
 
 }

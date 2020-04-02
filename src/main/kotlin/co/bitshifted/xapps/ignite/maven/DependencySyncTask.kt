@@ -9,18 +9,18 @@
 package co.bitshifted.xapps.ignite.maven
 
 import co.bitshifted.xapps.ignite.logger
+import co.bitshifted.xapps.ignite.model.MavenDependency
 import co.bitshifted.xapps.ignite.model.Project
-import com.vektorsoft.xapps.deployer.model.MavenDependency
 import javafx.concurrent.Task
 
 class DependencySyncTask(val project : Project) : Task<Unit>() {
 
-    val LOGGER by logger(DependencySyncTask::class.java)
+    private val logger by logger(DependencySyncTask::class.java)
 
     override fun call() {
         val result = MavenHandler.buildProject(project)
         if(!result) {
-            LOGGER.warn("Failed to build project $project. Dependencies might not be up to date.")
+            logger.warn("Failed to build project $project. Dependencies might not be up to date.")
         }
         val depList = MavenHandler.listDependencies(project)
         val projectDeps = mutableListOf<MavenDependency>()
@@ -29,6 +29,5 @@ class DependencySyncTask(val project : Project) : Task<Unit>() {
         }
 
         project.jvm.dependencies = projectDeps.filter { !project.jvm?.platformDependencies.isPlatformSpecificDependency(it) }
-
     }
 }

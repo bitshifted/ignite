@@ -11,6 +11,7 @@ package co.bitshifted.xapps.ignite
 import co.bitshifted.xapps.ignite.ctrl.ControllerRegistry
 import co.bitshifted.xapps.ignite.persist.ProjectPersistenceData
 import co.bitshifted.xapps.ignite.ui.UIRegistry
+import co.bitshifted.xapps.ignite.watch.PomWatcher
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.stage.Stage
@@ -19,6 +20,7 @@ import java.awt.SplashScreen
 class Ignite : Application() {
 
     override fun start(stage: Stage?) {
+        PomWatcher.start()
         ProjectPersistenceData.init()
         ControllerRegistry.registerControllers()
         UIRegistry.loadComponents()

@@ -6,10 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package com.vektorsoft.xapps.deployer.model
+package co.bitshifted.xapps.ignite.model
 
-import co.bitshifted.xapps.ignite.model.JvmDependency
-import co.bitshifted.xapps.ignite.model.JvmDependencyScope
 import java.util.*
 import javax.xml.bind.annotation.XmlAttribute
 

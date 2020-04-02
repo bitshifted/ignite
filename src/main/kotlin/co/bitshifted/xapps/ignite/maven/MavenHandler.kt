@@ -11,12 +11,13 @@ package co.bitshifted.xapps.ignite.maven
 import co.bitshifted.xapps.ignite.getLocalMavenRepoDir
 import co.bitshifted.xapps.ignite.logger
 import co.bitshifted.xapps.ignite.model.JvmDependencyScope
+import co.bitshifted.xapps.ignite.model.MavenDependency
 import co.bitshifted.xapps.ignite.model.Project
-import com.vektorsoft.xapps.deployer.model.MavenDependency
 import org.apache.maven.shared.invoker.DefaultInvocationRequest
 import org.apache.maven.shared.invoker.DefaultInvoker
 import org.apache.maven.shared.invoker.Invoker
 import java.io.File
+import java.lang.module.ModuleFinder
 import java.nio.file.Path
 import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
@@ -110,7 +111,7 @@ object MavenHandler {
         if(result) {
             val name = createFileName(artifactId, version, classifier, packaging)
             logger.debug("Found dependency file at ${file.absolutePath}")
-            return MavenDependency(groupId, artifactId, version, packaging, classifier, name , file.length(), findDependencyScope(groupId, artifactId, version, packaging, classifier, project))
+            return MavenDependency(groupId, artifactId, version, packaging, classifier, name , file.length(), findDependencyScope(groupId, artifactId, version, packaging, classifier))
         }
         return null
     }
@@ -160,8 +161,15 @@ object MavenHandler {
         return sb.toString()
     }
 
-    private fun findDependencyScope(groupId : String, artifactId : String, version : String, packaging : String, classifier : String?, project: Project) : JvmDependencyScope {
-        val dep = MavenDependency(groupId, artifactId, version, packaging, classifier)
-        return project.jvm?.dependencies.find { it == dep }?.scope ?: JvmDependencyScope.CLASSPATH
+    private fun findDependencyScope(groupId : String, artifactId : String, version : String, packaging : String, classifier : String?) : JvmDependencyScope {
+        val jarFile = getDependencyFile(groupId, artifactId, version, classifier, packaging)
+        logger.debug("Looking up module for file $jarFile")
+        val moduleFinder = ModuleFinder.of(jarFile.toPath())
+        val modules = moduleFinder.findAll()
+        modules.forEach { logger.debug("Found module: ${it.descriptor().name()}") }
+        if(modules.isEmpty()) {
+            return JvmDependencyScope.CLASSPATH
+        }
+        return JvmDependencyScope.MODULEPATH
     }
 }
