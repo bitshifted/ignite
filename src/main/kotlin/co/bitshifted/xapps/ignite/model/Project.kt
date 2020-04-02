@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite.model
 
+import co.bitshifted.xapps.ignite.watch.PomWatcher
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javax.xml.bind.annotation.*
@@ -17,6 +18,9 @@ const val PROJECT_XML_ELEMENT_NAME = "ignite-project"
 @XmlRootElement(name = PROJECT_XML_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.FIELD)
 class Project  {
+
+    @XmlTransient
+    var synced : Boolean = false
 
     @XmlTransient
     val nameProperty = SimpleStringProperty("")
@@ -51,5 +55,10 @@ class Project  {
     @XmlElement
     val jvm = Jvm()
 
+    init {
+        locationProperty.addListener { _, _, newVal -> if(newVal != null){
+            PomWatcher.registerProject(this)
+        } }
+    }
 
 }

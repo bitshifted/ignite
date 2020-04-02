@@ -18,6 +18,7 @@ import co.bitshifted.xapps.ignite.showAlert
 import co.bitshifted.xapps.ignite.ui.ProjectTreeCellFactory
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
 import co.bitshifted.xapps.ignite.ui.UIRegistry
+import co.bitshifted.xapps.ignite.watch.PomWatcher
 import javafx.application.Platform
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
@@ -41,9 +42,9 @@ class MainPageController : ListChangeListener<Project>  {
     private val treeIconsSIze = 17
 
     @FXML
-    lateinit private var detailsPane : AnchorPane
+    private lateinit var detailsPane : AnchorPane
     @FXML
-    lateinit private var projectTree : TreeView<ProjectTreeItem>
+    private lateinit var projectTree : TreeView<ProjectTreeItem>
 
 
     @FXML
@@ -62,8 +63,7 @@ class MainPageController : ListChangeListener<Project>  {
         Platform.runLater {
             for(location in ProjectPersistenceData.loadProjectLocations()) {
                 try {
-                    val proj = XMLPersister.loadProject(location)
-                    projectTree.root?.children?.add(createProjectNode(proj))
+                    RuntimeData.projectList.addAll(XMLPersister.loadProject(location))
                 } catch (ex : Exception) {
                     log.error("Failed to laod project file", ex)
                     showAlert(Alert.AlertType.ERROR, "Failed to load project", ex.message ?: "")
@@ -98,6 +98,9 @@ class MainPageController : ListChangeListener<Project>  {
                     ProjectItemType.JVM -> {
                         setupDetailsPane(UIRegistry.JVM_PROPERTIES_PANE)
                     }
+                    ProjectItemType.DEPENDENCIES -> {
+                        setupDetailsPane(UIRegistry.DEPENDENCY_INFO_PANE)
+                    }
 
                 }
             }
@@ -118,6 +121,7 @@ class MainPageController : ListChangeListener<Project>  {
         val projectNode = TreeItem(ProjectTreeItem(ProjectItemType.PROJECT, project), getIcon(FontAwesome.BRIEFCASE))
         projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.APPLICATION, project), getIcon(FontAwesome.FLASK)))
         projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.JVM, project), getIcon(Devicons.JAVA)))
+        projectNode.children.add(TreeItem(ProjectTreeItem(ProjectItemType.DEPENDENCIES, project), getIcon(FontAwesome.FILE_CODE_O)))
 
         return projectNode
     }

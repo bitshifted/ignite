@@ -6,12 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package co.bitshifted.xapps.ignite.model
+package co.bitshifted.xapps.ignite.maven
 
-enum class ProjectItemType {
-    ROOT,
-    PROJECT,
-    APPLICATION,
-    JVM,
-    DEPENDENCIES
+import org.apache.maven.shared.invoker.PrintStreamHandler
+
+class MavenErrorHandler : PrintStreamHandler() {
+
+    override fun consumeLine(line: String?) {
+        println("error line: $line")
+    }
 }

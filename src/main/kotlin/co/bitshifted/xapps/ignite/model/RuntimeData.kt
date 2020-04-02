@@ -10,12 +10,17 @@ package co.bitshifted.xapps.ignite.model
 
 
 import co.bitshifted.xapps.ignite.ui.ProjectTreeItem
+import co.bitshifted.xapps.ignite.watch.ObservableStack
 import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
+import java.nio.file.FileSystems
 
 object RuntimeData {
 
     val projectList : ObservableList<Project> = FXCollections.observableArrayList()
     var selectedProjectItem  = SimpleObjectProperty<ProjectTreeItem>()
+
+    val fileChangeQueue = ObservableStack<Project>()
+
 }

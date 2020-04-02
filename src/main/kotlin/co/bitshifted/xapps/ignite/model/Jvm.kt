@@ -28,8 +28,8 @@ class Jvm {
         dependenciesProperty.addAll(value)
     }
 
-//    @XmlElement(name = "platform-specific-dependencies")
-//    val platformDependencies = PlatformSpecificDependencies()
+    @XmlElement(name = "platform-specific-dependencies")
+    val platformDependencies = PlatformSpecificDependencies()
 
     @XmlTransient
     val mainClassProperty = SimpleObjectProperty<String>()

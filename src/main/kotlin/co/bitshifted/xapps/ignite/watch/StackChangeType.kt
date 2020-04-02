@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package co.bitshifted.xapps.ignite.model
+package co.bitshifted.xapps.ignite.watch
 
-enum class ProjectItemType {
-    ROOT,
-    PROJECT,
-    APPLICATION,
-    JVM,
-    DEPENDENCIES
+enum class StackChangeType {
+    PUSH, POP;
+
+    lateinit var changedObject : List<*>
 }
