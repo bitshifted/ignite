@@ -139,6 +139,10 @@ object MavenHandler {
         return  Path.of(repoDir.absolutePath, *params.toTypedArray() ).toFile()
     }
 
+    fun getDependencyFile(dependency: MavenDependency) : File {
+        return getDependencyFile(dependency.groupId, dependency.artifactId, dependency.version, dependency.classifier, dependency.packaging)
+    }
+
     private fun processMavenArtifact(project : Project) : String {
         val sb = StringBuilder()
         val docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
