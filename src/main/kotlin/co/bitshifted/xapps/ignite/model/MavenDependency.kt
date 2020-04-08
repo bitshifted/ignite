@@ -16,8 +16,13 @@ class MavenDependency(@XmlAttribute(name = "group-id") var groupId : String = ""
                       @XmlAttribute(name = "artifact-id") var artifactId : String = "",
                       @XmlAttribute var version : String = "",
                       @XmlAttribute var packaging : String = "jar",
-                      @XmlAttribute var classifier : String? = null, name : String = "", fileSize : Long = 0, scope: JvmDependencyScope = JvmDependencyScope.CLASSPATH)
-    : JvmDependency(name, "",  fileSize, scope) {
+                      @XmlAttribute var classifier : String? = null,
+                      name : String = "",
+                      path : String = "",
+                      fileSize : Long = 0,
+                      scope: JvmDependencyScope = JvmDependencyScope.CLASSPATH,
+                      isMainArtifact: Boolean = false)
+    : JvmDependency(name, path,  fileSize, scope, isMainArtifact) {
 
     override fun equals(other: Any?): Boolean {
         if(other is MavenDependency) {

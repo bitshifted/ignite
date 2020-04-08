@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite.maven
 
+import co.bitshifted.xapps.ignite.dependencyDeploymentPath
 import co.bitshifted.xapps.ignite.getLocalMavenRepoDir
 import co.bitshifted.xapps.ignite.logger
 import co.bitshifted.xapps.ignite.model.JvmDependencyScope
@@ -50,7 +51,7 @@ object MavenHandler {
     }
 
     fun listDependencies(project: Project) : List<String> {
-        val deps = mutableListOf<String>(processMavenArtifact(project))
+        val deps = mutableListOf(processMavenArtifact(project))
         mavenInvoker.setOutputHandler(DependencyOutputHandler(deps))
 
         val request = DefaultInvocationRequest()
@@ -86,7 +87,7 @@ object MavenHandler {
         mavenInvoker.setErrorHandler(MavenErrorHandler())
         val returnCode = mavenInvoker.execute(request)
         if(returnCode.exitCode == 0) {
-            logger.info("Successfuly resolved dependnecy {}:{}:{}", groupId, artifactId, version)
+            logger.info("Successfuly resolved dependency {}:{}:{}", groupId, artifactId, version)
             return true
         } else {
             logger.error("Failed to resolve dependency {}:{}:{}, exit code: {}", groupId, artifactId, version, returnCode.exitCode, returnCode.executionException)
@@ -110,8 +111,12 @@ object MavenHandler {
         }
         if(result) {
             val name = createFileName(artifactId, version, classifier, packaging)
+            val scope = findDependencyScope(groupId, artifactId, version, packaging, classifier)
             logger.debug("Found dependency file at ${file.absolutePath}")
-            return MavenDependency(groupId, artifactId, version, packaging, classifier, name , file.length(), findDependencyScope(groupId, artifactId, version, packaging, classifier))
+            return MavenDependency(groupId, artifactId, version, packaging, classifier, name ,
+                dependencyDeploymentPath(name, scope), file.length(),
+                scope,
+                isMainArtifact(groupId, artifactId, packaging, version, project))
         }
         return null
     }
@@ -156,13 +161,26 @@ object MavenHandler {
         sb.append(artifactId).append(":")
 
         val packaging = xpath.evaluate("/project/packaging", document, XPathConstants.STRING) as String
-        sb.append(packaging).append(":")
+        if(packaging.isNotEmpty()) {
+            sb.append(packaging)
+        } else {
+            sb.append("jar") // fallback to default packaging jar
+        }
+        sb.append(":")
 
         val version = xpath.evaluate("/project/version", document, XPathConstants.STRING) as String
         sb.append(version).append(":")
         sb.append("runtime")
+        // cache maven artifact
+        project.mainArtifact = sb.toString()
 
         return sb.toString()
+    }
+
+    private fun isMainArtifact(groupId: String, artifactId: String, packaging: String, version: String, project: Project) : Boolean {
+        val sb = StringBuilder()
+        sb.append(groupId).append(":").append(artifactId).append(":").append(packaging).append(":").append(version).append(":runtime")
+        return project.mainArtifact == sb.toString()
     }
 
     private fun findDependencyScope(groupId : String, artifactId : String, version : String, packaging : String, classifier : String?) : JvmDependencyScope {
