@@ -24,8 +24,12 @@ open class JvmDependency : BinaryData {
     @XmlAttribute get() = scopeProperty.get()
     set(value) = scopeProperty.set(value)
 
-    constructor(fileName : String, path : String, size : Long, scope : JvmDependencyScope)  : super(fileName, path, size ) {
+    @XmlAttribute(name = "main-artifact")
+    var mainArtifact : Boolean = false
+
+    constructor(fileName : String, path : String, size : Long, scope : JvmDependencyScope, isMainArtifact : Boolean = false)  : super(path, fileName, size ) {
         this.scope = scope
+        this.mainArtifact = isMainArtifact
     }
 
     constructor() : this ("", "", 0, JvmDependencyScope.MODULEPATH)

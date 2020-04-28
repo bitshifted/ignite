@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite
 
+import co.bitshifted.xapps.ignite.model.JvmDependencyScope
 import javafx.scene.control.Alert
 import javafx.stage.FileChooser
 import org.slf4j.Logger
@@ -45,4 +46,13 @@ fun filePathRelative(filePath : String, parent : String) : String {
 fun getLocalMavenRepoDir() : File {
     val homeDir = System.getProperty("user.home")
     return Path.of(homeDir, ".m2", "repository").toFile()
+}
+
+fun dependencyDeploymentPath(fileName : String, scope: JvmDependencyScope) : String {
+    val dir = if(scope == JvmDependencyScope.CLASSPATH){
+        PACKAGE_CLASSPATH_DIR
+    } else {
+        PACKAGE_MODULES_DIR
+    }
+    return "$dir/$fileName"
 }

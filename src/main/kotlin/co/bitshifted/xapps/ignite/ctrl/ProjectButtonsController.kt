@@ -8,6 +8,7 @@
 
 package co.bitshifted.xapps.ignite.ctrl
 
+import co.bitshifted.xapps.ignite.deploy.Packer
 import co.bitshifted.xapps.ignite.logger
 import co.bitshifted.xapps.ignite.model.RuntimeData
 import co.bitshifted.xapps.ignite.persist.XMLPersister
@@ -27,17 +28,12 @@ class ProjectButtonsController {
     @FXML
     fun deployProject() {
         val project = RuntimeData.selectedProjectItem.value.project ?: return
-        val file = Path.of(project.location, "deployer-config.xml").toFile()
+        val file = Path.of(project.location, "ignite-config.xml").toFile()
         log.info("Deploying project {} from configuration file {}", project.name, file.absolutePath)
 
-//        try {
-//            val deployerClient = DeployerClient()
-//            deployerClient.deploy(file, project.application.getServer().baseUrl)
-//            LOGGER.info("Deployment successful!")
-//        } catch(ex : DeployerException) {
-//            LOGGER.error("Failed to deploy application", ex)
-//        }
-
-
+        val packer = Packer()
+        val deploymentPackage = packer.createDeploymentPackage(project)
+        val statusUrl = packer.uploadDeplyomentPackage(deploymentPackage, project)
+        log.info("Deployment status URL: $statusUrl")
     }
 }

@@ -21,6 +21,8 @@ class Project  {
 
     @XmlTransient
     var synced : Boolean = false
+    @XmlTransient
+    var mainArtifact: String? = null
 
     @XmlTransient
     val nameProperty = SimpleStringProperty("")
