@@ -19,11 +19,25 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream
 import org.apache.commons.compress.utils.IOUtils
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.nio.file.*
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 class Packer {
 
     private val logger by logger(Packer::class.java)
+
+    private val httpStatusAccepted = 202
+    private val deploymentContentUrlFormat = "deployment/%s/content"
+    val deploymentDataContentType = "application/zip"
+    val contentTypeHeader = "Content-Type"
+    val deploymentStatusHeader = "X-Deployment-Status"
+    private val httpClient = HttpClient.newBuilder().build();
 
     fun createDeploymentPackage(project: Project): Path {
         logger.info("Creating deployment package for project ${project.name}")
@@ -32,6 +46,20 @@ class Packer {
         copyDependencies(project, rootDir)
         copyApplicationData(project, rootDir)
         return createPackage(rootDir)
+    }
+
+    fun uploadDeplyomentPackage(packagePath : Path, project: Project) : String {
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(createUploadUrl(project.server?.baseUrl ?: throw IllegalStateException("Invalid server URL"), project.application.appId)))
+            .setHeader(contentTypeHeader, deploymentDataContentType)
+            .POST(HttpRequest.BodyPublishers.ofFile(packagePath))
+            .build()
+        val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+        if(response.statusCode() == httpStatusAccepted) {
+            logger.info("Successfully uploaded deployment package")
+            return response.headers().firstValue(deploymentStatusHeader).get()
+        }
+        return ""
     }
 
     private fun createPackageDirectory(project: Project): Path {
@@ -106,5 +134,15 @@ class Packer {
             os.finish()
         }
         return archiveFile.toPath()
+    }
+
+    private fun createUploadUrl(serverUrl: String, appId: String): String {
+        val sb = StringBuilder(serverUrl)
+        val deployUrl = String.format(deploymentContentUrlFormat, appId)
+        if (!serverUrl.endsWith("/")) {
+            sb.append("/")
+        }
+        sb.append(deployUrl)
+        return sb.toString()
     }
 }

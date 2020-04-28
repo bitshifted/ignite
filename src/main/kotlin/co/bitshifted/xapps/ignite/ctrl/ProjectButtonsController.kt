@@ -32,16 +32,8 @@ class ProjectButtonsController {
         log.info("Deploying project {} from configuration file {}", project.name, file.absolutePath)
 
         val packer = Packer()
-        packer.createDeploymentPackage(project)
-
-//        try {
-//            val deployerClient = DeployerClient()
-//            deployerClient.deploy(file, project.application.getServer().baseUrl)
-//            LOGGER.info("Deployment successful!")
-//        } catch(ex : DeployerException) {
-//            LOGGER.error("Failed to deploy application", ex)
-//        }
-
-
+        val deploymentPackage = packer.createDeploymentPackage(project)
+        val statusUrl = packer.uploadDeplyomentPackage(deploymentPackage, project)
+        log.info("Deployment status URL: $statusUrl")
     }
 }
