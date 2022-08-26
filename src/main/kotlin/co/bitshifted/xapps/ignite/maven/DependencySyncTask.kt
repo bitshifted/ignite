@@ -28,6 +28,6 @@ class DependencySyncTask(val project : Project) : Task<Unit>() {
             projectDeps.add(MavenHandler.resolveDependency(it, project) ?: return@forEach)
         }
 
-        project.jvm.dependencies = projectDeps.filter { !project.jvm?.platformDependencies.isPlatformSpecificDependency(it) }
+        project.jvm.dependencies = projectDeps.filter { !project.jvm.platformDependencies.isPlatformSpecificDependency(it)  }
     }
 }

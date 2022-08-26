@@ -101,6 +101,7 @@ class MainPageController : ListChangeListener<Project>  {
                     ProjectItemType.DEPENDENCIES -> {
                         setupDetailsPane(UIRegistry.DEPENDENCY_INFO_PANE)
                     }
+                    else -> throw java.lang.IllegalStateException("Invalid item type")
 
                 }
             }

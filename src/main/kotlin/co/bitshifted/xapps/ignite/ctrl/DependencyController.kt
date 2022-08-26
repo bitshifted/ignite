@@ -127,6 +127,7 @@ class DependencyController : ListChangeListener<Project>, ChangeListener<Project
                         buttonBar.isVisible = true
                         project.synced = true
                     }
+                    else -> { println("Do nothing")}
 
                 }
             }
