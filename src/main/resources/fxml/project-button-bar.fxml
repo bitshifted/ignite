@@ -11,7 +11,7 @@
   ~ file, You can obtain one at http://mozilla.org/MPL/2.0/.
   -->
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.bitshifted.xapps.ignite.ctrl.ProjectButtonsController">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.bitshifted.appforge.ignite.ctrl.ProjectButtonsController">
    <children>
       <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
       <Button fx:id="deployButton" mnemonicParsing="false" onAction="#deployProject" text="Deploy Project" />

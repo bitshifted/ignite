@@ -1,0 +1,150 @@
+/*
+ *
+ *  * Copyright (c) 2020-2022  Bitshift D.O.O (http://bitshifted.co)
+ *  *
+ *  * This Source Code Form is subject to the terms of the Mozilla Public
+ *  * License, v. 2.0. If a copy of the MPL was not distributed with this
+ *  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ *
+ */
+
+package co.bitshifted.appforge.ignite.deploy
+
+import co.bitshifted.appforge.ignite.*
+import co.bitshifted.appforge.ignite.maven.MavenHandler
+import co.bitshifted.appforge.ignite.model.DependencyManagementType
+import co.bitshifted.appforge.ignite.model.JvmDependencyScope
+import co.bitshifted.appforge.ignite.model.MavenDependency
+import co.bitshifted.appforge.ignite.model.Project
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream
+import org.apache.commons.compress.utils.IOUtils
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+
+class Packer {
+
+    private val logger by logger(Packer::class.java)
+
+    private val httpStatusAccepted = 202
+    private val deploymentContentUrlFormat = "deployment/%s/content"
+    val deploymentDataContentType = "application/zip"
+    val contentTypeHeader = "Content-Type"
+    val deploymentStatusHeader = "X-Deployment-Status"
+    private val httpClient = HttpClient.newBuilder().build();
+
+    fun createDeploymentPackage(project: Project): Path {
+        logger.info("Creating deployment package for project ${project.name}")
+        val rootDir = createPackageDirectory(project)
+        copyConfig(project, Path.of(rootDir.toAbsolutePath().toString(), CONFIG_FILE_NAME))
+        copyDependencies(project, rootDir)
+        copyApplicationData(project, rootDir)
+        return createPackage(rootDir)
+    }
+
+    fun uploadDeplyomentPackage(packagePath : Path, project: Project) : String {
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(createUploadUrl(project.server?.baseUrl ?: throw IllegalStateException("Invalid server URL"), project.application.appId)))
+            .setHeader(contentTypeHeader, deploymentDataContentType)
+            .POST(HttpRequest.BodyPublishers.ofFile(packagePath))
+            .build()
+        val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+        if(response.statusCode() == httpStatusAccepted) {
+            logger.info("Successfully uploaded deployment package")
+            return response.headers().firstValue(deploymentStatusHeader).get()
+        }
+        return ""
+    }
+
+    private fun createPackageDirectory(project: Project): Path {
+        val tmpDir = System.getProperty("java.io.tmpdir")
+        logger.debug("Temporary directory: $tmpDir")
+        val rootDir = Paths.get(tmpDir, project.application.appId)
+        rootDir.toFile().mkdir()
+        logger.debug("Successfully created package root directory")
+        val modulesDir = Path.of(rootDir.toAbsolutePath().toString(), "modules")
+        modulesDir.toFile().mkdir()
+        val classpathDir = Path.of(rootDir.toAbsolutePath().toString(), "classpath")
+        classpathDir.toFile().mkdir()
+        return rootDir
+    }
+
+    private fun copyConfig(project: Project, target: Path) {
+        val configFilePath = Paths.get(project.location, CONFIG_FILE_NAME)
+        Files.copy(configFilePath, target, StandardCopyOption.REPLACE_EXISTING)
+        logger.debug("Configuration file copy completed")
+    }
+
+    private fun copyDependencies(project: Project, packageRoot: Path) {
+        val dependencies = project.jvm.dependencies
+        if (project.dependencyManagementType == DependencyManagementType.MAVEN) {
+            dependencies.map { it as MavenDependency }.forEach {
+                val file = MavenHandler.getDependencyFile(it)
+                val target = if (it.scope == JvmDependencyScope.MODULEPATH) {
+                    Path.of(packageRoot.toAbsolutePath().toString(), PACKAGE_MODULES_DIR, file.name)
+                } else {
+                    Path.of(packageRoot.toAbsolutePath().toString(), PACKAGE_CLASSPATH_DIR, file.name)
+                }
+                Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING)
+                logger.debug("Copied file ${file.name}")
+            }
+        }
+    }
+
+    private fun copyApplicationData(project: Project, packageRoot: Path) {
+        val icons = project.application.info.icons
+        icons.forEach {
+            copyWithDirectoryCreation(project, it.path, packageRoot)
+        }
+        val splashScreen = project.jvm.splashScreen ?: return
+        copyWithDirectoryCreation(project, splashScreen.path, packageRoot)
+    }
+
+    private fun copyWithDirectoryCreation(project : Project, targetPath: String, packageRoot: Path) {
+        val source = Path.of(project.location, targetPath)
+        val target = Path.of(packageRoot.toAbsolutePath().toString(), targetPath)
+        Files.createDirectories(target.parent)
+        Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING)
+        logger.debug("Copied file: ${source.toAbsolutePath()}")
+    }
+
+    private fun createPackage(packageRoot : Path) : Path {
+        val parent = packageRoot.parent
+        val archiveFile = Path.of(parent.toAbsolutePath().toString(), packageRoot.toFile().name + ".zip").toFile()
+        val os = ZipArchiveOutputStream(FileOutputStream(archiveFile))
+        os.use {
+            Files.walk(packageRoot).forEach {
+                val file = it.toFile()
+                if(!file.isDirectory) {
+                    logger.debug("Zipping file ${file.name}")
+                    val entry = ZipArchiveEntry(file, filePathRelative(file.absolutePath, packageRoot.toAbsolutePath().toString()))
+                    FileInputStream(file).use {
+                        os.putArchiveEntry(entry)
+                        IOUtils.copy(it, os)
+                        os.closeArchiveEntry()
+                    }
+                }
+            }
+            os.finish()
+        }
+        return archiveFile.toPath()
+    }
+
+    private fun createUploadUrl(serverUrl: String, appId: String): String {
+        val sb = StringBuilder(serverUrl)
+        val deployUrl = String.format(deploymentContentUrlFormat, appId)
+        if (!serverUrl.endsWith("/")) {
+            sb.append("/")
+        }
+        sb.append(deployUrl)
+        return sb.toString()
+    }
+}
