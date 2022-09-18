@@ -15,7 +15,7 @@
   ~ file, You can obtain one at http://mozilla.org/MPL/2.0/.
   -->
 
-<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" vgap="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="119.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="281.0" />
@@ -25,8 +25,8 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="Server Name: " />
-      <Label text="Base URL: " GridPane.rowIndex="1" />
+      <Label text="%label.server.name" />
+      <Label text="%label.server.baseUrl" GridPane.rowIndex="1" />
       <TextField fx:id="serverNameField" GridPane.columnIndex="1" />
       <TextField fx:id="baseUrlField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
    </children>

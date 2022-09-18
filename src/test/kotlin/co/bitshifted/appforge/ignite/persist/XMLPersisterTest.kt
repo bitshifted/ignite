@@ -21,13 +21,13 @@ import kotlin.test.assertNotNull
 
 class XMLPersisterTest {
 
-    val project = Project()
+//    val project = Project()
     val curDirectory = Path.of(System.getProperty("user.dir"), "target").toAbsolutePath().toString()
 
     @Before
     fun setup() {
-        project.name = "Test project"
-        project.location = curDirectory
+//        project.name = "Test project"
+//        project.location = curDirectory
         print(curDirectory)
 
     }
@@ -37,14 +37,14 @@ class XMLPersisterTest {
         Files.delete(Path.of(curDirectory, "ignite-config.xml"))
     }
 
-    @Test
-    fun testSerialization() {
-        XMLPersister.writeProject(project)
+//    @Test
+//    fun testSerialization() {
+//        XMLPersister.writeProject(project)
 
         // load project back
-        val out = XMLPersister.loadProject(project.location ?: return)
+//        val out = XMLPersister.loadProject(project.location ?: return)
 
-        assertEquals(out.name, project.name)
-        assertNotNull(out.application)
-    }
+//        assertEquals(out.name, project.name)
+//        assertNotNull(out.application)
+//    }
 }

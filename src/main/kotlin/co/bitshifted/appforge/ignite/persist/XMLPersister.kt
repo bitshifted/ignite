@@ -37,7 +37,7 @@ object XMLPersister {
         unmarshaller.eventHandler = DefaultValidationEventHandler()
         projectFilePath.toFile().inputStream().use {
             val project = unmarshaller.unmarshal(it) as Project
-            project.location = projectDirectory
+//            project.location = projectDirectory
             return project
         }
     }

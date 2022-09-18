@@ -40,9 +40,7 @@ class AddServerController {
     }
 
     private fun createServer() : Server {
-        val server = Server()
-        server.name = serverNameField.text
-        server.baseUrl = baseUrlField.text
+        val server = Server(serverNameField.text, baseUrlField.text)
 
         ProjectPersistenceData.saveServer(server)
         return server

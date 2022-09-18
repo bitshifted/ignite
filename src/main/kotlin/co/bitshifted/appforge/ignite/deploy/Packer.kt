@@ -44,7 +44,7 @@ class Packer {
     fun createDeploymentPackage(project: Project): Path {
         logger.info("Creating deployment package for project ${project.name}")
         val rootDir = createPackageDirectory(project)
-        copyConfig(project, Path.of(rootDir.toAbsolutePath().toString(), CONFIG_FILE_NAME))
+        copyConfig(project, Path.of(rootDir.toAbsolutePath().toString(), DEFAULT_CONFIG_FILE_NAME))
         copyDependencies(project, rootDir)
         copyApplicationData(project, rootDir)
         return createPackage(rootDir)
@@ -78,7 +78,7 @@ class Packer {
     }
 
     private fun copyConfig(project: Project, target: Path) {
-        val configFilePath = Paths.get(project.location, CONFIG_FILE_NAME)
+        val configFilePath = Paths.get(project.location, DEFAULT_CONFIG_FILE_NAME)
         Files.copy(configFilePath, target, StandardCopyOption.REPLACE_EXISTING)
         logger.debug("Configuration file copy completed")
     }

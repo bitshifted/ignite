@@ -11,6 +11,7 @@
 package co.bitshifted.appforge.ignite.ctrl
 
 import co.bitshifted.appforge.ignite.model.DependencyManagementType
+import co.bitshifted.appforge.ignite.model.IgniteConfig
 import co.bitshifted.appforge.ignite.model.Project
 import javafx.fxml.FXML
 import javafx.scene.control.Button
@@ -54,9 +55,9 @@ class NewProjectDialogController {
     }
 
     private fun createProject() : Project {
-         val project = Project()
-        project.name = projectNameField.text
-        project.location = projectLocationField.text
+         val project = Project(IgniteConfig(), projectLocationField.text, projectNameField.text)
+//        project.name = projectNameField.text
+//        project.location = projectLocationField.text
         project.dependencyManagementType = dependencyCombo.value
         return project
     }

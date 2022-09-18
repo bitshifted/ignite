@@ -11,11 +11,12 @@
 package co.bitshifted.appforge.ignite.persist
 
 
+import co.bitshifted.appforge.ignite.model.IgniteConfig
 import co.bitshifted.appforge.ignite.model.Project
 import co.bitshifted.appforge.ignite.model.Server
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.util.prefs.Preferences
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -23,28 +24,24 @@ import kotlin.test.assertNotNull
 const val TEST_PROJECT_ROOT_NODE = "dummy.projects.root"
 const val TEST_SERVER_ROOT_NODE = "dummy.projects.root"
 
-class ProjectPersistenseDataTest {
+class ProjectPersistenceDataTest {
 
-    private val project1 = Project()
-    private val project2 = Project()
+    private lateinit  var project1 : Project
+    private lateinit  var project2 : Project
 
-    private val server1 = Server()
+    private lateinit var server1 : Server
 
-    @Before
+    @BeforeEach
     fun setup() {
-        project1.name = "Project1"
-        project1.location = "/some/location/project1"
+        project1 = Project(IgniteConfig(), "/some/location/project1")
+        project2 = Project(IgniteConfig(), "/some/other/location/project2")
 
-        project2.name = "Project 2"
-        project2.location = "/some/other/location/project 2"
-
-        server1.baseUrl = "http://localhost:8080"
-        server1.name = "My server"
+        server1 = Server(baseUrl = "http://localhost:8080", name = "My Server")
 
         ProjectPersistenceData.init(TEST_PROJECT_ROOT_NODE, TEST_SERVER_ROOT_NODE)
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         val rootNode = Preferences.userRoot().node(TEST_PROJECT_ROOT_NODE)
         rootNode.removeNode()
@@ -65,7 +62,8 @@ class ProjectPersistenseDataTest {
             assertNotNull(node)
             if(nodeName.endsWith("project1")){
                 verifyProjectData(node, project1)
-            } else {
+            }
+            if(nodeName.endsWith("project2")) {
                 verifyProjectData(node, project2)
             }
 

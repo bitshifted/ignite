@@ -15,6 +15,7 @@ import co.bitshifted.appforge.ignite.model.Project
 import co.bitshifted.appforge.ignite.model.ProjectItemType
 import co.bitshifted.appforge.ignite.model.RuntimeData
 import co.bitshifted.appforge.ignite.persist.ProjectPersistenceData
+import co.bitshifted.appforge.ignite.persist.ProjectPersister
 import co.bitshifted.appforge.ignite.persist.XMLPersister
 import co.bitshifted.appforge.ignite.showAlert
 import co.bitshifted.appforge.ignite.ui.ProjectTreeCellFactory
@@ -64,9 +65,9 @@ class MainPageController : ListChangeListener<Project>  {
         Platform.runLater {
             for(location in ProjectPersistenceData.loadProjectLocations()) {
                 try {
-                    RuntimeData.projectList.addAll(XMLPersister.loadProject(location))
+                    RuntimeData.projectList.addAll(ProjectPersister.loadProject(location))
                 } catch (ex : Exception) {
-                    log.error("Failed to laod project file", ex)
+                    log.error("Failed to load project file", ex)
                     showAlert(Alert.AlertType.ERROR, "Failed to load project", ex.message ?: "")
                 }
 

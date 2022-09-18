@@ -8,6 +8,6 @@
 
 package co.bitshifted.appforge.ignite
 
-const val CONFIG_FILE_NAME = "ignite-config.xml"
+const val DEFAULT_CONFIG_FILE_NAME = "ignite-config.yml"
 const val PACKAGE_MODULES_DIR = "modules"
 const val PACKAGE_CLASSPATH_DIR = "classpath"

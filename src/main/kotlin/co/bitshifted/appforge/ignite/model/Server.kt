@@ -13,26 +13,26 @@ import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlAttribute
 
-@XmlAccessorType(XmlAccessType.FIELD)
-class Server {
+//@XmlAccessorType(XmlAccessType.FIELD)
+data class Server(val baseUrl : String, val name : String) {
 
-    @XmlAttribute (name = "base-url")
-    lateinit var baseUrl : String
-    @XmlAttribute
-    lateinit var name : String
+//    @XmlAttribute (name = "base-url")
+//    lateinit var baseUrl : String
+//    @XmlAttribute
+//    lateinit var name : String
 
-    override fun toString(): String {
-        return name
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other is Server) {
-            return other.baseUrl == baseUrl && other.name == name
-        }
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hash(baseUrl, name)
-    }
+//    override fun toString(): String {
+//        return name
+//    }
+//
+//    override fun equals(other: Any?): Boolean {
+//        if (other is Server) {
+//            return other.baseUrl == baseUrl && other.name == name
+//        }
+//        return false
+//    }
+//
+//    override fun hashCode(): Int {
+//        return Objects.hash(baseUrl, name)
+//    }
 }

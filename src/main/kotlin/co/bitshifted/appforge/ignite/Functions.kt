@@ -11,12 +11,17 @@
 package co.bitshifted.appforge.ignite
 
 import co.bitshifted.appforge.ignite.model.JvmDependencyScope
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javafx.scene.control.Alert
 import javafx.stage.FileChooser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Path
+
+fun yamlObjectMapper() = ObjectMapper(YAMLFactory()).registerModule(KotlinModule.Builder().build())
 
 fun <T : Any> T.logger(clazz : Class<T>) : Lazy<Logger> {
     return lazy { LoggerFactory.getLogger(clazz) }

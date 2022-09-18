@@ -10,16 +10,17 @@
 
 package co.bitshifted.appforge.ignite.model
 
+import co.bitshifted.appforge.ignite.DEFAULT_CONFIG_FILE_NAME
 import co.bitshifted.appforge.ignite.watch.PomWatcher
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javax.xml.bind.annotation.*
 
-const val PROJECT_XML_ELEMENT_NAME = "ignite-project"
+//const val PROJECT_XML_ELEMENT_NAME = "ignite-project"
 
-@XmlRootElement(name = PROJECT_XML_ELEMENT_NAME)
-@XmlAccessorType(XmlAccessType.FIELD)
-class Project  {
+//@XmlRootElement(name = PROJECT_XML_ELEMENT_NAME)
+//@XmlAccessorType(XmlAccessType.FIELD)
+class Project(val config : IgniteConfig, val location : String, val configFileName : String = DEFAULT_CONFIG_FILE_NAME)  {
 
     @XmlTransient
     var synced : Boolean = false
@@ -33,12 +34,12 @@ class Project  {
         get() = nameProperty.get()
         set(value) = nameProperty.set(value)
 
-    @XmlTransient
-    val locationProperty = SimpleStringProperty("")
-    var location : String
-        @XmlTransient
-        get() = locationProperty.get()
-        set(value) = locationProperty.set(value)
+//    @XmlTransient
+//    val locationProperty = SimpleStringProperty("")
+//    var location : String
+//        @XmlTransient
+//        get() = locationProperty.get()
+//        set(value) = locationProperty.set(value)
 
     @XmlTransient
     val dependencyManagementTypeProperty = SimpleObjectProperty(DependencyManagementType.MAVEN)
@@ -59,10 +60,12 @@ class Project  {
     @XmlElement
     val jvm = Jvm()
 
-    init {
-        locationProperty.addListener { _, _, newVal -> if(newVal != null){
-            PomWatcher.registerProject(this)
-        } }
-    }
+
+
+//    init {
+//        locationProperty.addListener { _, _, newVal -> if(newVal != null){
+//            PomWatcher.registerProject(this)
+//        } }
+//    }
 
 }

@@ -117,16 +117,16 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     }
 
     private fun createProject() : Project {
-        val project = Project()
+        val project = Project(IgniteConfig(), projectLocationField.text, projectNameField.text)
         project.name = projectNameField.text
-        project.location = projectLocationField.text
+//        project.location = projectLocationField.text
         project.dependencyManagementType = dependencyCombo.value
         return project
     }
 
     private fun bindData(project : Project) {
         projectNameField.textProperty().bindBidirectional(project.nameProperty)
-        projectLocationField.textProperty().bindBidirectional(project.locationProperty)
+//        projectLocationField.textProperty().bindBidirectional(project.locationProperty)
         dependencyCombo.valueProperty().bindBidirectional(project.dependencyManagementTypeProperty)
         serverCombo.valueProperty().bindBidirectional(project.serverProperty)
         boundProject = project
@@ -135,7 +135,7 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
 
     private fun unbindData(project: Project) {
         projectNameField.textProperty().unbindBidirectional(project.nameProperty)
-        projectLocationField.textProperty().unbindBidirectional(project.locationProperty)
+//        projectLocationField.textProperty().unbindBidirectional(project.locationProperty)
         dependencyCombo.valueProperty().unbindBidirectional(project.dependencyManagementTypeProperty)
         boundProject = null
         projectNameField.text = null

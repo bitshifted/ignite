@@ -18,20 +18,21 @@ import java.util.prefs.Preferences
 
 object ProjectPersistenceData {
 
-    const val IGNITE_PROJECTS_ROOT = "co.bitshifted.xapps.ignite.pojects"
-    const val IGNITE_SERVERS_ROOT = "co.bitshifted.xapps.ignite.servers"
+    private const val IGNITE_PROJECTS_ROOT = "co.bitshifted.appforge.ignite.pojects"
+    private const val IGNITE_SERVERS_ROOT = "co.bitshifted.appforge.ignite.servers"
+    private const val CONFIG_FILE_NAME_KEY = "configFileName"
     const val LOCATION_KEY = "location"
     const val NAME_KEY = "name"
     const val URL_KEY = "url"
 
-    private lateinit var pojectsRootNode : String
+    private lateinit var projectsRootNode : String
     private lateinit var serversRootNode : String
 
     /**
      * Must call this function to initialize object.
      */
     fun init(projectsRoot : String = IGNITE_PROJECTS_ROOT, serversRoot : String = IGNITE_SERVERS_ROOT) {
-        this.pojectsRootNode = projectsRoot
+        this.projectsRootNode = projectsRoot
         this.serversRootNode = serversRoot
     }
 
@@ -43,15 +44,16 @@ object ProjectPersistenceData {
      * @param userRootNodeName preference node name
      */
     fun saveProject(project : Project) {
-        val rootNode = Preferences.userRoot().node(pojectsRootNode)
+        val rootNode = Preferences.userRoot().node(projectsRootNode)
         val projectNode = rootNode.node(escapeSlashes(project.location))
         projectNode.put(LOCATION_KEY, project.location)
         projectNode.put(NAME_KEY, project.name)
+        projectNode.put(CONFIG_FILE_NAME_KEY, project.configFileName)
     }
 
     fun loadProjectLocations() : List<String> {
         val locations = mutableListOf<String>()
-        val rootNode = Preferences.userRoot().node(pojectsRootNode)
+        val rootNode = Preferences.userRoot().node(projectsRootNode)
         for(location in rootNode.childrenNames()) {
             val projectNode = rootNode.node(location)
             val loc = projectNode.get(LOCATION_KEY, "")
@@ -76,9 +78,7 @@ object ProjectPersistenceData {
         val serversRoot = Preferences.userRoot().node(serversRootNode)
         for(srvId in serversRoot.childrenNames()) {
             val serverNode = serversRoot.node(srvId)
-            val server = Server()
-            server.name = serverNode.get(NAME_KEY, " ")
-            server.baseUrl = serverNode.get(URL_KEY, "")
+            val server = Server(name = serverNode.get(NAME_KEY, " "), baseUrl = serverNode.get(URL_KEY, ""))
             list.add(server)
         }
         return list
