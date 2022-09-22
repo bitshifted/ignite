@@ -10,10 +10,12 @@
 
 package co.bitshifted.appforge.ignite.ctrl
 
+import co.bitshifted.appforge.ignite.DEFAULT_CONFIG_FILE_NAME
 import co.bitshifted.appforge.ignite.logger
 import co.bitshifted.appforge.ignite.model.*
 import co.bitshifted.appforge.ignite.persist.ProjectPersistenceData
 import co.bitshifted.appforge.ignite.ui.ProjectTreeItem
+import co.bitshifted.appforge.ignite.ui.ServerListCell
 import co.bitshifted.appforge.ignite.ui.UIRegistry
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
@@ -34,7 +36,7 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     private val log by logger(ProjectInfoController::class.java)
 
     @FXML
-    private lateinit var projectNameField : TextField
+    private lateinit var configFileNameField : TextField
     @FXML
     private lateinit var projectLocationField : TextField
     @FXML
@@ -49,10 +51,13 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     @FXML
     fun initialize() {
         serverCombo.items.addAll(ProjectPersistenceData.loadServers())
+        serverCombo.buttonCell = ServerListCell()
+        serverCombo.cellFactory = Callback { ServerListCell() }
         resourceBundle = ResourceBundle.getBundle("i18n/strings")
         RuntimeData.selectedProjectItem.addListener(this)
         dependencyCombo.items?.addAll(DependencyManagementType.values())
         dependencyCombo.selectionModel?.selectFirst()
+        configFileNameField.text = DEFAULT_CONFIG_FILE_NAME
 
     }
 
@@ -68,7 +73,7 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     }
 
     fun validateInput() : Boolean {
-        return (projectLocationField.text?.isNotEmpty() == true && projectNameField.text?.isNotEmpty() == true)
+        return (projectLocationField.text?.isNotEmpty() == true && configFileNameField.text?.isNotEmpty() == true && serverCombo.selectionModel.selectedItem != null)
     }
 
 
@@ -117,15 +122,15 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     }
 
     private fun createProject() : Project {
-        val project = Project(IgniteConfig(), projectLocationField.text, projectNameField.text)
-        project.name = projectNameField.text
+        val project = Project(IgniteConfig(), projectLocationField.text, configFileNameField.text)
+        project.name = configFileNameField.text
 //        project.location = projectLocationField.text
         project.dependencyManagementType = dependencyCombo.value
         return project
     }
 
     private fun bindData(project : Project) {
-        projectNameField.textProperty().bindBidirectional(project.nameProperty)
+        configFileNameField.textProperty().bindBidirectional(project.nameProperty)
 //        projectLocationField.textProperty().bindBidirectional(project.locationProperty)
         dependencyCombo.valueProperty().bindBidirectional(project.dependencyManagementTypeProperty)
         serverCombo.valueProperty().bindBidirectional(project.serverProperty)
@@ -134,11 +139,11 @@ class ProjectInfoController : ChangeListener<ProjectTreeItem> {
     }
 
     private fun unbindData(project: Project) {
-        projectNameField.textProperty().unbindBidirectional(project.nameProperty)
+        configFileNameField.textProperty().unbindBidirectional(project.nameProperty)
 //        projectLocationField.textProperty().unbindBidirectional(project.locationProperty)
         dependencyCombo.valueProperty().unbindBidirectional(project.dependencyManagementTypeProperty)
         boundProject = null
-        projectNameField.text = null
+        configFileNameField.text = null
         projectLocationField.text = null
     }
 }

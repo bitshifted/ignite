@@ -12,7 +12,7 @@ package co.bitshifted.appforge.ignite.ctrl
 
 import co.bitshifted.appforge.ignite.model.Project
 import co.bitshifted.appforge.ignite.model.RuntimeData
-import co.bitshifted.appforge.ignite.persist.XMLPersister
+import co.bitshifted.appforge.ignite.persist.ProjectPersister
 import co.bitshifted.appforge.ignite.ui.UIRegistry
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -50,7 +50,7 @@ class StartPaneController {
         val selectedDir = dirChooser.showDialog(UIRegistry.getMainWindow())
 
         if(selectedDir != null) {
-            val project = XMLPersister.loadProject(selectedDir.absolutePath)
+            val project = ProjectPersister.loadProject(selectedDir.absolutePath)
             RuntimeData.projectList.add(project)
         }
     }

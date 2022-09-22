@@ -13,7 +13,7 @@ package co.bitshifted.appforge.ignite.ctrl
 import co.bitshifted.appforge.ignite.deploy.Packer
 import co.bitshifted.appforge.ignite.logger
 import co.bitshifted.appforge.ignite.model.RuntimeData
-import co.bitshifted.appforge.ignite.persist.XMLPersister
+import co.bitshifted.appforge.ignite.persist.ProjectPersister
 import javafx.fxml.FXML
 import java.nio.file.Path
 
@@ -24,7 +24,7 @@ class ProjectButtonsController {
     @FXML
     fun saveProject() {
         val project = RuntimeData.selectedProjectItem.value.project ?: return
-        XMLPersister.writeProject(project)
+        ProjectPersister.writeProject(project)
     }
 
     @FXML

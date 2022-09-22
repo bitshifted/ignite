@@ -70,15 +70,15 @@ class DependencyController : ListChangeListener<Project>, ChangeListener<Project
         windowsMenuItem.setOnAction { _ -> markDependencyAsPlatform(OperatingSystem.WINDOWS) }
         linuxMenuItem.setOnAction { _ -> markDependencyAsPlatform(OperatingSystem.LINUX) }
 
-        RuntimeData.fileChangeQueue.addListener(ListChangeListener {
-            it.next()
-            if(it.wasAdded()) {
-                it.addedSubList.forEach {
-                    it.synced = false
-                    syncDependencies(it)
-                }
-            }
-        })
+//        RuntimeData.fileChangeQueue.addListener(ListChangeListener {
+//            it.next()
+//            if(it.wasAdded()) {
+//                it.addedSubList.forEach {
+//                    it.synced = false
+//                    syncDependencies(it)
+//                }
+//            }
+//        })
     }
 
     override fun onChanged(change: ListChangeListener.Change<out Project>?) {

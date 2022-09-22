@@ -42,8 +42,8 @@ class ProjectPersisterTest {
 
     @Test
     fun loadProjectErrorNonExistingFile() {
-        val result = Assertions.assertThrows(IgniteException::class.java,
-            {ProjectPersister.loadProject("/some/location")})
+        val result = Assertions.assertThrows(IgniteException::class.java
+        ) { ProjectPersister.loadProject("/some/location") }
         assertEquals(ErrorCode.CONFIG_FILE_NOT_FOUND, result.errorInfo.code)
     }
 

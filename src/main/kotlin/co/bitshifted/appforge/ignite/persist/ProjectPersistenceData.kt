@@ -18,8 +18,8 @@ import java.util.prefs.Preferences
 
 object ProjectPersistenceData {
 
-    private const val IGNITE_PROJECTS_ROOT = "co.bitshifted.appforge.ignite.pojects"
-    private const val IGNITE_SERVERS_ROOT = "co.bitshifted.appforge.ignite.servers"
+    private const val IGNITE_PROJECTS_ROOT = "co_bitshifted_appforge_ignite_pojects"
+    private const val IGNITE_SERVERS_ROOT = "co_bitshifted_appforge_ignite_servers"
     private const val CONFIG_FILE_NAME_KEY = "configFileName"
     const val LOCATION_KEY = "location"
     const val NAME_KEY = "name"

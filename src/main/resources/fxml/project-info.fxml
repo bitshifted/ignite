@@ -32,7 +32,7 @@
     </rowConstraints>
     <children>
         <Label text="%label.project.config" GridPane.rowIndex="1" />
-        <TextField fx:id="projectNameField" promptText="Enter project name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="configFileNameField" promptText="Configuration file name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label text="%label.project.location" />
         <Button fx:id="browseButton" mnemonicParsing="false" onAction="#chooseProjectDirectory" text="%button.project.location" GridPane.columnIndex="2" />
         <TextField fx:id="projectLocationField" promptText="Choose project directory" GridPane.columnIndex="1" />

@@ -11,7 +11,6 @@
 package co.bitshifted.appforge.ignite.model
 
 import co.bitshifted.appforge.ignite.DEFAULT_CONFIG_FILE_NAME
-import co.bitshifted.appforge.ignite.watch.PomWatcher
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javax.xml.bind.annotation.*

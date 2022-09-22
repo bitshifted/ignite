@@ -16,7 +16,6 @@ import co.bitshifted.appforge.ignite.model.ProjectItemType
 import co.bitshifted.appforge.ignite.model.RuntimeData
 import co.bitshifted.appforge.ignite.persist.ProjectPersistenceData
 import co.bitshifted.appforge.ignite.persist.ProjectPersister
-import co.bitshifted.appforge.ignite.persist.XMLPersister
 import co.bitshifted.appforge.ignite.showAlert
 import co.bitshifted.appforge.ignite.ui.ProjectTreeCellFactory
 import co.bitshifted.appforge.ignite.ui.ProjectTreeItem
@@ -115,7 +114,7 @@ class MainPageController : ListChangeListener<Project>  {
             for(project in (change.addedSubList ?: emptyList())) {
                 projectTree.root?.children?.add(createProjectNode(project))
                 ProjectPersistenceData.saveProject(project)
-                XMLPersister.writeProject(project);
+                ProjectPersister.writeProject(project);
             }
         }
     }
