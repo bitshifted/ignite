@@ -10,6 +10,9 @@
 
 package co.bitshifted.appforge.ignite;
 
+import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
+import co.bitshifted.appforge.ignite.ui.MainMenu;
+import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -17,11 +20,23 @@ import javafx.stage.Stage;
 
 
 public class Ignite extends Application {
+
+    private static final double DEFAULT_WIDTH = 900.0;
+    private static final double DEFAULT_HEIGHT = 700.0;
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        // initialize application
+        ControllerRegistry.instance().registerControllers();
+        UIRegistry.instance().loadComponents();
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
+        UIRegistry.instance().setMainWindow(stage);
+        var scene = new Scene(UIRegistry.instance().getComponent(UIRegistry.MAIN_PAGE), DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-        var label = new Label("hello");
-        var scene = new Scene(label, 900.0, 700.0);
         stage.setTitle("Ignite");
         stage.setScene(scene);
         stage.show();

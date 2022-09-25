@@ -28,7 +28,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
         <appforge-common.version>0.1.0-SNAPSHOT</appforge-common.version>
-        <ikonli.version>11.3.5</ikonli.version>
+        <ikonli.version>12.3.1</ikonli.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
     </properties>
 
