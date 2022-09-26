@@ -11,11 +11,9 @@
 package co.bitshifted.appforge.ignite;
 
 import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
-import co.bitshifted.appforge.ignite.ui.MainMenu;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 
@@ -29,7 +27,7 @@ public class Ignite extends Application {
         super.init();
         // initialize application
         ControllerRegistry.instance().registerControllers();
-        UIRegistry.instance().loadComponents();
+        UIRegistry.instance().registerComponents();
     }
 
     @Override

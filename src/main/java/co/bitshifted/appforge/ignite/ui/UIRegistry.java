@@ -13,6 +13,8 @@ package co.bitshifted.appforge.ignite.ui;
 import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,7 +28,8 @@ public class UIRegistry {
     private static final String MSG_BUNDLE_NAME = "i18n/strings";
 
     // Component names
-    public static final String MAIN_PAGE = "main_page";
+    public static final String MAIN_PAGE = "main-page";
+    public static final String MAIN_MENU = "main-menu";
 
     static {
         INSTANCE = new UIRegistry();
@@ -43,11 +46,16 @@ public class UIRegistry {
         return INSTANCE;
     }
 
-    public void loadComponents() throws IOException {
+    public void registerComponents() throws IOException {
         var bundle = ResourceBundle.getBundle(MSG_BUNDLE_NAME);
 
+        var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);
+        componentMap.put(MAIN_MENU, mainMenu);
         // load main window last, to make sure all children are loaded
-        componentMap.put(MAIN_PAGE, FXMLLoader.load(getClass().getResource("/fxml/main.fxml")));
+        var mainPage = (BorderPane)FXMLLoader.load(getClass().getResource("/fxml/main.fxml"), bundle);
+        componentMap.put(MAIN_PAGE, mainPage);
+        // layout
+        mainPage.setTop(mainMenu);
     }
 
     public Parent getComponent(String name) {
