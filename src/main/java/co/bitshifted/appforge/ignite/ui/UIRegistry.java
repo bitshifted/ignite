@@ -10,7 +10,9 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
+import co.bitshifted.appforge.ignite.IgniteConstants;
 import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
+import co.bitshifted.appforge.ignite.ctrl.DeploymentInfoController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
@@ -25,11 +27,11 @@ import java.util.ResourceBundle;
 public class UIRegistry {
 
     private static final UIRegistry INSTANCE;
-    private static final String MSG_BUNDLE_NAME = "i18n/strings";
 
     // Component names
     public static final String MAIN_PAGE = "main-page";
     public static final String MAIN_MENU = "main-menu";
+    public static final String DEPLOYMENT_INFO = "deployment-info";
 
     static {
         INSTANCE = new UIRegistry();
@@ -47,8 +49,9 @@ public class UIRegistry {
     }
 
     public void registerComponents() throws IOException {
-        var bundle = ResourceBundle.getBundle(MSG_BUNDLE_NAME);
+        var bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
 
+        loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);
         componentMap.put(MAIN_MENU, mainMenu);
         // load main window last, to make sure all children are loaded

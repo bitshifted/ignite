@@ -10,17 +10,39 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
-import javafx.event.ActionEvent;
+import co.bitshifted.appforge.ignite.IgniteConstants;
+import co.bitshifted.appforge.ignite.model.Deployment;
+import co.bitshifted.appforge.ignite.model.RuntimeData;
+import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 
+import java.util.ResourceBundle;
+
 public class MainMenuController {
+
+    private final ResourceBundle bundle;
 
     @FXML
     private MenuItem newDeploymentMenuItem;
 
+    public MainMenuController() {
+        this.bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
+    }
+
     @FXML
-    public void newDeploymentAction(ActionEvent event) {
-        System.out.println("new deployment");
+    public void newDeploymentAction() {
+
+        var dialog = new Dialog<Deployment>();
+        dialog.setTitle(bundle.getString("deployment.dialog.title"));
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(UIRegistry.instance().getComponent(UIRegistry.DEPLOYMENT_INFO));
+        dialog.setResultConverter(ControllerRegistry.instance().getController(DeploymentInfoController.class).getResultConverter());
+        var result = dialog.showAndWait();
+        if(result.isPresent()) {
+            RuntimeData.getInstance().addDeployment(result.get());
+        }
     }
 }

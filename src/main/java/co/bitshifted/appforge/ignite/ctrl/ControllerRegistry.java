@@ -32,7 +32,7 @@ public class ControllerRegistry {
     }
 
     public void registerControllers() {
-
+        controllerMap.put(DeploymentInfoController.class.getName(), new DeploymentInfoController());
     }
 
     public  <T> T getController(Class<T> clazz) {

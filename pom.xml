@@ -72,12 +72,7 @@
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-fontawesome-pack</artifactId>
-            <version>${ikonli.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-devicons-pack</artifactId>
+            <artifactId>ikonli-bootstrapicons-pack</artifactId>
             <version>${ikonli.version}</version>
         </dependency>
         <dependency>

@@ -10,9 +10,15 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 public class ControllerRegistryTest {
 
+    @Test
     void registerControllersSuccess() {
         ControllerRegistry.instance().registerControllers();
+
+        Assertions.assertNotNull(ControllerRegistry.instance().getController(DeploymentInfoController.class));
     }
 }

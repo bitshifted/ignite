@@ -20,31 +20,27 @@
 
 <GridPane alignment="CENTER_LEFT" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" vgap="5.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
-        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="126.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="347.0" minWidth="10.0" prefWidth="203.0" />
+        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="193.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="347.0" minWidth="10.0" prefWidth="210.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.0" minWidth="10.0" prefWidth="157.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="125.0" minHeight="10.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="%label.project.config" GridPane.rowIndex="1" />
+        <Label text="%deployment.label.dependencymgmt" GridPane.rowIndex="1" />
         <TextField fx:id="configFileNameField" promptText="Configuration file name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label text="%label.project.location" />
-        <Button fx:id="browseButton" mnemonicParsing="false" onAction="#chooseProjectDirectory" text="%button.project.location" GridPane.columnIndex="2" />
+        <Label text="%deployment.label.project.location" />
+        <Button fx:id="browseButton" mnemonicParsing="false" onAction="#chooseProjectDirectory" text="%deployment.button.project.location" GridPane.columnIndex="2" />
         <TextField fx:id="projectLocationField" promptText="Choose project directory" GridPane.columnIndex="1" />
-        <Label text="%label.project.deps" GridPane.rowIndex="2" />
+        <Label text="%deployment.label.dependencymgmt" GridPane.rowIndex="2" />
         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
             <children>
                 <ComboBox fx:id="dependencyCombo" prefWidth="150.0" />
             </children>
         </HBox>
-      <Label text="%label.project.server" GridPane.rowIndex="3" />
-      <ComboBox fx:id="serverCombo" prefHeight="27.0" prefWidth="210.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Button fx:id="newServerButton" mnemonicParsing="false" onAction="#addServer" text="%button.project.server.new" GridPane.columnIndex="2" GridPane.rowIndex="3" />
     </children>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
