@@ -16,19 +16,23 @@ import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.persist.DeploymentDataPersister;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeCellFactory;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
+import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.AnchorPane;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.bootstrapicons.BootstrapIcons;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.kordamp.ikonli.devicons.Devicons;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class MainPageController implements ListChangeListener<Deployment> {
@@ -38,6 +42,8 @@ public class MainPageController implements ListChangeListener<Deployment> {
 
     @FXML
     private TreeView<DeploymentTreeItem> deploymentTree;
+    @FXML
+    private AnchorPane detailsPane;
 
     @FXML
     public void initialize() {
@@ -55,9 +61,15 @@ public class MainPageController implements ListChangeListener<Deployment> {
                 var deployments = DeploymentDataPersister.instance().load();
                 Stream.of(deployments).forEach(d -> RuntimeData.getInstance().addDeployment(d));
             } catch(Exception ex) {
-                LOGGER.error("Failed to laod deployment list", ex);
+                LOGGER.error("Failed to load deployment list", ex);
             }
 
+        });
+        deploymentTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            switch (newValue.getValue().type()) {
+                case DEPLOYMENT -> setupDetailsPane(UIRegistry.DEPLOYMENT_INFO);
+                case APPLICATION_INFO -> setupDetailsPane(UIRegistry.APPLICATION_INFO_UI);
+            }
         });
     }
 
@@ -68,8 +80,16 @@ public class MainPageController implements ListChangeListener<Deployment> {
     }
 
     private TreeItem<DeploymentTreeItem> createDeploymentNode(Deployment deployment) {
-        var node = new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.DEPLYOMENT), getIcon(BootstrapIcons.BRIEFCASE));
+        var node = new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.DEPLOYMENT), getIcon(BootstrapIcons.BRIEFCASE));
+        node.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.APPLICATION_INFO), getIcon(BootstrapIcons.INFO_SQUARE)));
+        node.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.JVM), getIcon(Devicons.JAVA)));
+        node.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.RESOURCES), getIcon(BootstrapIcons.ARCHIVE)));
         return node;
+    }
+
+    private void setupDetailsPane(String name) {
+        detailsPane.getChildren().clear();
+        detailsPane.getChildren().add(UIRegistry.instance().getComponent(name));
     }
 
     @Override

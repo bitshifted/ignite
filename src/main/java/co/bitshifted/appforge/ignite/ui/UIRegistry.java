@@ -32,6 +32,7 @@ public class UIRegistry {
     public static final String MAIN_PAGE = "main-page";
     public static final String MAIN_MENU = "main-menu";
     public static final String DEPLOYMENT_INFO = "deployment-info";
+    public static final String  APPLICATION_INFO_UI = "app-info";
 
     static {
         INSTANCE = new UIRegistry();
@@ -51,6 +52,7 @@ public class UIRegistry {
     public void registerComponents() throws IOException {
         var bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
 
+        componentMap.put(APPLICATION_INFO_UI, FXMLLoader.load(getClass().getResource("/fxml/app-info.fxml"), bundle));
         loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);
         componentMap.put(MAIN_MENU, mainMenu);

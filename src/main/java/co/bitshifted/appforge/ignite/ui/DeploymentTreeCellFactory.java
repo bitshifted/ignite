@@ -30,7 +30,10 @@ public class DeploymentTreeCellFactory implements Callback<TreeView<DeploymentTr
         public String toString(DeploymentTreeItem deploymentTreeItem) {
             return switch (deploymentTreeItem.type()) {
                 case ROOT ->  "Deployments";
-                case DEPLYOMENT -> deploymentTreeItem.deployment().getName();
+                case DEPLOYMENT -> deploymentTreeItem.deployment().getName();
+                case APPLICATION_INFO -> "Application Info";
+                case JVM -> "JVM";
+                case RESOURCES -> "Resources";
             };
         }
 

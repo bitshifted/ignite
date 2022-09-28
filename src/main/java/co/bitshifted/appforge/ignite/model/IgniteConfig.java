@@ -10,10 +10,5 @@
 
 package co.bitshifted.appforge.ignite.model;
 
-public enum DeploymentItemType {
-    ROOT,
-    DEPLOYMENT,
-    APPLICATION_INFO,
-    JVM,
-    RESOURCES;
+public class IgniteConfig {
 }
