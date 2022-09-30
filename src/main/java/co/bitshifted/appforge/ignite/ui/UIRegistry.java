@@ -13,6 +13,7 @@ package co.bitshifted.appforge.ignite.ui;
 import co.bitshifted.appforge.ignite.IgniteConstants;
 import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
 import co.bitshifted.appforge.ignite.ctrl.DeploymentInfoController;
+import co.bitshifted.appforge.ignite.ctrl.ServerManagementController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
@@ -33,6 +34,7 @@ public class UIRegistry {
     public static final String MAIN_MENU = "main-menu";
     public static final String DEPLOYMENT_INFO = "deployment-info";
     public static final String  APPLICATION_INFO_UI = "app-info";
+    public static final String SERVER_MANAGEMENT = "server=management";
 
     static {
         INSTANCE = new UIRegistry();
@@ -52,6 +54,7 @@ public class UIRegistry {
     public void registerComponents() throws IOException {
         var bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
 
+        loadWithController("/fxml/server-management.fxml", ServerManagementController.class, SERVER_MANAGEMENT, bundle);
         componentMap.put(APPLICATION_INFO_UI, FXMLLoader.load(getClass().getResource("/fxml/app-info.fxml"), bundle));
         loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);

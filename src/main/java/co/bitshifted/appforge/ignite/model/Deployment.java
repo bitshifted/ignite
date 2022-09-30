@@ -10,14 +10,40 @@
 
 package co.bitshifted.appforge.ignite.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.file.Path;
 
-public record Deployment(String location, String configFileName, DependencyManagementType dependencyManagementType) {
-
+@JsonIgnoreProperties(ignoreUnknown = true)
+public final class Deployment {
+    private final String location;
     @JsonIgnore
+    private final String configFileName;
+    private final DependencyManagementType dependencyManagementType;
+
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public Deployment(@JsonProperty("location") String location, @JsonProperty("dependencyManagementType") DependencyManagementType dependencyManagementType) {
+        this.location = location;
+        this.dependencyManagementType = dependencyManagementType;
+        this.configFileName = Path.of(location).getFileName().toString();
+    }
+
+
     public String getName() {
         return Path.of(location).getFileName().toString();
     }
+
+    public String location() {
+        return location;
+    }
+
+
+    public DependencyManagementType dependencyManagementType() {
+        return dependencyManagementType;
+    }
+
+
 }

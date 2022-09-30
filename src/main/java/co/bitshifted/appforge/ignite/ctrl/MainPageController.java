@@ -66,6 +66,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
 
         });
         deploymentTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            RuntimeData.getInstance().getSelectedDeployment().set(newValue.getValue().deployment());
             switch (newValue.getValue().type()) {
                 case DEPLOYMENT -> setupDetailsPane(UIRegistry.DEPLOYMENT_INFO);
                 case APPLICATION_INFO -> setupDetailsPane(UIRegistry.APPLICATION_INFO_UI);

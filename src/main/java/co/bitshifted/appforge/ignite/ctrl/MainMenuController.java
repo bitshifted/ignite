@@ -13,6 +13,7 @@ package co.bitshifted.appforge.ignite.ctrl;
 import co.bitshifted.appforge.ignite.IgniteConstants;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
+import co.bitshifted.appforge.ignite.model.Server;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
@@ -27,6 +28,8 @@ public class MainMenuController {
 
     @FXML
     private MenuItem newDeploymentMenuItem;
+    @FXML
+    private MenuItem serverConfigMenuItem;
 
     public MainMenuController() {
         this.bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
@@ -34,7 +37,6 @@ public class MainMenuController {
 
     @FXML
     public void newDeploymentAction() {
-
         var dialog = new Dialog<Deployment>();
         dialog.setTitle(bundle.getString("deployment.dialog.title"));
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -44,5 +46,14 @@ public class MainMenuController {
         if(result.isPresent()) {
             RuntimeData.getInstance().addDeployment(result.get());
         }
+    }
+
+    @FXML
+    public void serverConfigMenuAction() {
+        var dialog = new Dialog<Server>();
+        dialog.setTitle(bundle.getString("server.mgmt.dialog.title"));
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(UIRegistry.instance().getComponent(UIRegistry.SERVER_MANAGEMENT));
+        var result = dialog.showAndWait();
     }
 }

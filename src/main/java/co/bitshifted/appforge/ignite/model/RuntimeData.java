@@ -11,6 +11,7 @@
 package co.bitshifted.appforge.ignite.model;
 
 import co.bitshifted.appforge.ignite.persist.DeploymentDataPersister;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -29,9 +30,11 @@ public class RuntimeData {
     }
 
     private ObservableList<Deployment> deploymentsList;
+    private SimpleObjectProperty<Deployment> selectedDeployment;
 
     private RuntimeData() {
         this.deploymentsList = FXCollections.observableArrayList();
+        this.selectedDeployment = new SimpleObjectProperty<>();
     }
 
     public ObservableList<Deployment> getDeploymentsList() {
@@ -40,6 +43,10 @@ public class RuntimeData {
 
     public void addDeployment(Deployment deployment) {
         this.deploymentsList.add(deployment);
+    }
+
+    public SimpleObjectProperty<Deployment> getSelectedDeployment() {
+        return selectedDeployment;
     }
 
     public static RuntimeData getInstance() {

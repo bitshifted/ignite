@@ -4,12 +4,17 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 
-<MenuBar fx:id="mainMenuBar" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="co.bitshifted.appforge.ignite.ctrl.MainMenuController">
+<MenuBar fx:id="mainMenuBar" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.bitshifted.appforge.ignite.ctrl.MainMenuController">
   <menus>
     <Menu fx:id="fileMenu" text="%menu.main.file">
       <items>
         <MenuItem fx:id="newDeploymentMenuItem" mnemonicParsing="false" onAction="#newDeploymentAction" text="%menu.main.file.newdeployment" />
       </items>
     </Menu>
+      <Menu mnemonicParsing="false" text="%menu.main.configuration">
+        <items>
+          <MenuItem fx:id="serverConfigMenuItem" mnemonicParsing="false" onAction="#serverConfigMenuAction" text="%menu.main.configuration.server" />
+        </items>
+      </Menu>
   </menus>
 </MenuBar>

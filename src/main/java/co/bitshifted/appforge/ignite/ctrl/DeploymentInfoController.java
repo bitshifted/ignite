@@ -14,6 +14,7 @@ import co.bitshifted.appforge.ignite.Ignite;
 import co.bitshifted.appforge.ignite.IgniteConstants;
 import co.bitshifted.appforge.ignite.model.DependencyManagementType;
 import co.bitshifted.appforge.ignite.model.Deployment;
+import co.bitshifted.appforge.ignite.model.RuntimeData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -38,6 +39,7 @@ public class DeploymentInfoController {
         dependencyCombo.getItems().addAll(DependencyManagementType.values());
         dependencyCombo.getSelectionModel().select(DependencyManagementType.MAVEN);
         configFileNameField.setText(IgniteConstants.DEFAULT_CONFIG_FILE_NAME);
+//        RuntimeData.getInstance().getSelectedDeployment().bindBidirectional();
     }
 
     @FXML
@@ -53,7 +55,7 @@ public class DeploymentInfoController {
     public Callback<ButtonType, Deployment> getResultConverter() {
         return buttonType -> {
             if(buttonType == ButtonType.OK) {
-                return new Deployment(projectLocationField.getText(), configFileNameField.getText(), dependencyCombo.getSelectionModel().getSelectedItem());
+                return new Deployment(projectLocationField.getText(), dependencyCombo.getSelectionModel().getSelectedItem());
             }
             return null;
         };
