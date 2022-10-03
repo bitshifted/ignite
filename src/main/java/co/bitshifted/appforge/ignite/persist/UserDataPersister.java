@@ -11,7 +11,7 @@
 package co.bitshifted.appforge.ignite.persist;
 
 import co.bitshifted.appforge.ignite.IgniteConstants;
-import co.bitshifted.appforge.ignite.model.Deployment;
+import co.bitshifted.appforge.ignite.model.UserData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
@@ -19,18 +19,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class DeploymentDataPersister {
+public class UserDataPersister {
 
-    private static final String STORAGE_FILE_NAME = "deployment.json";
-    private static final DeploymentDataPersister INSTANCE;
+    private static final String STORAGE_FILE_NAME = "userdata.json";
+    private static final UserDataPersister INSTANCE;
 
     static {
-        INSTANCE = new DeploymentDataPersister();
+        INSTANCE = new UserDataPersister();
     }
 
     private final ObjectMapper mapper;
 
-    private DeploymentDataPersister() {
+    private UserDataPersister() {
         this.mapper = new ObjectMapper();
     }
 
@@ -38,24 +38,21 @@ public class DeploymentDataPersister {
         return Path.of(System.getProperty("user.home"), IgniteConstants.STORAGE_DIR_NAME, STORAGE_FILE_NAME);
     }
 
-    public void save(List<Deployment> deploymentList) throws IOException {
+    public void save(UserData userData) throws IOException {
         var path = getStoragePath();
         Files.createDirectories(path.getParent());
-        mapper.writeValue(path.toFile(), deploymentList);
-//        try(var os = new ObjectOutputStream(new FileOutputStream(path.toFile()))) {
-//            os.writeObject(deploymentList);
-//        }
+        mapper.writeValue(path.toFile(), userData);
     }
 
-    public Deployment[] load() throws IOException, ClassNotFoundException {
+    public UserData load() throws IOException {
         var path = getStoragePath();
-        return mapper.readValue(path.toFile(), Deployment[].class);
-//        try(var is = new ObjectInputStream(new FileInputStream(path.toFile()))) {
-//            return (List<Deployment>) is.readObject();
-//        }
+        if(Files.exists(path)) {
+            return mapper.readValue(path.toFile(), UserData.class);
+        }
+        return new UserData();
     }
 
-    public static DeploymentDataPersister instance() {
+    public static UserDataPersister instance() {
         return INSTANCE;
     }
 }

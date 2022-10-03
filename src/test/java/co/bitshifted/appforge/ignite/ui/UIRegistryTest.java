@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
+import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
 import javafx.application.Platform;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,6 +22,7 @@ public class UIRegistryTest {
     static void setup() {
         // initialize JavaFX runtime
         Platform.startup(() -> {});
+        ControllerRegistry.instance().registerControllers();
     }
 
     @Test

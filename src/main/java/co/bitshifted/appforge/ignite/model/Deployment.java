@@ -36,12 +36,12 @@ public final class Deployment {
         return Path.of(location).getFileName().toString();
     }
 
-    public String location() {
+    public String getLocation() {
         return location;
     }
 
 
-    public DependencyManagementType dependencyManagementType() {
+    public DependencyManagementType getDependencyManagementType() {
         return dependencyManagementType;
     }
 

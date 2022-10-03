@@ -13,13 +13,11 @@ package co.bitshifted.appforge.ignite.ctrl;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.DeploymentItemType;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
-import co.bitshifted.appforge.ignite.persist.DeploymentDataPersister;
+import co.bitshifted.appforge.ignite.persist.UserDataPersister;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeCellFactory;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
@@ -58,8 +56,8 @@ public class MainPageController implements ListChangeListener<Deployment> {
         deploymentTree.setRoot(root);
         Platform.runLater(() -> {
             try {
-                var deployments = DeploymentDataPersister.instance().load();
-                Stream.of(deployments).forEach(d -> RuntimeData.getInstance().addDeployment(d));
+                var deployments = RuntimeData.getInstance().getDeploymentsList();
+                deployments.stream().forEach(d -> RuntimeData.getInstance().addDeployment(d));
             } catch(Exception ex) {
                 LOGGER.error("Failed to load deployment list", ex);
             }
@@ -101,7 +99,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
                 deploymentTree.getRoot().getChildren().add(createDeploymentNode(d));
             });
             try {
-                DeploymentDataPersister.instance().save(RuntimeData.getInstance().getDeploymentsList());
+                UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
             } catch(IOException ex) {
                 LOGGER.error("Failed to save deployment list", ex);
             }

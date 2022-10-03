@@ -11,6 +11,8 @@
 package co.bitshifted.appforge.ignite;
 
 import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
+import co.bitshifted.appforge.ignite.model.RuntimeData;
+import co.bitshifted.appforge.ignite.persist.UserDataPersister;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -26,6 +28,8 @@ public class Ignite extends Application {
     public void init() throws Exception {
         super.init();
         // initialize application
+        var userData = UserDataPersister.instance().load();
+        RuntimeData.getInstance().setUserData(userData);
         ControllerRegistry.instance().registerControllers();
         UIRegistry.instance().registerComponents();
     }
