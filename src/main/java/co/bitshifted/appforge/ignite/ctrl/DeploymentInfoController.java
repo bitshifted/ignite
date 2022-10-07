@@ -21,7 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
 
@@ -39,7 +38,6 @@ public class DeploymentInfoController {
         dependencyCombo.getItems().addAll(DependencyManagementType.values());
         dependencyCombo.getSelectionModel().select(DependencyManagementType.MAVEN);
         configFileNameField.setText(IgniteConstants.DEFAULT_CONFIG_FILE_NAME);
-//        RuntimeData.getInstance().getSelectedDeployment().bindBidirectional();
     }
 
     @FXML

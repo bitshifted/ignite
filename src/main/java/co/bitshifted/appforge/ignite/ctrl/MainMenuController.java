@@ -14,15 +14,22 @@ import co.bitshifted.appforge.ignite.IgniteConstants;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.Server;
+import co.bitshifted.appforge.ignite.persist.UserDataPersister;
+import co.bitshifted.appforge.ignite.ui.DialogBuilder;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class MainMenuController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainMenuController.class);
 
     private final ResourceBundle bundle;
 
@@ -37,23 +44,32 @@ public class MainMenuController {
 
     @FXML
     public void newDeploymentAction() {
-        var dialog = new Dialog<Deployment>();
-        dialog.setTitle(bundle.getString("deployment.dialog.title"));
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        dialog.getDialogPane().setContent(UIRegistry.instance().getComponent(UIRegistry.DEPLOYMENT_INFO));
-        dialog.setResultConverter(ControllerRegistry.instance().getController(DeploymentInfoController.class).getResultConverter());
+        var dialog = DialogBuilder.newBuilder(Deployment.class)
+            .withTitle(bundle.getString("deployment.dialog.title"))
+            .withButtonTypes(ButtonType.OK, ButtonType.CANCEL)
+            .withContent(UIRegistry.instance().getComponent(UIRegistry.DEPLOYMENT_INFO))
+            .withResultConverter(ControllerRegistry.instance().getController(DeploymentInfoController.class).getResultConverter())
+            .build();
+
         var result = dialog.showAndWait();
         if(result.isPresent()) {
             RuntimeData.getInstance().addDeployment(result.get());
+            try {
+                UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
+            } catch(IOException ex) {
+                LOGGER.error("Failed to save deployment list", ex);
+            }
         }
     }
 
     @FXML
     public void serverConfigMenuAction() {
-        var dialog = new Dialog<Server>();
-        dialog.setTitle(bundle.getString("server.mgmt.dialog.title"));
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        dialog.getDialogPane().setContent(UIRegistry.instance().getComponent(UIRegistry.SERVER_MANAGEMENT));
+        var dialog = DialogBuilder.newBuilder(Server.class)
+            .withTitle(bundle.getString("server.mgmt.dialog.title"))
+            .withContent(UIRegistry.instance().getComponent(UIRegistry.SERVER_MANAGEMENT))
+            .withButtonTypes(ButtonType.OK, ButtonType.CANCEL)
+            .build();
         var result = dialog.showAndWait();
+
     }
 }

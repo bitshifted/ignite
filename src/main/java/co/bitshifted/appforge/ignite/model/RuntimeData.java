@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.model;
 
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,11 +27,13 @@ public class RuntimeData {
     }
 
     private SimpleObjectProperty<UserData> userData;
+    private SimpleListProperty<Server> serversList;
     private ObservableList<Deployment> deploymentsList;
     private SimpleObjectProperty<Deployment> selectedDeployment;
 
     private RuntimeData() {
         this.userData = new SimpleObjectProperty<>();
+        this.serversList = new SimpleListProperty<>(FXCollections.observableArrayList());
         this.deploymentsList = FXCollections.observableArrayList();
         this.selectedDeployment = new SimpleObjectProperty<>();
     }
@@ -38,9 +41,13 @@ public class RuntimeData {
     public void setUserData(UserData userData) {
         this.userData.set(userData);
         deploymentsList.addAll(userData.getDeployments());
+        serversList.addAll(userData.getServers());
+        LOGGER.debug("servers list: {}", userData.getServers());
     }
 
     public UserData getUserData() {
+        userData.get().setDeployments(deploymentsList);
+        userData.get().setServers(serversList);
         return userData.get();
     }
 
@@ -48,10 +55,15 @@ public class RuntimeData {
         return deploymentsList;
     }
 
+    public SimpleListProperty<Server> getServersList() {
+        return serversList;
+    }
+
     public void addDeployment(Deployment deployment) {
         this.userData.get().getDeployments().add(deployment);
         this.deploymentsList.add(deployment);
     }
+
 
     public SimpleObjectProperty<Deployment> getSelectedDeployment() {
         return selectedDeployment;

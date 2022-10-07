@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <ListView prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <ListView fx:id="serverListView" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
@@ -21,9 +20,9 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="newServerButton" mnemonicParsing="false" text="%server.mgmt.button.new" />
-            <Button fx:id="editServerButton" mnemonicParsing="false" text="%server.mgmt.button.edit" />
-            <Button fx:id="deleteServerButton" disable="true" mnemonicParsing="false" text="%server.mgmt.button.delete" />
+            <Button fx:id="newServerButton" mnemonicParsing="false" onAction="#onNewServerAction" text="%server.mgmt.button.new" />
+            <Button fx:id="editServerButton" disable="true" mnemonicParsing="false" onAction="#onEditServerAction" text="%server.mgmt.button.edit" />
+            <Button fx:id="deleteServerButton" disable="true" mnemonicParsing="false" onAction="#onDeleteServerAction" text="%server.mgmt.button.delete" />
          </children>
       </HBox>
    </bottom>

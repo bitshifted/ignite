@@ -10,5 +10,36 @@
 
 package co.bitshifted.appforge.ignite.model;
 
-public record Server(String name, String baseUrl) {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.Objects;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public final class Server {
+
+    private  String name;
+    private  String baseUrl;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + baseUrl + ")";
+    }
+
 }

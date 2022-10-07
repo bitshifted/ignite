@@ -57,7 +57,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
         Platform.runLater(() -> {
             try {
                 var deployments = RuntimeData.getInstance().getDeploymentsList();
-                deployments.stream().forEach(d -> RuntimeData.getInstance().addDeployment(d));
+                deployments.stream().forEach(d -> deploymentTree.getRoot().getChildren().add(createDeploymentNode(d)));
             } catch(Exception ex) {
                 LOGGER.error("Failed to load deployment list", ex);
             }
@@ -98,11 +98,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
             change.getAddedSubList().forEach(d -> {
                 deploymentTree.getRoot().getChildren().add(createDeploymentNode(d));
             });
-            try {
-                UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
-            } catch(IOException ex) {
-                LOGGER.error("Failed to save deployment list", ex);
-            }
+
         }
     }
 }
