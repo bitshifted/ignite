@@ -13,7 +13,6 @@ package co.bitshifted.appforge.ignite.ctrl;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.DeploymentItemType;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
-import co.bitshifted.appforge.ignite.persist.UserDataPersister;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeCellFactory;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
@@ -29,9 +28,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.kordamp.ikonli.devicons.Devicons;
-
-import java.io.IOException;
-import java.util.stream.Stream;
 
 public class MainPageController implements ListChangeListener<Deployment> {
 
@@ -64,7 +60,8 @@ public class MainPageController implements ListChangeListener<Deployment> {
 
         });
         deploymentTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            RuntimeData.getInstance().getSelectedDeployment().set(newValue.getValue().deployment());
+            RuntimeData.getInstance().selectedDeploymentTreeITemProperty().set(newValue.getValue());
+            LOGGER.debug("Deployment selection changed");
             switch (newValue.getValue().type()) {
                 case DEPLOYMENT -> setupDetailsPane(UIRegistry.DEPLOYMENT_INFO);
                 case APPLICATION_INFO -> setupDetailsPane(UIRegistry.APPLICATION_INFO_UI);

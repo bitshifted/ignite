@@ -10,14 +10,13 @@
 
 package co.bitshifted.appforge.ignite.persist;
 
-import co.bitshifted.appforge.ignite.IgniteConstants;
+import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.UserData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class UserDataPersister {
 
@@ -35,7 +34,7 @@ public class UserDataPersister {
     }
 
     public Path getStoragePath() {
-        return Path.of(System.getProperty("user.home"), IgniteConstants.STORAGE_DIR_NAME, STORAGE_FILE_NAME);
+        return Path.of(System.getProperty("user.home"), IgniteAppConstants.STORAGE_DIR_NAME, STORAGE_FILE_NAME);
     }
 
     public void save(UserData userData) throws IOException {

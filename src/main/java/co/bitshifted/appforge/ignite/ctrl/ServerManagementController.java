@@ -10,7 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
-import co.bitshifted.appforge.ignite.IgniteConstants;
+import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.Server;
 import co.bitshifted.appforge.ignite.persist.UserDataPersister;
@@ -42,7 +42,7 @@ public class ServerManagementController {
 
     @FXML
     public void initialize() {
-        bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
+        bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
         LOGGER.debug("server list: {}", RuntimeData.getInstance().getServersList().get());
         serverListView.getItems().addAll(RuntimeData.getInstance().getServersList().get());
         serverListView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {

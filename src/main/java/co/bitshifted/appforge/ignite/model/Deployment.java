@@ -14,24 +14,31 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.nio.file.Path;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Deployment {
     private final String location;
+
     @JsonIgnore
-    private final String configFileName;
-    private final DependencyManagementType dependencyManagementType;
+    private final SimpleObjectProperty<String> locationProperty;
+    @JsonIgnore
+    private final SimpleObjectProperty<String> configFileNameProperty;
+    @JsonIgnore
+    private final SimpleObjectProperty<DependencyManagementType> dependencyManagementTypeProperty;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public Deployment(@JsonProperty("location") String location, @JsonProperty("dependencyManagementType") DependencyManagementType dependencyManagementType) {
+    public Deployment(@JsonProperty("location") String location) {
         this.location = location;
-        this.dependencyManagementType = dependencyManagementType;
-        this.configFileName = Path.of(location).getFileName().toString();
+
+        this.locationProperty = new SimpleObjectProperty<>(location);
+        this.configFileNameProperty = new SimpleObjectProperty<>();
+        this.dependencyManagementTypeProperty = new SimpleObjectProperty<>();
     }
 
-
+    @JsonIgnore
     public String getName() {
         return Path.of(location).getFileName().toString();
     }
@@ -40,10 +47,40 @@ public final class Deployment {
         return location;
     }
 
-
     public DependencyManagementType getDependencyManagementType() {
-        return dependencyManagementType;
+        return dependencyManagementTypeProperty.get();
+    }
+
+    @JsonProperty
+    public void setDependencyManagementType(DependencyManagementType dependencyManagementType) {
+        dependencyManagementTypeProperty.set(dependencyManagementType);
+    }
+
+    @JsonProperty
+    public void setConfigFileName(String configFileName) {
+        configFileNameProperty.set(configFileName);
+    }
+
+    public String getConfigFileName() {
+        return configFileNameProperty.get();
     }
 
 
+    @JsonIgnore 
+    public IgniteConfig getConfiguration() {
+        return new IgniteConfig();
+    }
+
+    // property getters
+    public SimpleObjectProperty<String> getLocationProperty() {
+        return locationProperty;
+    }
+
+    public SimpleObjectProperty<String> getConfigFileNameProperty() {
+        return configFileNameProperty;
+    }
+
+    public SimpleObjectProperty<DependencyManagementType> getDependencyManagementTypeProperty() {
+        return dependencyManagementTypeProperty;
+    }
 }

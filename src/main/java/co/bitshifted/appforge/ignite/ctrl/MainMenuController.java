@@ -10,7 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
-import co.bitshifted.appforge.ignite.IgniteConstants;
+import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.Server;
@@ -19,7 +19,6 @@ import co.bitshifted.appforge.ignite.ui.DialogBuilder;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,7 @@ public class MainMenuController {
     private MenuItem serverConfigMenuItem;
 
     public MainMenuController() {
-        this.bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
+        this.bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
     }
 
     @FXML
@@ -47,13 +46,15 @@ public class MainMenuController {
         var dialog = DialogBuilder.newBuilder(Deployment.class)
             .withTitle(bundle.getString("deployment.dialog.title"))
             .withButtonTypes(ButtonType.OK, ButtonType.CANCEL)
-            .withContent(UIRegistry.instance().getComponent(UIRegistry.DEPLOYMENT_INFO))
-            .withResultConverter(ControllerRegistry.instance().getController(DeploymentInfoController.class).getResultConverter())
+            .withContent(UIRegistry.instance().getComponent(UIRegistry.DEPLOYMENT_INFO_DLG))
+            .withResultConverter(ControllerRegistry.instance().getController(DeploymentInfoDlgController.class).getResultConverter())
             .build();
+        ControllerRegistry.instance().getController(DeploymentInfoDlgController.class).clear();
 
         var result = dialog.showAndWait();
         if(result.isPresent()) {
             RuntimeData.getInstance().addDeployment(result.get());
+
             try {
                 UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
             } catch(IOException ex) {
@@ -69,7 +70,7 @@ public class MainMenuController {
             .withContent(UIRegistry.instance().getComponent(UIRegistry.SERVER_MANAGEMENT))
             .withButtonTypes(ButtonType.OK, ButtonType.CANCEL)
             .build();
-        var result = dialog.showAndWait();
+         dialog.showAndWait();
 
     }
 }

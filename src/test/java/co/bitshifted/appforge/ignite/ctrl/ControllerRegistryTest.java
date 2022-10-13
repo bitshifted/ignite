@@ -19,6 +19,6 @@ public class ControllerRegistryTest {
     void registerControllersSuccess() {
         ControllerRegistry.instance().registerControllers();
 
-        Assertions.assertNotNull(ControllerRegistry.instance().getController(DeploymentInfoController.class));
+        Assertions.assertNotNull(ControllerRegistry.instance().getController(DeploymentInfoDlgController.class));
     }
 }

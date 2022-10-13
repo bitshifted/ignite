@@ -10,13 +10,13 @@
 
 package co.bitshifted.appforge.ignite;
 
-public final class IgniteConstants {
+public final class IgniteAppConstants {
 
     public static final String MESSAGE_BUNDLE_NAME = "i18n/strings";
-    public static final String DEFAULT_CONFIG_FILE_NAME = "ignite-config.yaml";
+    public static final String DEFAULT_CONFIG_FILE_NAME = "ignite-config.yml";
     public static final String STORAGE_DIR_NAME = ".ignite";
 
-    private IgniteConstants() {
+    private IgniteAppConstants() {
 
     }
 }

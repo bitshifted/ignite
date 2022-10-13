@@ -10,53 +10,47 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
-import co.bitshifted.appforge.ignite.Ignite;
-import co.bitshifted.appforge.ignite.IgniteConstants;
 import co.bitshifted.appforge.ignite.model.DependencyManagementType;
-import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
-import javafx.event.ActionEvent;
+import co.bitshifted.appforge.ignite.model.Server;
+import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.DirectoryChooser;
-import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class DeploymentInfoController {
+public class DeploymentInfoController implements ChangeListener<DeploymentTreeItem> {
 
-    @FXML
-    private ComboBox<DependencyManagementType> dependencyCombo;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeploymentInfoController.class);
+
     @FXML
     private TextField projectLocationField;
     @FXML
     private TextField configFileNameField;
+    @FXML
+    private ComboBox<DependencyManagementType> dependencyCombo;
+    @FXML
+    private ComboBox<Server> serverCombo;
 
     @FXML
     public void initialize() {
         dependencyCombo.getItems().addAll(DependencyManagementType.values());
-        dependencyCombo.getSelectionModel().select(DependencyManagementType.MAVEN);
-        configFileNameField.setText(IgniteConstants.DEFAULT_CONFIG_FILE_NAME);
+        serverCombo.itemsProperty().bindBidirectional(RuntimeData.getInstance().getServersList());
+        RuntimeData.getInstance().selectedDeploymentTreeITemProperty().addListener(this);
     }
 
-    @FXML
-    public void chooseProjectDirectory(ActionEvent event) {
-        var parent = ((Parent)event.getTarget()).getScene().getWindow();
-        var dirChooser = new DirectoryChooser();
-        var selectedDir = dirChooser.showDialog(parent);
-        if(selectedDir != null) {
-            projectLocationField.setText(selectedDir.getAbsolutePath());
+    @Override
+    public void changed(ObservableValue<? extends DeploymentTreeItem> observableValue, DeploymentTreeItem oldValue, DeploymentTreeItem newValue) {
+        LOGGER.debug("DeploymentTreeItem changed");
+        var deployment = RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment();
+        if(deployment != null) {
+            projectLocationField.textProperty().bind(deployment.getLocationProperty());
+            configFileNameField.textProperty().bindBidirectional(deployment.getConfigFileNameProperty());
+            dependencyCombo.valueProperty().bindBidirectional(deployment.getDependencyManagementTypeProperty());
         }
-    }
-
-    public Callback<ButtonType, Deployment> getResultConverter() {
-        return buttonType -> {
-            if(buttonType == ButtonType.OK) {
-                return new Deployment(projectLocationField.getText(), dependencyCombo.getSelectionModel().getSelectedItem());
-            }
-            return null;
-        };
 
     }
 }

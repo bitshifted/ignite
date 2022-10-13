@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.model;
 
+import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -29,13 +30,13 @@ public class RuntimeData {
     private SimpleObjectProperty<UserData> userData;
     private SimpleListProperty<Server> serversList;
     private ObservableList<Deployment> deploymentsList;
-    private SimpleObjectProperty<Deployment> selectedDeployment;
+    private SimpleObjectProperty<DeploymentTreeItem> selectedDeploymentItem;
 
     private RuntimeData() {
         this.userData = new SimpleObjectProperty<>();
         this.serversList = new SimpleListProperty<>(FXCollections.observableArrayList());
         this.deploymentsList = FXCollections.observableArrayList();
-        this.selectedDeployment = new SimpleObjectProperty<>();
+        this.selectedDeploymentItem = new SimpleObjectProperty<>();
     }
 
     public void setUserData(UserData userData) {
@@ -64,9 +65,8 @@ public class RuntimeData {
         this.deploymentsList.add(deployment);
     }
 
-
-    public SimpleObjectProperty<Deployment> getSelectedDeployment() {
-        return selectedDeployment;
+    public SimpleObjectProperty<DeploymentTreeItem> selectedDeploymentTreeITemProperty() {
+        return selectedDeploymentItem;
     }
 
     public static RuntimeData getInstance() {

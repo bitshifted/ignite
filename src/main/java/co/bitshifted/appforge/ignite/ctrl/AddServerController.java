@@ -10,7 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
-import co.bitshifted.appforge.ignite.IgniteConstants;
+import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.Server;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
@@ -21,7 +21,6 @@ import javafx.util.Callback;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 public class AddServerController {
 
@@ -39,7 +38,7 @@ public class AddServerController {
 
     @FXML
     public void initialize() {
-        bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
+        bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
     }
 
     public Callback<ButtonType, Server> getResultConverter() {

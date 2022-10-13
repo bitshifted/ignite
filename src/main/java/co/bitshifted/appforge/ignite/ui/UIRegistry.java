@@ -10,11 +10,8 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
-import co.bitshifted.appforge.ignite.IgniteConstants;
-import co.bitshifted.appforge.ignite.ctrl.AddServerController;
-import co.bitshifted.appforge.ignite.ctrl.ControllerRegistry;
-import co.bitshifted.appforge.ignite.ctrl.DeploymentInfoController;
-import co.bitshifted.appforge.ignite.ctrl.ServerManagementController;
+import co.bitshifted.appforge.ignite.IgniteAppConstants;
+import co.bitshifted.appforge.ignite.ctrl.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
@@ -33,6 +30,7 @@ public class UIRegistry {
     // Component names
     public static final String MAIN_PAGE = "main-page";
     public static final String MAIN_MENU = "main-menu";
+    public static final String DEPLOYMENT_INFO_DLG = "deployment-info-dlg";
     public static final String DEPLOYMENT_INFO = "deployment-info";
     public static final String  APPLICATION_INFO_UI = "app-info";
     public static final String SERVER_MANAGEMENT = "server-management";
@@ -54,11 +52,12 @@ public class UIRegistry {
     }
 
     public void registerComponents() throws IOException {
-        var bundle = ResourceBundle.getBundle(IgniteConstants.MESSAGE_BUNDLE_NAME);
+        var bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
 
         loadWithController("/fxml/server-management.fxml", ServerManagementController.class, SERVER_MANAGEMENT, bundle);
         loadWithController("/fxml/new-server.fxml", AddServerController.class, ADD_SERVER_PANE, bundle);
         componentMap.put(APPLICATION_INFO_UI, FXMLLoader.load(getClass().getResource("/fxml/app-info.fxml"), bundle));
+        loadWithController("/fxml/deployment-info-dlg.fxml", DeploymentInfoDlgController.class, DEPLOYMENT_INFO_DLG, bundle);
         loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);
         componentMap.put(MAIN_MENU, mainMenu);

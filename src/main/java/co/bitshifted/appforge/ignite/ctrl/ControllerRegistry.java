@@ -32,6 +32,7 @@ public class ControllerRegistry {
     }
 
     public void registerControllers() {
+        controllerMap.put(DeploymentInfoDlgController.class.getName(), new DeploymentInfoDlgController());
         controllerMap.put(DeploymentInfoController.class.getName(), new DeploymentInfoController());
         controllerMap.put(MainMenuController.class.getName(), new MainMenuController());
         controllerMap.put(ServerManagementController.class.getName(), new ServerManagementController());
