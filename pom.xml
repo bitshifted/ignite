@@ -30,6 +30,7 @@
         <appforge-common.version>0.1.0-SNAPSHOT</appforge-common.version>
         <ikonli.version>12.3.1</ikonli.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+        <okhttp.version>4.9.0</okhttp.version>
     </properties>
 
     <dependencies>
@@ -101,9 +102,9 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-kotlin</artifactId>
-            <version>${jackson.version}</version>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
         </dependency>
         <dependency>
             <groupId>co.bitshifted.appforge</groupId>

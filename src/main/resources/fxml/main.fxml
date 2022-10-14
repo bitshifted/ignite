@@ -27,7 +27,11 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <AnchorPane fx:id="detailsPane" prefHeight="600.0" prefWidth="600.0" />
+            <BorderPane fx:id="detailsBorderPane" prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <AnchorPane fx:id="detailsPane" prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
         </items>
       </SplitPane>
    </center>

@@ -10,17 +10,28 @@
 
 package co.bitshifted.appforge.ignite.model;
 
+import co.bitshifted.appforge.ignite.persist.IgniteConfigPersister;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Deployment {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Deployment.class);
+
     private final String location;
+    @JsonIgnore
+    private final IgniteConfigPersister igniteConfigPersister;
+    private IgniteConfig igniteConfig;
 
     @JsonIgnore
     private final SimpleObjectProperty<String> locationProperty;
@@ -32,6 +43,7 @@ public final class Deployment {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public Deployment(@JsonProperty("location") String location) {
         this.location = location;
+        this.igniteConfigPersister = new IgniteConfigPersister();
 
         this.locationProperty = new SimpleObjectProperty<>(location);
         this.configFileNameProperty = new SimpleObjectProperty<>();
@@ -66,10 +78,24 @@ public final class Deployment {
     }
 
 
-    @JsonIgnore 
+    @JsonIgnore
     public IgniteConfig getConfiguration() {
-        return new IgniteConfig();
+       return igniteConfig;
     }
+
+    public void initConfiguration() {
+        var configPath = Path.of(location, configFileNameProperty.get());
+        try {
+            if (Files.exists(configPath)) {
+                igniteConfig = igniteConfigPersister.load(configPath.toString());
+            }
+
+        } catch (IOException ex) {
+            LOGGER.error("Failed to load Ignite configuration", ex);
+        }
+        igniteConfig = new IgniteConfig();
+    }
+
 
     // property getters
     public SimpleObjectProperty<String> getLocationProperty() {

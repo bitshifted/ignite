@@ -20,6 +20,14 @@ public final class Server {
     private  String name;
     private  String baseUrl;
 
+    public Server() {
+
+    }
+
+    public Server(String name, String url) {
+        this.name = name;
+        this.baseUrl = url;
+    }
 
     public String getName() {
         return name;
@@ -42,4 +50,16 @@ public final class Server {
         return name + " (" + baseUrl + ")";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Server server = (Server) o;
+        return Objects.equals(baseUrl, server.baseUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseUrl);
+    }
 }

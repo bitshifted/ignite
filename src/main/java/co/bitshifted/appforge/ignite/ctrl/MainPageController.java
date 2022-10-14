@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.bootstrapicons.BootstrapIcons;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -38,10 +39,13 @@ public class MainPageController implements ListChangeListener<Deployment> {
     private TreeView<DeploymentTreeItem> deploymentTree;
     @FXML
     private AnchorPane detailsPane;
+    @FXML
+    private BorderPane detailsBorderPane;
 
     @FXML
     public void initialize() {
         createDeploymentTree();
+        detailsBorderPane.setBottom(UIRegistry.instance().getComponent(UIRegistry.PROJECT_BUTTONS_BAR));
         RuntimeData.getInstance().getDeploymentsList().addListener(this);
     }
 
@@ -53,7 +57,8 @@ public class MainPageController implements ListChangeListener<Deployment> {
         Platform.runLater(() -> {
             try {
                 var deployments = RuntimeData.getInstance().getDeploymentsList();
-                deployments.stream().forEach(d -> deploymentTree.getRoot().getChildren().add(createDeploymentNode(d)));
+                deployments.stream().forEach(d ->
+                    deploymentTree.getRoot().getChildren().add(createDeploymentNode(d)));
             } catch(Exception ex) {
                 LOGGER.error("Failed to load deployment list", ex);
             }

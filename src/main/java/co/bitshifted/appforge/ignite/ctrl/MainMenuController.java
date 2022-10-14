@@ -54,7 +54,6 @@ public class MainMenuController {
         var result = dialog.showAndWait();
         if(result.isPresent()) {
             RuntimeData.getInstance().addDeployment(result.get());
-
             try {
                 UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
             } catch(IOException ex) {

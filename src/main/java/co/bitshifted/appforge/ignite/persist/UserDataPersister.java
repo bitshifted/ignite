@@ -46,7 +46,9 @@ public class UserDataPersister {
     public UserData load() throws IOException {
         var path = getStoragePath();
         if(Files.exists(path)) {
-            return mapper.readValue(path.toFile(), UserData.class);
+            var userData = mapper.readValue(path.toFile(), UserData.class);
+            userData.getDeployments().forEach(d -> d.initConfiguration());
+            return userData;
         }
         return new UserData();
     }

@@ -50,6 +50,7 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
             projectLocationField.textProperty().bind(deployment.getLocationProperty());
             configFileNameField.textProperty().bindBidirectional(deployment.getConfigFileNameProperty());
             dependencyCombo.valueProperty().bindBidirectional(deployment.getDependencyManagementTypeProperty());
+            serverCombo.valueProperty().bindBidirectional(deployment.getConfiguration().serverProperty());
         }
 
     }

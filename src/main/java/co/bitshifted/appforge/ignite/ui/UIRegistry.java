@@ -35,6 +35,7 @@ public class UIRegistry {
     public static final String  APPLICATION_INFO_UI = "app-info";
     public static final String SERVER_MANAGEMENT = "server-management";
     public static final String ADD_SERVER_PANE = "add-server-pane";
+    public static final String PROJECT_BUTTONS_BAR = "project-button-bar";
 
     static {
         INSTANCE = new UIRegistry();
@@ -54,6 +55,7 @@ public class UIRegistry {
     public void registerComponents() throws IOException {
         var bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
 
+        componentMap.put(PROJECT_BUTTONS_BAR, FXMLLoader.load(getClass().getResource("/fxml/project-button-bar.fxml"), bundle));
         loadWithController("/fxml/server-management.fxml", ServerManagementController.class, SERVER_MANAGEMENT, bundle);
         loadWithController("/fxml/new-server.fxml", AddServerController.class, ADD_SERVER_PANE, bundle);
         componentMap.put(APPLICATION_INFO_UI, FXMLLoader.load(getClass().getResource("/fxml/app-info.fxml"), bundle));
