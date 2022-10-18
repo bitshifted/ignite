@@ -88,12 +88,14 @@ public final class Deployment {
         try {
             if (Files.exists(configPath)) {
                 igniteConfig = igniteConfigPersister.load(configPath.toString());
+            } else {
+                igniteConfig = new IgniteConfig();
             }
 
         } catch (IOException ex) {
             LOGGER.error("Failed to load Ignite configuration", ex);
         }
-        igniteConfig = new IgniteConfig();
+
     }
 
 

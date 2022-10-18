@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.model;
 
+import co.bitshifted.appforge.common.dto.ApplicationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -24,16 +25,17 @@ public class IgniteConfig {
     @JsonIgnore
     private final SimpleObjectProperty<Server> serverProperty;
     @JsonIgnore
+    private final SimpleObjectProperty<ApplicationDTO> applicationIdProperty;
+    @JsonIgnore
     private final SimpleBooleanProperty dirtyProperty;
 
     public IgniteConfig() {
         this.serverProperty = new SimpleObjectProperty<>();
+        this.applicationIdProperty = new SimpleObjectProperty<>();
         this.dirtyProperty = new SimpleBooleanProperty(false);
 
-        this.serverProperty.addListener((observableValue, server, t1) -> {
-            System.out.println("server changed");
-            dirtyProperty.set(true);
-        });
+        this.serverProperty.addListener((observableValue, server, t1) -> dirtyProperty.set(true));
+        this.applicationIdProperty.addListener((observable, oldValue, newValue) -> dirtyProperty.set(true));
     }
 
     @JsonProperty("server-url")
@@ -46,19 +48,27 @@ public class IgniteConfig {
         return serverProperty.get().getBaseUrl();
     }
 
+    @JsonProperty("application-id")
+    public void setApplicationId(String id) {
+        var app = new ApplicationDTO();
+        app.setId(id);
+        applicationIdProperty.set(app);
+    }
+
+    public String getApplicationId() {
+        return applicationIdProperty.get().getId();
+    }
+
     public SimpleObjectProperty<Server> serverProperty() {
         return serverProperty;
+    }
+
+    public SimpleObjectProperty<ApplicationDTO> applicationIdProperty() {
+        return applicationIdProperty;
     }
 
     public SimpleBooleanProperty dirtyProperty() {
         return dirtyProperty;
     }
 
-//    @JsonProperty("server-url")
-//    private String serverUrl;
-//    @JsonProperty("application-id")
-//    private String applicationId;
-//    private ApplicationInfo applicationInfo;
-//    private List<BasicResource> resources;
-//    private JvmConfigurationDTO jvmConfigurationDTO;
 }

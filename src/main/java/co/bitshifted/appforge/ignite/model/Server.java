@@ -11,55 +11,22 @@
 package co.bitshifted.appforge.ignite.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
-import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Server {
 
     private  String name;
+    @EqualsAndHashCode.Include
     private  String baseUrl;
-
-    public Server() {
-
-    }
-
-    public Server(String name, String url) {
-        this.name = name;
-        this.baseUrl = url;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
 
     @Override
     public String toString() {
         return name + " (" + baseUrl + ")";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Server server = (Server) o;
-        return Objects.equals(baseUrl, server.baseUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(baseUrl);
     }
 }

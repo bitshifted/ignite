@@ -27,6 +27,7 @@ public class Ignite extends Application {
     @Override
     public void init() throws Exception {
         super.init();
+        TaskExecutor.getInstance();
         // initialize application
         var userData = UserDataPersister.instance().load();
         RuntimeData.getInstance().setUserData(userData);

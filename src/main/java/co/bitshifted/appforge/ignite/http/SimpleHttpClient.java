@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class SimpleHttpClient {
 
@@ -30,11 +31,12 @@ public class SimpleHttpClient {
     private final ObjectMapper mapper;
 
     public SimpleHttpClient() {
-        this.okHttpClient = new OkHttpClient.Builder().build();
+        this.okHttpClient = new OkHttpClient.Builder().callTimeout(10, TimeUnit.SECONDS).build();
         this.mapper = new ObjectMapper();
     }
 
     public List<ApplicationDTO> listApplication() throws IOException {
+        LOGGER.debug("Getting applications list...");
         var serverUrl = RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment().getConfiguration().getServerUrl();
         var target = new StringBuilder(serverUrl);
         if(serverUrl.endsWith("/")) {
@@ -46,7 +48,7 @@ public class SimpleHttpClient {
         var request = new Request.Builder().url(target.toString()).get().build();
         var call = okHttpClient.newCall(request);
         var response = call.execute();
-        var type = mapper.getTypeFactory().constructCollectionType(List.class, ApplicationDTO.class);
-        return mapper.readValue(response.body().byteStream(), type);
+        var appList = mapper.readValue(response.body().byteStream(), AppListContentDTO.class);
+        return appList.getContent();
     }
 }
