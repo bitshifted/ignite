@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ctrl;
 
+import co.bitshifted.appforge.common.dto.ApplicationDTO;
 import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
@@ -36,6 +37,8 @@ public class MainMenuController {
     private MenuItem newDeploymentMenuItem;
     @FXML
     private MenuItem serverConfigMenuItem;
+    @FXML
+    private MenuItem appConfigMenuItem;
 
     public MainMenuController() {
         this.bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
@@ -70,6 +73,21 @@ public class MainMenuController {
             .withButtonTypes(ButtonType.OK, ButtonType.CANCEL)
             .build();
          dialog.showAndWait();
+
+    }
+
+    @FXML
+    public void appConfigMenuAction() {
+        try {
+            var dialog = DialogBuilder.newBuilder(ApplicationDTO.class)
+                .withTitle(bundle.getString("app.mgmt.dialog.title"))
+                .withFxmlContent("/fxml/app-list-pane.fxml", bundle, new AppManagementController())
+                .withButtonTypes(ButtonType.OK, ButtonType.CANCEL)
+                .build();
+            dialog.showAndWait();
+        } catch(IOException ex) {
+            LOGGER.error("Failed to open dialog", ex);
+        }
 
     }
 }

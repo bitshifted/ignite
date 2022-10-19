@@ -10,10 +10,14 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.util.Callback;
+
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 
 public class DialogBuilder<T> {
@@ -45,6 +49,14 @@ public class DialogBuilder<T> {
 
     public DialogBuilder<T> withResultConverter(Callback<ButtonType, T> converter) {
         dialog.setResultConverter(converter);
+        return this;
+    }
+
+    public DialogBuilder<T> withFxmlContent(String fxmlFile, ResourceBundle bundle, Object controller) throws IOException {
+        var loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        loader.setResources(bundle);
+        loader.setController(controller);
+        dialog.getDialogPane().setContent(loader.load());
         return this;
     }
 

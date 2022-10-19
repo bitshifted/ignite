@@ -51,6 +51,7 @@ public class ProjectButtonsController implements ChangeListener<DeploymentTreeIt
         var fileName = deployment.getConfigFileName();
         try {
             persister.save(deployment.getConfiguration(), Path.of(dir, fileName));
+            RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment().getConfiguration().dirtyProperty().set(false);
         } catch(IOException ex) {
             LOGGER.error("Failed to save deployment", ex);
         }

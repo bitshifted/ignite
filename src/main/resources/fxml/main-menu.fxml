@@ -14,6 +14,7 @@
       <Menu mnemonicParsing="false" text="%menu.main.configuration">
         <items>
           <MenuItem fx:id="serverConfigMenuItem" mnemonicParsing="false" onAction="#serverConfigMenuAction" text="%menu.main.configuration.server" />
+            <MenuItem fx:id="appConfigMenuItem" mnemonicParsing="false" onAction="#appConfigMenuAction" text="%menu.main.configuration.apps" />
         </items>
       </Menu>
   </menus>

@@ -45,6 +45,8 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
     private ComboBox<ApplicationDTO> applicationsCombo;
     @FXML
     private ProgressIndicator appLoadProgress;
+    @FXML
+    private Label appListErrorLabel;
 
     @FXML
     public void initialize() {
@@ -86,23 +88,27 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
             client = new SimpleHttpClient();
             this.deployment = deployment;
             valueProperty().addListener((observableValue, oldValue, newValue) -> {
-                DeploymentInfoController.this.applicationsCombo.setItems(FXCollections.observableList(newValue));
                 // update application based on ID
                 var appOptional = newValue.stream().filter(d -> d.getId().equals(deployment.getConfiguration().getApplicationId())).findFirst();
                 if(appOptional.isPresent()) {
                     LOGGER.debug("Found application with ID {}: {}", deployment.getConfiguration().getApplicationId(), appOptional.get());
+                    DeploymentInfoController.this.applicationsCombo.setItems(FXCollections.observableList(newValue));
                     deployment.getConfiguration().applicationIdProperty().set(appOptional.get());
                 }
             });
             stateProperty().addListener(((observableValue, oldValue, newValue) -> {
                 LOGGER.debug("running property listener: {}", newValue);
                 if(newValue == State.RUNNING) {
+                    appListErrorLabel.setVisible(false);
                     Platform.runLater(() -> appLoadProgress.setVisible(true));
                 } else {
                     Platform.runLater(() -> appLoadProgress.setVisible(false));
                 }
                 if(newValue == State.FAILED) {
                     LOGGER.error("list apps failed", getException());
+                    var msg = processErrorMessage(getException());
+                    appListErrorLabel.setText(msg);
+                    appListErrorLabel.setVisible(true);
                 }
             }));
         }
@@ -125,5 +131,19 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
                 setText(null);
             }
         }
+    }
+
+    private String processErrorMessage(Throwable ex) {
+        var sb = new StringBuilder();
+        var msg = ex.getMessage();
+        if (msg != null) {
+            sb.append(msg);
+        }
+        var cause = ex.getCause();
+        if(cause != null) {
+            var causeMsg = cause.getMessage();
+            sb.append("\n").append(causeMsg);
+        }
+        return sb.toString();
     }
 }
