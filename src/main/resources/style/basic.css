@@ -1,0 +1,15 @@
+
+.error-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #ee0707;
+}
+
+.app-title-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.app-headline-label {
+    -fx-font-style: italic;
+    -fx-text-fill: darkgray;
+}

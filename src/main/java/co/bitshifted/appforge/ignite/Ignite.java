@@ -15,8 +15,10 @@ import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.persist.UserDataPersister;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class Ignite extends Application {
@@ -39,9 +41,13 @@ public class Ignite extends Application {
     public void start(Stage stage) throws Exception {
         UIRegistry.instance().setMainWindow(stage);
         var scene = new Scene(UIRegistry.instance().getComponent(UIRegistry.MAIN_PAGE), DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        scene.getStylesheets().add(getClass().getClassLoader().getResource(IgniteAppConstants.BASIC_CSS).toExternalForm());
 
         stage.setTitle("Ignite");
         stage.setScene(scene);
+        stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, windowEvent -> {
+            TaskExecutor.getInstance().stop();
+        });
         stage.show();
     }
 

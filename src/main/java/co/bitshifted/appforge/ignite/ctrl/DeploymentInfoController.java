@@ -68,7 +68,8 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
             serverCombo.valueProperty().bindBidirectional(deployment.getConfiguration().serverProperty());
             serverCombo.getSelectionModel().selectedItemProperty().addListener((obsValue, old, newVal) -> {
                 LOGGER.debug("Server selection changed");
-            TaskExecutor.getInstance().start(new ListAppsWorker(deployment));
+                TaskExecutor.getInstance().start(new ListAppsWorker(deployment));
+//            TaskExecutor.getInstance().start(setupWorker(deployment));
             });
             applicationsCombo.valueProperty().bindBidirectional(deployment.getConfiguration().applicationIdProperty());
             // load applications
@@ -78,6 +79,35 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
 
         }
     }
+
+//    private ListAppsWorker setupWorker(Deployment dpl) {
+//        var worker = new ListAppsWorker(dpl);
+//        worker.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+//            // update application based on ID
+//            var appOptional = newValue.stream().filter(d -> d.getId().equals(worker.getDeployment().getConfiguration().getApplicationId())).findFirst();
+//            if(appOptional.isPresent()) {
+//                LOGGER.debug("Found application with ID {}: {}", worker.getDeployment().getConfiguration().getApplicationId(), appOptional.get());
+//                DeploymentInfoController.this.applicationsCombo.setItems(FXCollections.observableList(newValue));
+//                worker.getDeployment().getConfiguration().applicationIdProperty().set(appOptional.get());
+//            }
+//        });
+//        worker.stateProperty().addListener((observableValue, oldValue, newValue) -> {
+//            LOGGER.debug("running property listener: {}", newValue);
+//                if(newValue == Worker.State.RUNNING) {
+//                    appListErrorLabel.setVisible(false);
+//                    Platform.runLater(() -> appLoadProgress.setVisible(true));
+//                } else {
+//                    Platform.runLater(() -> appLoadProgress.setVisible(false));
+//                }
+//                if(newValue == Worker.State.FAILED) {
+//                    LOGGER.error("list apps failed", worker.getException());
+//                    var msg = processErrorMessage(worker.getException());
+//                    appListErrorLabel.setText(msg);
+//                    appListErrorLabel.setVisible(true);
+//                }
+//        });
+//        return worker;
+//    }
 
     private class ListAppsWorker extends Task<List<ApplicationDTO>> {
 
@@ -115,7 +145,7 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
 
         @Override
         protected List<ApplicationDTO> call() throws Exception {
-            return client.listApplication();
+            return client.listApplication(serverCombo.getSelectionModel().getSelectedItem().getBaseUrl());
         }
 
 

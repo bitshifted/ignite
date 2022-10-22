@@ -50,7 +50,7 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <children>
             <ComboBox fx:id="applicationsCombo" prefHeight="26.0" prefWidth="207.0" />
-            <Label fx:id="appListErrorLabel" text="Label" textFill="#ee0707" visible="false">
+            <Label fx:id="appListErrorLabel" styleClass="error-label" text="Label" textFill="#1e1c1c" visible="false">
                <font>
                   <Font size="11.0" />
                </font>

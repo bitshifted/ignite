@@ -43,4 +43,8 @@ public class TaskExecutor {
         return executor.submit(worker);
     }
 
+    public void stop() {
+        executor.shutdown();
+    }
+
 }

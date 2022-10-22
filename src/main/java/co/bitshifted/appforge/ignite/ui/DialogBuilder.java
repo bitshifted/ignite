@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
+import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
@@ -61,6 +62,7 @@ public class DialogBuilder<T> {
     }
 
     public Dialog<T> build() {
+        dialog.getDialogPane().getStylesheets().add(getClass().getClassLoader().getResource(IgniteAppConstants.BASIC_CSS).toExternalForm());
         return dialog;
     }
 

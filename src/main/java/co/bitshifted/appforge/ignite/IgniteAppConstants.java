@@ -16,6 +16,9 @@ public final class IgniteAppConstants {
     public static final String DEFAULT_CONFIG_FILE_NAME = "ignite-config.yml";
     public static final String STORAGE_DIR_NAME = ".ignite";
 
+    // stylesheets
+    public static final String BASIC_CSS = "style/basic.css";
+
     private IgniteAppConstants() {
 
     }
