@@ -32,6 +32,9 @@ public class DeploymentTreeCellFactory implements Callback<TreeView<DeploymentTr
                 case ROOT ->  "Deployments";
                 case DEPLOYMENT -> deploymentTreeItem.deployment().getName();
                 case APPLICATION_INFO -> "Application Info";
+                case APPLICATION_INFO_WINDOWS -> "Windows";
+                case APPLICATION_INFO_MAC -> "Mac";
+                case APPLICATION_INFO_LINUX -> "Linux";
                 case JVM -> "JVM";
                 case RESOURCES -> "Resources";
             };

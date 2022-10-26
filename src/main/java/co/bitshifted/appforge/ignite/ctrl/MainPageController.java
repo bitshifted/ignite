@@ -66,7 +66,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
         });
         deploymentTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             RuntimeData.getInstance().selectedDeploymentTreeITemProperty().set(newValue.getValue());
-            LOGGER.debug("Deployment selection changed");
+            LOGGER.debug("Deployment selection changed. Type: {}", newValue.getValue().type());
             switch (newValue.getValue().type()) {
                 case DEPLOYMENT -> setupDetailsPane(UIRegistry.DEPLOYMENT_INFO);
                 case APPLICATION_INFO -> setupDetailsPane(UIRegistry.APPLICATION_INFO_UI);
@@ -82,7 +82,12 @@ public class MainPageController implements ListChangeListener<Deployment> {
 
     private TreeItem<DeploymentTreeItem> createDeploymentNode(Deployment deployment) {
         var node = new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.DEPLOYMENT), getIcon(BootstrapIcons.BRIEFCASE));
-        node.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.APPLICATION_INFO), getIcon(BootstrapIcons.INFO_SQUARE)));
+        var appInfoNode = new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.APPLICATION_INFO), getIcon(BootstrapIcons.INFO_SQUARE));
+        // add per-OS application info
+        appInfoNode.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.APPLICATION_INFO_WINDOWS), getIcon(Devicons.WINDOWS)));
+        appInfoNode.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.APPLICATION_INFO_MAC), getIcon(Devicons.APPLE)));
+        appInfoNode.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.APPLICATION_INFO_LINUX), getIcon(Devicons.LINUX)));
+        node.getChildren().add(appInfoNode);
         node.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.JVM), getIcon(Devicons.JAVA)));
         node.getChildren().add(new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.RESOURCES), getIcon(BootstrapIcons.ARCHIVE)));
         return node;

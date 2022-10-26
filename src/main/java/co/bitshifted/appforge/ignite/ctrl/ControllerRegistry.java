@@ -37,6 +37,7 @@ public class ControllerRegistry {
         controllerMap.put(MainMenuController.class.getName(), new MainMenuController());
         controllerMap.put(ServerManagementController.class.getName(), new ServerManagementController());
         controllerMap.put(AddServerController.class.getName(), new AddServerController());
+        controllerMap.put(AppInfoController.class.getName(), new AppInfoController());
     }
 
     public  <T> T getController(Class<T> clazz) {

@@ -11,6 +11,8 @@
 package co.bitshifted.appforge.ignite.model;
 
 import co.bitshifted.appforge.common.dto.ApplicationDTO;
+import co.bitshifted.appforge.common.model.ApplicationInfo;
+import co.bitshifted.appforge.ignite.model.ui.ApplicationInfoUIModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,12 +29,15 @@ public class IgniteConfig {
     @JsonIgnore
     private final SimpleObjectProperty<ApplicationDTO> applicationIdProperty;
     @JsonIgnore
+    private final SimpleObjectProperty<ApplicationInfoUIModel> applicationInfoProperty;
+    @JsonIgnore
     private final SimpleBooleanProperty dirtyProperty;
 
     public IgniteConfig() {
         this.serverProperty = new SimpleObjectProperty<>();
         this.applicationIdProperty = new SimpleObjectProperty<>();
         this.dirtyProperty = new SimpleBooleanProperty(false);
+        this.applicationInfoProperty = new SimpleObjectProperty<>();
 
         this.serverProperty.addListener((observableValue, server, t1) -> dirtyProperty.set(true));
         this.applicationIdProperty.addListener((observable, oldValue, newValue) -> dirtyProperty.set(true));
@@ -59,12 +64,29 @@ public class IgniteConfig {
         return applicationIdProperty.get().getId();
     }
 
+    @JsonProperty("application-info")
+    public void setApplicationInfo(ApplicationInfo appInfo) {
+        if(appInfo != null) {
+            this.applicationInfoProperty.set(new ApplicationInfoUIModel(appInfo));
+        } else {
+            this.applicationInfoProperty.set(new ApplicationInfoUIModel(new ApplicationInfo()));
+        }
+    }
+
+    public ApplicationInfo getApplicationInfo() {
+        return this.applicationInfoProperty.get().getSource();
+    }
+
     public SimpleObjectProperty<Server> serverProperty() {
         return serverProperty;
     }
 
     public SimpleObjectProperty<ApplicationDTO> applicationIdProperty() {
         return applicationIdProperty;
+    }
+
+    public SimpleObjectProperty<ApplicationInfoUIModel> applicationInfoProperty() {
+        return applicationInfoProperty;
     }
 
     public SimpleBooleanProperty dirtyProperty() {

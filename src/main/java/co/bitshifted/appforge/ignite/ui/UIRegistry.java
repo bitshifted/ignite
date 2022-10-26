@@ -58,7 +58,7 @@ public class UIRegistry {
         componentMap.put(PROJECT_BUTTONS_BAR, FXMLLoader.load(getClass().getResource("/fxml/project-button-bar.fxml"), bundle));
         loadWithController("/fxml/server-management.fxml", ServerManagementController.class, SERVER_MANAGEMENT, bundle);
         loadWithController("/fxml/new-server.fxml", AddServerController.class, ADD_SERVER_PANE, bundle);
-        componentMap.put(APPLICATION_INFO_UI, FXMLLoader.load(getClass().getResource("/fxml/app-info.fxml"), bundle));
+        loadWithController("/fxml/app-info.fxml", AppInfoController.class, APPLICATION_INFO_UI, bundle);
         loadWithController("/fxml/deployment-info-dlg.fxml", DeploymentInfoDlgController.class, DEPLOYMENT_INFO_DLG, bundle);
         loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);
@@ -68,6 +68,13 @@ public class UIRegistry {
         componentMap.put(MAIN_PAGE, mainPage);
         // layout
         mainPage.setTop(mainMenu);
+    }
+
+    public Parent createView(String fxmlFile, ResourceBundle bundle, Object controller) throws IOException {
+        var loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        loader.setResources(bundle);
+        loader.setController(controller);
+        return loader.load();
     }
 
     public Parent getComponent(String name) {
