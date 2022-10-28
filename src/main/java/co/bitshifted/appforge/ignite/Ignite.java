@@ -15,8 +15,8 @@ import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.persist.UserDataPersister;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -45,6 +45,11 @@ public class Ignite extends Application {
 
         stage.setTitle("Ignite");
         stage.setScene(scene);
+        stage.getIcons().addAll(
+            new Image(getClass().getResourceAsStream(IgniteAppConstants.IGNITE_ICON_x32)),
+            new Image(getClass().getResourceAsStream(IgniteAppConstants.IGNITE_ICON_x64)),
+            new Image(getClass().getResourceAsStream(IgniteAppConstants.IGNITE_ICON_128))
+        );
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, windowEvent -> {
             TaskExecutor.getInstance().stop();
         });

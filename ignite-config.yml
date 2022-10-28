@@ -6,8 +6,12 @@ application-info:
     source: "LICENSE"
     target: "LICENSE"
     executable: false
+  splash-screen:
+    source: "resources/ignite-splash-screen.png"
+    target: "splash.png"
+    executable: false
   exe-name: "ignite"
   supported-operating-systems:
-  - "linux"
-  - "mac"
   - "windows"
+  - "mac"
+  - "linux"

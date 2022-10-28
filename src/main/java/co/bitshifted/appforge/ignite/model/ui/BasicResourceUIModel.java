@@ -26,8 +26,8 @@ public class BasicResourceUIModel {
         } else {
             this.resource = new BasicResource();
         }
-        this.sourceProperty = new SimpleStringProperty(resource.getSource());
-        this.targetProperty = new SimpleStringProperty(resource.getTarget());
+        this.sourceProperty = new SimpleStringProperty(this.resource.getSource());
+        this.targetProperty = new SimpleStringProperty(this.resource.getTarget());
 
     }
 
@@ -40,6 +40,11 @@ public class BasicResourceUIModel {
     }
 
     public BasicResource getResource() {
+        // if no source, assume that property is empty
+        var src = sourceProperty.get();
+        if(src == null || src.isEmpty() || src.isBlank()) {
+            return null;
+        }
         resource.setSource(sourceProperty.get());
         resource.setTarget(targetProperty.get());
         return  resource;

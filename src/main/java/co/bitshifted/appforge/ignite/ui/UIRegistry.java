@@ -33,6 +33,7 @@ public class UIRegistry {
     public static final String DEPLOYMENT_INFO_DLG = "deployment-info-dlg";
     public static final String DEPLOYMENT_INFO = "deployment-info";
     public static final String  APPLICATION_INFO_UI = "app-info";
+    public static final String  APPLICATION_INFO_LINUX_UI = "app-info-linux";
     public static final String SERVER_MANAGEMENT = "server-management";
     public static final String ADD_SERVER_PANE = "add-server-pane";
     public static final String PROJECT_BUTTONS_BAR = "project-button-bar";
@@ -59,6 +60,7 @@ public class UIRegistry {
         loadWithController("/fxml/server-management.fxml", ServerManagementController.class, SERVER_MANAGEMENT, bundle);
         loadWithController("/fxml/new-server.fxml", AddServerController.class, ADD_SERVER_PANE, bundle);
         loadWithController("/fxml/app-info.fxml", AppInfoController.class, APPLICATION_INFO_UI, bundle);
+        loadWithController("/fxml/app-info-linux.fxml", AppInfoLinuxController.class, APPLICATION_INFO_LINUX_UI, bundle);
         loadWithController("/fxml/deployment-info-dlg.fxml", DeploymentInfoDlgController.class, DEPLOYMENT_INFO_DLG, bundle);
         loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);

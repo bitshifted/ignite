@@ -21,9 +21,8 @@ import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +32,7 @@ import java.util.ResourceBundle;
 public class AppInfoController implements ChangeListener<DeploymentTreeItem> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppInfoController.class);
+    private static final String SPLASH_VBOX_ID = "#splashVbox";
     private ResourceBundle bundle;
 
     @FXML
@@ -45,6 +45,8 @@ public class AppInfoController implements ChangeListener<DeploymentTreeItem> {
     private TitledPane licensePane;
     @FXML
     private TextField execNameField;
+    @FXML
+    private TitledPane splashScreenPane;
 
     @FXML
     public void initialize() {
@@ -55,7 +57,6 @@ public class AppInfoController implements ChangeListener<DeploymentTreeItem> {
 
     @Override
     public void changed(ObservableValue<? extends DeploymentTreeItem> observableValue, DeploymentTreeItem oldValue, DeploymentTreeItem newValue) {
-        LOGGER.debug("Deployment tree item changed");
         if(newValue.type() == DeploymentItemType.APPLICATION_INFO) {
             var selectedDeployment = newValue.deployment();
             var appInfoUiModel = selectedDeployment.getConfiguration().applicationInfoProperty().get();
@@ -74,9 +75,14 @@ public class AppInfoController implements ChangeListener<DeploymentTreeItem> {
                 appInfoUiModel.execNameProperty().set(RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment().getName());
             }
             try{
-                var controller = new BasicResourceController(appInfoUiModel.getLicenseUiModel());
-                var content = UIRegistry.instance().createView("/fxml/basic-resource-view.fxml", bundle, controller);
+                var licenseController = new BasicResourceController(appInfoUiModel.getLicenseUiModel());
+                var content = UIRegistry.instance().createView("/fxml/basic-resource-view.fxml", bundle, licenseController);
                 licensePane.setContent(content);
+                // splash screen
+                var splashController = new BasicResourceController(appInfoUiModel.getSplashScreenUiModel());
+                var splashContent = UIRegistry.instance().createView("/fxml/basic-resource-view.fxml", bundle, splashController);
+                var splashVbox = (VBox)splashScreenPane.getContent().lookup(SPLASH_VBOX_ID);
+                splashVbox.getChildren().add(splashContent);
             } catch(IOException ex) {
                 LOGGER.error("Failed to create view", ex);
             }

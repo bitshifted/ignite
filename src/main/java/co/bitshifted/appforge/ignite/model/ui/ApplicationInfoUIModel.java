@@ -19,7 +19,7 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ApplicationInfoUIModel extends ApplicationInfo {
+public class ApplicationInfoUIModel {
 
     private ApplicationInfo source;
 
@@ -28,6 +28,7 @@ public class ApplicationInfoUIModel extends ApplicationInfo {
     private final SimpleBooleanProperty macSupportedProperty;
     private final SimpleBooleanProperty linuxSupportedProperty;
     private final SimpleStringProperty execNameProperty;
+    private final BasicResourceUIModel splashScreenUiModel;
 
     public ApplicationInfoUIModel(ApplicationInfo source) {
         this.source = source;
@@ -36,6 +37,7 @@ public class ApplicationInfoUIModel extends ApplicationInfo {
         this.macSupportedProperty = new SimpleBooleanProperty(source != null && source.getSupportedOperatingSystems().contains(OperatingSystem.MAC));
         this.linuxSupportedProperty = new SimpleBooleanProperty(source != null && source.getSupportedOperatingSystems().contains(OperatingSystem.LINUX));
         this.execNameProperty = new SimpleStringProperty(source.getExeName());
+        this.splashScreenUiModel = new BasicResourceUIModel(source.getSplashScreen());
     }
 
     public BasicResourceUIModel getLicenseUiModel() {
@@ -58,10 +60,15 @@ public class ApplicationInfoUIModel extends ApplicationInfo {
         return execNameProperty;
     }
 
+    public BasicResourceUIModel getSplashScreenUiModel() {
+        return splashScreenUiModel;
+    }
+
     public ApplicationInfo getSource() {
         source.setLicense(licenseUiModel.getResource());
         source.setSupportedOperatingSystems(getSupportedSystems());
         source.setExeName(execNameProperty.get());
+        source.setSplashScreen(splashScreenUiModel.getResource());
         return source;
     }
 

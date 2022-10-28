@@ -34,6 +34,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
     private static final int treeIconsSIze = 17;
+    private static final double anchorDistance = 10.0;
 
     @FXML
     private TreeView<DeploymentTreeItem> deploymentTree;
@@ -70,6 +71,7 @@ public class MainPageController implements ListChangeListener<Deployment> {
             switch (newValue.getValue().type()) {
                 case DEPLOYMENT -> setupDetailsPane(UIRegistry.DEPLOYMENT_INFO);
                 case APPLICATION_INFO -> setupDetailsPane(UIRegistry.APPLICATION_INFO_UI);
+                case APPLICATION_INFO_LINUX -> setupDetailsPane(UIRegistry.APPLICATION_INFO_LINUX_UI);
             }
         });
     }
@@ -96,6 +98,10 @@ public class MainPageController implements ListChangeListener<Deployment> {
     private void setupDetailsPane(String name) {
         detailsPane.getChildren().clear();
         detailsPane.getChildren().add(UIRegistry.instance().getComponent(name));
+        AnchorPane.setTopAnchor(detailsPane.getChildren().get(0), anchorDistance);
+        AnchorPane.setLeftAnchor(detailsPane.getChildren().get(0), anchorDistance);
+        AnchorPane.setRightAnchor(detailsPane.getChildren().get(0), anchorDistance);
+        AnchorPane.setBottomAnchor(detailsPane.getChildren().get(0), anchorDistance);
     }
 
     @Override

@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <VBox fx:id="contentVbox" alignment="CENTER" spacing="10.0">
+      <VBox fx:id="contentVbox" alignment="TOP_CENTER" spacing="10.0">
          <children>
             <TitledPane collapsible="false" prefHeight="67.0" prefWidth="555.0" text="%appinfo.title.supportedos">
                <content>
@@ -35,6 +35,15 @@
                </children>
             </HBox>
             <TitledPane fx:id="licensePane" collapsible="false" text="%appinfo.title.license" />
+            <TitledPane fx:id="splashScreenPane" collapsible="false" prefHeight="200.0" prefWidth="200.0" text="%appinfo.title.splash">
+               <content>
+                  <VBox fx:id="splashVbox" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label text="%appinfo.splash.info_label" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
