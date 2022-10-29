@@ -11,12 +11,34 @@
 package co.bitshifted.appforge.ignite.model.ui;
 
 import co.bitshifted.appforge.common.model.LinuxApplicationInfo;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LinuxAppInfoUIModel {
 
-    private LinuxApplicationInfo source;
+    private final LinuxApplicationInfo source;
+    private final ObservableList<BasicResourceUIModel> iconsUiModel;
 
     public LinuxAppInfoUIModel(LinuxApplicationInfo source) {
-        this.source = source;
+        if(source == null) {
+            this.source = new LinuxApplicationInfo();
+            this.iconsUiModel = FXCollections.observableArrayList();
+        } else {
+            this.source = source;
+            this.iconsUiModel = FXCollections.observableList(
+                source.getIcons().stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
+        }
+    }
+
+    public ObservableList<BasicResourceUIModel> getIconsUiModel() {
+        return iconsUiModel;
+    }
+
+    public LinuxApplicationInfo getSource() {
+        source.setIcons(iconsUiModel.stream().map(ui -> ui.getResource()).collect(Collectors.toList()));
+        return source;
     }
 }

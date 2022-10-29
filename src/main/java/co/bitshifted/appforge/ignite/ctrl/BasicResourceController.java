@@ -14,9 +14,13 @@ import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.ui.BasicResourceUIModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +37,25 @@ public class BasicResourceController {
     @FXML
     private TextField targetField;
     @FXML
-    private Button browseButton;
+    private Button addFileButton;
+    @FXML
+    private Button addFolderButton;
+    @FXML
+    private Button removeButton;
+    @FXML
+    private GridPane rootNode;
 
     private final BasicResourceUIModel resource;
+    private final ResourceNotificationReceiver receiver;
 
     public BasicResourceController(BasicResourceUIModel resource) {
         this.resource = resource;
+        this.receiver = null;
+    }
+
+    public BasicResourceController(BasicResourceUIModel resource, ResourceNotificationReceiver receiver) {
+        this.resource = resource;
+        this.receiver = receiver;
     }
 
     @FXML
@@ -48,7 +65,7 @@ public class BasicResourceController {
     }
 
     @FXML
-    public void onBrowseButton(ActionEvent event) {
+    public void onAddFileButton(ActionEvent event) {
         var parent = ((Parent)event.getTarget()).getScene().getWindow();
         var fileChooser = new FileChooser();
         var projectLocation = RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment().getLocation();
@@ -61,6 +78,29 @@ public class BasicResourceController {
             sourceField.setText(relPath.toString());
             targetField.setText(relPath.toString());
         }
+    }
 
+    @FXML
+    public void onAddFolder(ActionEvent event) {
+        var parent = ((Parent)event.getTarget()).getScene().getWindow();
+        var dirChooser = new DirectoryChooser();
+        var projectLocation = RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment().getLocation();
+        dirChooser.setInitialDirectory(new File(projectLocation));
+        var selection = dirChooser.showDialog(parent);
+        if(selection != null) {
+            var dirPath = Path.of(projectLocation);
+            var relPath = dirPath.relativize(Path.of(selection.getPath()));
+            sourceField.setText(relPath.toString());
+            targetField.setText(relPath.toString());
+        }
+    }
+
+    @FXML
+    public void onRemove() {
+        if(receiver != null) {
+            receiver.getResourceViewParent().getChildren().remove(rootNode);
+            receiver.resourceRemoved(resource);
+        }
+//        ((Pane)rootNode.getParent()).getChildren().remove(rootNode);
     }
 }

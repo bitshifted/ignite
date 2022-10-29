@@ -29,6 +29,7 @@ public class ApplicationInfoUIModel {
     private final SimpleBooleanProperty linuxSupportedProperty;
     private final SimpleStringProperty execNameProperty;
     private final BasicResourceUIModel splashScreenUiModel;
+    private final LinuxAppInfoUIModel linuxAppInfoUIModel;
 
     public ApplicationInfoUIModel(ApplicationInfo source) {
         this.source = source;
@@ -38,6 +39,7 @@ public class ApplicationInfoUIModel {
         this.linuxSupportedProperty = new SimpleBooleanProperty(source != null && source.getSupportedOperatingSystems().contains(OperatingSystem.LINUX));
         this.execNameProperty = new SimpleStringProperty(source.getExeName());
         this.splashScreenUiModel = new BasicResourceUIModel(source.getSplashScreen());
+        this.linuxAppInfoUIModel = new LinuxAppInfoUIModel(source.getLinux());
     }
 
     public BasicResourceUIModel getLicenseUiModel() {
@@ -64,11 +66,16 @@ public class ApplicationInfoUIModel {
         return splashScreenUiModel;
     }
 
+    public LinuxAppInfoUIModel getLinuxAppInfoUIModel() {
+        return linuxAppInfoUIModel;
+    }
+
     public ApplicationInfo getSource() {
         source.setLicense(licenseUiModel.getResource());
         source.setSupportedOperatingSystems(getSupportedSystems());
         source.setExeName(execNameProperty.get());
         source.setSplashScreen(splashScreenUiModel.getResource());
+        source.setLinux(linuxAppInfoUIModel.getSource());
         return source;
     }
 
