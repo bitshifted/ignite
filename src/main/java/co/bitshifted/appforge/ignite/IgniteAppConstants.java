@@ -18,6 +18,7 @@ public final class IgniteAppConstants {
     public static final String IGNITE_ICON_x32 = "/img/ignite-icon-32x32.png";
     public static final String IGNITE_ICON_x64 = "/img/ignite-icon-64x64.png";
     public static final String IGNITE_ICON_128 = "/img/ignite-icon-128x128.png";
+    public static final String LINUX_CATEGORIES_DATA = "/linux-desktop-categories.xml";
 
     // stylesheets
     public static final String BASIC_CSS = "style/basic.css";

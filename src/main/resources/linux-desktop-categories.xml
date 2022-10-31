@@ -1,0 +1,44 @@
+<!--
+  ~ /*
+  ~  * Copyright (c) 2022  Bitshift D.O.O (http://bitshifted.co)
+  ~  *
+  ~  * This Source Code Form is subject to the terms of the Mozilla Public
+  ~  * License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  ~  */
+  -->
+
+<categories>
+    <main name="AudioVideo" description="Application for presenting, creating, or processing multimedia (audio/video)">
+        <related name="Midi" description="An app related to MIDI" />
+        <related name="Mixer" description="Just a mixer" />
+        <related name="Sequencer" description="A sequencer" />
+        <related name="Tuner" description="A tuner" />
+        <related name="TV" description="A TV application" />
+        <related name="AudioVideoEditing" description="Application to edit audio/video files" />
+        <related name="Player" description="Application to play audio/video files" />
+        <related name="Recorder" description="Application to record audio/video files" />
+        <related name="DiscBurning" description="Application to burn a disc" />
+    </main>
+    <main name="Audio" description="An audio application">
+        <related name="Midi" description="An app related to MIDI" />
+        <related name="Mixer" description="Just a mixer" />
+        <related name="Sequencer" description="A sequencer" />
+        <related name="Tuner" description="A tuner" />
+    </main>
+    <main name="Video" description="A video application">
+        <related name="TV" description="A TV application" />
+        <related name="AudioVideoEditing" description="Application to edit audio/video files" />
+        <related name="Player" description="Application to play audio/video files" />
+        <related name="Recorder" description="Application to record audio/video files" />
+    </main>
+    <main name="Development" description="An application for development">
+        <related name="Building" description="A tool to build applications" />
+        <related name="Debugger" description="A tool to debug applications" />
+        <related name="IDE" description="IDE application" />
+        <related name="GUIDesigner" description="A GUI designer application" />
+        <related name="Profiling" description="A profiling tool" />
+        <related name="RevisionControl" description="	Applications like CVS or subversion" />
+        <related name="Translation" description="A translation tool" />
+    </main>
+</categories>
