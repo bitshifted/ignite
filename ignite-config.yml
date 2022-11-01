@@ -13,6 +13,9 @@ application-info:
     - source: "resources/icons/ignite-icon-128x128.png"
       target: "icons/ignite-icon-128x128.png"
       executable: false
+    categories:
+    - "Development"
+    - "Building"
   license:
     source: "LICENSE"
     target: "LICENSE"
@@ -23,6 +26,6 @@ application-info:
     executable: false
   exe-name: "ignite"
   supported-operating-systems:
+  - "linux"
   - "windows"
   - "mac"
-  - "linux"

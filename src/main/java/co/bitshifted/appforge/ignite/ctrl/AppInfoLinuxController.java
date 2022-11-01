@@ -23,17 +23,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBoxTreeItem;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.CheckTreeView;
-import org.controlsfx.control.SearchableComboBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,17 +46,30 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
     @FXML
     private VBox iconsContainer;
     @FXML
-    private CheckTreeView<LinuxDesktopCategory> categroyTreeView;
+    private CheckTreeView<LinuxDesktopCategory> categoryTreeView;
 
     private LinuxAppInfoUIModel currentLinuxAppInfoModel;
+    private final ListChangeListener<TreeItem<LinuxDesktopCategory>> categoryChangeListener;
+
+    public AppInfoLinuxController() {
+        this.categoryChangeListener = change -> {
+            while (change.next()) {
+                if(change.wasAdded()) {
+                    currentLinuxAppInfoModel.getCategoriesUiModel().addAll(change.getAddedSubList().stream().map(ti -> ti.getValue()).collect(Collectors.toList()));
+                }
+                if(change.wasRemoved()) {
+                    currentLinuxAppInfoModel.getCategoriesUiModel().removeAll(change.getRemoved().stream().map(ti -> ti.getValue()).collect(Collectors.toList()));
+                }
+            }
+        };
+    }
 
     @FXML
     public void initialize() {
         LOGGER.debug("Initializing controller");
         bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
-        categroyTreeView.setRoot(new CheckBoxTreeItem<>(new LinuxDesktopCategory("Categories", "", List.of())));
-        categroyTreeView.getRoot().setExpanded(true);
-        categroyTreeView.get
+        categoryTreeView.setRoot(new CheckBoxTreeItem<>(new LinuxDesktopCategory("Categories", "", List.of())));
+        categoryTreeView.getRoot().setExpanded(true);
         var categories = new ArrayList<CheckBoxTreeItem<LinuxDesktopCategory>>();
         RuntimeData.getInstance().getLinuxDesktopCategories().stream().forEach(cat -> {
             var item = new CheckBoxTreeItem<>(cat);
@@ -70,18 +79,7 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
             });
             categories.add(item);
         });
-        categroyTreeView.getRoot().getChildren().setAll(categories);
-//        categoriesCombo.getItems().addAll(RuntimeData.getInstance().getLinuxDesktopCategories());
-//        categoriesCombo.getCheckModel().getCheckedItems().addListener((ListChangeListener<LinuxDesktopCategory>) change -> {
-//
-//        });
-//        categoriesCombo.getCheckModel().se.addListener((observableValue, oldValue, newValue) -> {
-//            if(newValue != null) {
-//                additionalCategoriesCombo.getItems().clear();
-//                additionalCategoriesCombo.getItems().addAll(newValue.additionalCategories());
-//                categoryLabelsBox.getChildren().add(new Label(newValue.name()));
-//            }
-//        });
+        categoryTreeView.getRoot().getChildren().setAll(categories);
         RuntimeData.getInstance().selectedDeploymentTreeITemProperty().addListener(this);
     }
 
@@ -94,6 +92,18 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
             var iconsList = currentLinuxAppInfoModel.getIconsUiModel().stream().map(ui -> createIconResourceView(ui)).collect(Collectors.toList());
             iconsContainer.getChildren().subList(1, iconsContainer.getChildren().size()).clear();
             iconsContainer.getChildren().addAll(iconsList);
+
+            categoryTreeView.getCheckModel().clearChecks();
+           var currentCategories = currentLinuxAppInfoModel.getCategoriesUiModel();
+           var allitems = allTreeItems();
+           categoryTreeView.getCheckModel().getCheckedItems().removeListener(categoryChangeListener);
+           currentCategories.stream().forEach(cat -> {
+               var match = allitems.stream().filter(ti -> ti.getValue().name().equals(cat.name())).findFirst();
+               if(match.isPresent()) {
+                   categoryTreeView.getCheckModel().check(match.get());
+               }
+           });
+           categoryTreeView.getCheckModel().getCheckedItems().addListener(categoryChangeListener);
         }
     }
 
@@ -123,4 +133,16 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
             return new Label("Failed to load view: " + ex.getMessage());
         }
     }
+
+    private List<TreeItem<LinuxDesktopCategory>> allTreeItems() {
+        var out = new ArrayList<TreeItem<LinuxDesktopCategory>>();
+        categoryTreeView.getRoot().getChildren().stream().forEach(ch -> {
+            out.add(ch);
+            if(ch.getChildren() != null) {
+                out.addAll(ch.getChildren());
+            }
+        });
+        return out;
+    }
+
 }

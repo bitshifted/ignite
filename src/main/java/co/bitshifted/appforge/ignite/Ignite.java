@@ -31,8 +31,8 @@ public class Ignite extends Application {
         super.init();
         TaskExecutor.getInstance();
         // initialize application
-        var userData = UserDataPersister.instance().load();
         RuntimeData.getInstance().init();
+        var userData = UserDataPersister.instance().load();
         RuntimeData.getInstance().setUserData(userData);
         ControllerRegistry.instance().registerControllers();
         UIRegistry.instance().registerComponents();

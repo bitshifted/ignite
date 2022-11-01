@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.model.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record LinuxDesktopCategory(String name, String description,
@@ -17,6 +18,18 @@ public record LinuxDesktopCategory(String name, String description,
 
     @Override
     public String toString() {
-        return name + " (" + description + ")";
+        if (description != null && !description.isEmpty() && !description.isBlank()) {
+            return name + " (" + description + ")";
+        }
+       return name;
+    }
+
+    public List<LinuxDesktopCategory> flatData() {
+        var out = new ArrayList<LinuxDesktopCategory>();
+        out.add(this);
+        if (additionalCategories != null && !additionalCategories.isEmpty()) {
+            out.addAll(additionalCategories);
+        }
+        return out;
     }
 }
