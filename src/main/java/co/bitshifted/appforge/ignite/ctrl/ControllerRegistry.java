@@ -39,6 +39,8 @@ public class ControllerRegistry {
         controllerMap.put(AddServerController.class.getName(), new AddServerController());
         controllerMap.put(AppInfoController.class.getName(), new AppInfoController());
         controllerMap.put(AppInfoLinuxController.class.getName(), new AppInfoLinuxController());
+        controllerMap.put(AppInfoWindowsController.class.getName(), new AppInfoWindowsController());
+        controllerMap.put(AppInfoMacController.class.getName(), new AppInfoMacController());
     }
 
     public  <T> T getController(Class<T> clazz) {

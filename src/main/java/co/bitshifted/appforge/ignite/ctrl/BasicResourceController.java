@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BasicResourceController {
 
@@ -47,15 +49,20 @@ public class BasicResourceController {
 
     private final BasicResourceUIModel resource;
     private final ResourceNotificationReceiver receiver;
+    private final List<FileChooser.ExtensionFilter> filters;
 
-    public BasicResourceController(BasicResourceUIModel resource) {
-        this.resource = resource;
-        this.receiver = null;
+    public BasicResourceController(BasicResourceUIModel resource, FileChooser.ExtensionFilter... filters) {
+        this(resource, null, filters);
     }
 
-    public BasicResourceController(BasicResourceUIModel resource, ResourceNotificationReceiver receiver) {
+    public BasicResourceController(BasicResourceUIModel resource, ResourceNotificationReceiver receiver, FileChooser.ExtensionFilter... filters) {
         this.resource = resource;
         this.receiver = receiver;
+        if(filters != null) {
+            this.filters = List.of(filters);
+        } else {
+            this.filters = List.of();
+        }
     }
 
     @FXML
@@ -71,6 +78,9 @@ public class BasicResourceController {
         var projectLocation = RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment().getLocation();
         LOGGER.debug("Project directory: {}", projectLocation);
         fileChooser.setInitialDirectory(new File(projectLocation));
+        if(!filters.isEmpty()) {
+            fileChooser.getExtensionFilters().addAll(filters);
+        }
         var selection = fileChooser.showOpenDialog(parent);
         if(selection != null) {
             var dirPath = Path.of(projectLocation);
@@ -101,6 +111,5 @@ public class BasicResourceController {
             receiver.getResourceViewParent().getChildren().remove(rootNode);
             receiver.resourceRemoved(resource);
         }
-//        ((Pane)rootNode.getParent()).getChildren().remove(rootNode);
     }
 }

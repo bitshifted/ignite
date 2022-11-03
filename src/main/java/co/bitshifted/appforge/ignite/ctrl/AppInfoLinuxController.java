@@ -29,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.controlsfx.control.CheckTreeView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,9 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppInfoLinuxController.class);
     private ResourceBundle bundle;
+    private FileChooser.ExtensionFilter[] iconFilters = new FileChooser.ExtensionFilter[]{
+        new FileChooser.ExtensionFilter("PNG image (*.png)", "*.png")
+    };
 
     @FXML
     private VBox iconsContainer;
@@ -125,7 +129,7 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
     }
 
     private Parent createIconResourceView(BasicResourceUIModel resourceUIModel)  {
-        var iconController = new BasicResourceController(resourceUIModel, this);
+        var iconController = new BasicResourceController(resourceUIModel, this, iconFilters);
         try {
             return UIRegistry.instance().createView("/fxml/basic-resource-view.fxml", bundle, iconController);
         } catch(Exception ex) {

@@ -19,12 +19,14 @@
         <related name="Player" description="Application to play audio/video files" />
         <related name="Recorder" description="Application to record audio/video files" />
         <related name="DiscBurning" description="Application to burn a disc" />
+        <related name="Music" description="Musical software" />
     </main>
     <main name="Audio" description="An audio application">
         <related name="Midi" description="An app related to MIDI" />
         <related name="Mixer" description="Just a mixer" />
         <related name="Sequencer" description="A sequencer" />
         <related name="Tuner" description="A tuner" />
+        <related name="HamRadio" description="HAM radio software" />
     </main>
     <main name="Video" description="A video application">
         <related name="TV" description="A TV application" />
@@ -40,5 +42,155 @@
         <related name="Profiling" description="A profiling tool" />
         <related name="RevisionControl" description="	Applications like CVS or subversion" />
         <related name="Translation" description="A translation tool" />
+        <related name="Database" description="Application to manage a database" />
+        <related name="ProjectManagement" description="Project management application" />
+    </main>
+    <main name="Education" description="Educational software">
+        <related name="Art" description="Software to teach arts" />
+        <related name="Construction" description="Construction software"/>
+        <related name="Music" description="Musical software" />
+        <related name="Languages" description="Software to learn foreign languages" />
+        <related name="ArtificialIntelligence" description="Artificial Intelligence software" />
+        <related name="Astronomy" description="Astronomy software" />
+        <related name="Biology" description="	Biology software" />
+        <related name="Chemistry" description="Chemistry software" />
+        <related name="ComputerScience" description="Computer Sience software" />
+        <related name="DataVisualization" description="Data visualization software" />
+        <related name="Economy" description="Economy software" />
+        <related name="Electricity" description="Electricity software" />
+        <related name="Geography" description="Geography software" />
+        <related name="Gelogy" description="Geology software" />
+        <related name="Geoscience" description="Geoscience software, GIS" />
+        <related name="History" description="History software" />
+        <related name="Humanities" description="Software for philosophy, psychology and other humanities" />
+        <related name="ImageProcessing" description="Image Processing software" />
+        <related name="Literature" description="Literature software" />
+        <related name="Maps" description="Sofware for viewing maps, navigation, mapping, GPS" />
+        <related name="Math" description="Math software" />
+        <related name="NumericalAnalysis" description="Numerical analysis software" />
+        <related name="MedicalSoftware" description="Medical software" />
+        <related name="Physics" description="Physics software" />
+        <related name="Robotics" description="Robotics software" />
+        <related name="Spirituality" description="Religious and spiritual software, theology" />
+        <related name="Sports" description="Sports software" />
+        <related name="ParallelComputing" description="Parallel computing software" />
+    </main>
+    <main name="Game" description="Video games">
+        <related name="ActionGame" description="An action game" />
+        <related name="AdventureGame" description="Adventure style game" />
+        <related name="ArcadeGame" description="Arcade style game" />
+        <related name="BoardGame" description="A board game" />
+        <related name="BlocksGame" description="Falling blocks game" />
+        <related name="CardGame" description="A card game" />
+        <related name="KidsGame" description="A game for kids" />
+        <related name="LogicGame" description="Logic games like puzzles, etc" />
+        <related name="RolePlaying" description="A role playing game" />
+        <related name="Shooter" description="A shooter game" />
+        <related name="Simulation" description="A simulation game" />
+        <related name="SportsGame" description="A sports game" />
+        <related name="StrategyGame" description="A strategy game" />
+        <related name="Emulator" description="Emulator of another platform, such as a DOS emulator" />
+    </main>
+    <main name="Graphics" description="Application for viewing, creating, or processing graphics">
+        <related name="2DGraphics" description="2D based graphical application" />
+        <related name="VectorGraphics" description="Application for viewing, creating, or processing vector graphics" />
+        <related name="RasterGraphics" description="Application for viewing, creating, or processing raster (bitmap) graphics" />
+        <related name="3DGraphics" description="Application for viewing, creating, or processing 3-D graphics" />
+        <related name="Scanning" description="Tool to scan a file/text" />
+        <related name="OCR" description="Optical character recognition application" />
+        <related name="Photography" description="Camera tools, etc." />
+        <related name="Publishing" description="Desktop Publishing applications and Color Management tools" />
+        <related name="Viewer" description="Tool to view e.g. a graphic or pdf file" />
+    </main>
+    <main name="Network" description="Network application such as a web browser">
+        <related name="Email" description="Email application" />
+        <related name="Dialup" description="A dial-up program" />
+        <related name="InstantMessaging" description="An instant messaging client" />
+        <related name="Chat" description="A chat client" />
+        <related name="IRCClient" description="An IRC client" />
+        <related name="Feed" description="RSS, podcast and other subscription based contents" />
+        <related name="FileTransfer" description="Tools like FTP or P2P programs" />
+        <related name="HamRadio" description="HAM radio software" />
+        <related name="News" description="A news reader or a news ticker" />
+        <related name="P2P" description="A P2P program" />
+        <related name="RemoteAccess" description="A tool to remotely manage your PC" />
+        <related name="Telephony" description="Telephony via PC" />
+        <related name="VideoConference" description="Video Conference software" />
+        <related name="WebBrowser" description="A web browser" />
+    </main>
+    <main name="Office" description="An office type application">
+        <related name="Calendar" description="Calendar application" />
+        <related name="ContactManagement" description="E.g. an address book" />
+        <related name="Database" description="Application to manage a database" />
+        <related name="Dictionary" description="A dictionary" />
+        <related name="Chart" description="Chart application" />
+        <related name="Email" description="Email application" />
+        <related name="Finance" description="Application to manage your finance" />
+        <related name="FlowChart" description="A flowchart application" />
+        <related name="PDA" description="Tool to manage your PDA" />
+        <related name="ProjectManagement" description="Project management application" />
+        <related name="Presentation" description="Presentation software" />
+        <related name="Spreadsheet" description="A Spreadsheet" />
+        <related name="WordProcessor" description="A word processor" />
+    </main>
+    <main name="Science" description="Scientific software" >
+        <related name="Art" description="Software to teach arts" />
+        <related name="Construction" description="Construction software"/>
+        <related name="Music" description="Musical software" />
+        <related name="Languages" description="Software to learn foreign languages" />
+        <related name="ArtificialIntelligence" description="Artificial Intelligence software" />
+        <related name="Astronomy" description="Astronomy software" />
+        <related name="Biology" description="	Biology software" />
+        <related name="Chemistry" description="Chemistry software" />
+        <related name="ComputerScience" description="Computer Sience software" />
+        <related name="DataVisualization" description="Data visualization software" />
+        <related name="Economy" description="Economy software" />
+        <related name="Electricity" description="Electricity software" />
+        <related name="Geography" description="Geography software" />
+        <related name="Gelogy" description="Geology software" />
+        <related name="Geoscience" description="Geoscience software, GIS" />
+        <related name="History" description="History software" />
+        <related name="Humanities" description="Software for philosophy, psychology and other humanities" />
+        <related name="ImageProcessing" description="Image Processing software" />
+        <related name="Literature" description="Literature software" />
+        <related name="Maps" description="Sofware for viewing maps, navigation, mapping, GPS" />
+        <related name="Math" description="Math software" />
+        <related name="NumericalAnalysis" description="Numerical analysis software" />
+        <related name="MedicalSoftware" description="Medical software" />
+        <related name="Physics" description="Physics software" />
+        <related name="Robotics" description="Robotics software" />
+        <related name="Spirituality" description="Religious and spiritual software, theology" />
+        <related name="Sports" description="Sports software" />
+        <related name="ParallelComputing" description="Parallel computing software" />
+    </main>
+    <main name="Settings" description="Settings applications">
+        <related name="DesktopSettings" description="Configuration tool for the GUI" />
+        <related name="HardwareSettings" description="A tool to manage hardware components, like sound cards, video cards or printers" />
+        <related name="Printing" description="A tool to manage printers" />
+        <related name="PackageManager" description="A package manager application" />
+        <related name="Security" description="A security tool" />
+        <related name="Accessibility" description="Accessibility" />
+    </main>
+    <main name="System" description="ystem application, 'System Tools'' such as say a log viewer or network monitor">
+        <related name="Emulator" description="Emulator of another platform, such as a DOS emulator" />
+        <related name="FileTools" description="A file tool utility" />
+        <related name="FileManager" description="A file manager" />
+        <related name="TerminalEmulator" description="A terminal emulator application" />
+        <related name="Filesystem" description="A file system tool" />
+        <related name="Monitor" description="Monitor application/applet that monitors some resource or activity" />
+        <related name="Security" description="A security tool" />
+        <related name="Accessibility" description="Accessibility" />
+    </main>
+    <main name="Utility" description="Small utility application, 'Accessories'" >
+        <related name="TextTools" description="A text tool utility" />
+        <related name="TelephonyTools" description="Telephony tools, to dial a number, manage PBX, ..." />
+        <related name="Maps" description="Sofware for viewing maps, navigation, mapping, GPS" />
+        <related name="Spirituality" description="Religious and spiritual software, theology" />
+        <related name="Archiving" description="A tool to archive/backup data" />
+        <related name="Compression" description="A tool to manage compressed data/archives" />
+        <related name="FileTools" description="A file tool utility" />
+        <related name="Accessibility" description="Accessibility" />
+        <related name="Calculator" description="A calculator" />
+        <related name="Clock" description="A clock application/applet" />
     </main>
 </categories>

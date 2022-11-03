@@ -30,6 +30,8 @@ public class ApplicationInfoUIModel {
     private final SimpleStringProperty execNameProperty;
     private final BasicResourceUIModel splashScreenUiModel;
     private final LinuxAppInfoUIModel linuxAppInfoUIModel;
+    private final WindowsAppInfoUIModel windowsAppInfoUIModel;
+    private final MacAppInfoUiModel macAppInfoUiModel;
 
     public ApplicationInfoUIModel(ApplicationInfo source) {
         this.source = source;
@@ -40,6 +42,8 @@ public class ApplicationInfoUIModel {
         this.execNameProperty = new SimpleStringProperty(source.getExeName());
         this.splashScreenUiModel = new BasicResourceUIModel(source.getSplashScreen());
         this.linuxAppInfoUIModel = new LinuxAppInfoUIModel(source.getLinux());
+        this.windowsAppInfoUIModel = new WindowsAppInfoUIModel(source.getWindows());
+        this.macAppInfoUiModel = new MacAppInfoUiModel(source.getMac());
     }
 
     public BasicResourceUIModel getLicenseUiModel() {
@@ -70,12 +74,22 @@ public class ApplicationInfoUIModel {
         return linuxAppInfoUIModel;
     }
 
+    public WindowsAppInfoUIModel getWindowsAppInfoUIModel() {
+        return windowsAppInfoUIModel;
+    }
+
+    public MacAppInfoUiModel getMacAppInfoUiModel() {
+        return macAppInfoUiModel;
+    }
+
     public ApplicationInfo getSource() {
         source.setLicense(licenseUiModel.getResource());
         source.setSupportedOperatingSystems(getSupportedSystems());
         source.setExeName(execNameProperty.get());
         source.setSplashScreen(splashScreenUiModel.getResource());
         source.setLinux(linuxAppInfoUIModel.getSource());
+        source.setWindows(windowsAppInfoUIModel.getSource());
+        source.setMac(macAppInfoUiModel.getSource());
         return source;
     }
 
