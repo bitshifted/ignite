@@ -1,6 +1,6 @@
 ---
-server-url: "http://localhost:8080"
 application-id: "pvENvlYCXGv"
+server-url: "http://localhost:8080"
 application-info:
   windows:
     icons:
@@ -37,5 +37,9 @@ application-info:
   exe-name: "ignite"
   supported-operating-systems:
   - "linux"
-  - "windows"
   - "mac"
+  - "windows"
+jvm:
+  vendor: "ADOPTIUM"
+  major-version: "17"
+  main-class: "co.bitshifted.appforge.ignite.Ignite"

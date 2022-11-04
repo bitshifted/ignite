@@ -11,14 +11,22 @@
 package co.bitshifted.appforge.ignite.model;
 
 import co.bitshifted.appforge.common.dto.ApplicationDTO;
+import co.bitshifted.appforge.common.dto.JvmConfigurationDTO;
 import co.bitshifted.appforge.common.model.ApplicationInfo;
+import co.bitshifted.appforge.common.model.BasicResource;
 import co.bitshifted.appforge.ignite.model.ui.ApplicationInfoUIModel;
+import co.bitshifted.appforge.ignite.model.ui.JvmConfigUiModel;
+import co.bitshifted.appforge.ignite.model.ui.ResourcesUiModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -31,6 +39,10 @@ public class IgniteConfig {
     @JsonIgnore
     private final SimpleObjectProperty<ApplicationInfoUIModel> applicationInfoProperty;
     @JsonIgnore
+    private final SimpleObjectProperty<JvmConfigUiModel> jvmConfigurationProperty;
+    @JsonIgnore
+    private final SimpleObjectProperty<ResourcesUiModel> resourcesProperty;
+    @JsonIgnore
     private final SimpleBooleanProperty dirtyProperty;
 
     public IgniteConfig() {
@@ -38,12 +50,14 @@ public class IgniteConfig {
         this.applicationIdProperty = new SimpleObjectProperty<>();
         this.dirtyProperty = new SimpleBooleanProperty(false);
         this.applicationInfoProperty = new SimpleObjectProperty<>();
+        this.jvmConfigurationProperty = new SimpleObjectProperty<>();
+        this.resourcesProperty = new SimpleObjectProperty<>();
 
         this.serverProperty.addListener((observableValue, server, t1) -> dirtyProperty.set(true));
         this.applicationIdProperty.addListener((observable, oldValue, newValue) -> dirtyProperty.set(true));
     }
 
-    @JsonProperty("server-url")
+    @JsonProperty(value = "server-url", index = 10)
     public void setServerUrl(String url) {
         var server = new Server("Untitled", url);
         serverProperty.set(server);
@@ -53,7 +67,7 @@ public class IgniteConfig {
         return serverProperty.get().getBaseUrl();
     }
 
-    @JsonProperty("application-id")
+    @JsonProperty(value = "application-id", index = 5)
     public void setApplicationId(String id) {
         var app = new ApplicationDTO();
         app.setId(id);
@@ -64,7 +78,7 @@ public class IgniteConfig {
         return applicationIdProperty.get().getId();
     }
 
-    @JsonProperty("application-info")
+    @JsonProperty(value = "application-info", index = 15)
     public void setApplicationInfo(ApplicationInfo appInfo) {
         if(appInfo != null) {
             this.applicationInfoProperty.set(new ApplicationInfoUIModel(appInfo));
@@ -77,6 +91,35 @@ public class IgniteConfig {
         return this.applicationInfoProperty.get().getSource();
     }
 
+    @JsonProperty(value = "jvm", index = 20)
+    public void setJvm(JvmConfigurationDTO jvmConfig) {
+        if(jvmConfig != null) {
+            this.jvmConfigurationProperty.set(new JvmConfigUiModel(jvmConfig));
+        } else {
+            this.jvmConfigurationProperty.set(new JvmConfigUiModel(new JvmConfigurationDTO()));
+        }
+    }
+
+    public JvmConfigurationDTO getJvm() {
+        return this.jvmConfigurationProperty.get().getSource();
+    }
+
+    @JsonProperty(value = "resources", index = 25)
+    public void setResources(List<BasicResource> resources) {
+        if(resources == null) {
+            this.resourcesProperty.set(new ResourcesUiModel(new ArrayList<>()));
+        } else {
+            this.resourcesProperty.set(new ResourcesUiModel(resources));
+        }
+    }
+
+    public List<BasicResource> getResources() {
+        if(resourcesProperty.get() != null) {
+            return resourcesProperty.get().getSource();
+        }
+       return List.of();
+    }
+
     public SimpleObjectProperty<Server> serverProperty() {
         return serverProperty;
     }
@@ -87,6 +130,14 @@ public class IgniteConfig {
 
     public SimpleObjectProperty<ApplicationInfoUIModel> applicationInfoProperty() {
         return applicationInfoProperty;
+    }
+
+    public SimpleObjectProperty<JvmConfigUiModel> jvmConfigurationPropertyProperty() {
+        return jvmConfigurationProperty;
+    }
+
+    public SimpleObjectProperty<ResourcesUiModel> resourcesProperty() {
+        return resourcesProperty;
     }
 
     public SimpleBooleanProperty dirtyProperty() {

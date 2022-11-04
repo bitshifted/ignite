@@ -74,6 +74,8 @@ public class MainPageController implements ListChangeListener<Deployment> {
                 case APPLICATION_INFO_LINUX -> setupDetailsPane(UIRegistry.APPLICATION_INFO_LINUX_UI);
                 case APPLICATION_INFO_WINDOWS -> setupDetailsPane(UIRegistry.APPLICATION_INFO_WINDOWS_UI);
                 case APPLICATION_INFO_MAC ->  setupDetailsPane(UIRegistry.APPLICATION_INFO_MAC_UI);
+                case JVM -> setupDetailsPane(UIRegistry.JVM_INFO);
+                case RESOURCES -> setupDetailsPane(UIRegistry.RESOURCES_DATA);
             }
         });
     }

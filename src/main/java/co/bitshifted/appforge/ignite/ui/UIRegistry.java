@@ -39,6 +39,8 @@ public class UIRegistry {
     public static final String SERVER_MANAGEMENT = "server-management";
     public static final String ADD_SERVER_PANE = "add-server-pane";
     public static final String PROJECT_BUTTONS_BAR = "project-button-bar";
+    public static final String JVM_INFO = "jvm-info";
+    public static final String RESOURCES_DATA = "resources-data";
 
     static {
         INSTANCE = new UIRegistry();
@@ -67,6 +69,8 @@ public class UIRegistry {
         loadWithController("/fxml/app-info-mac.fxml", AppInfoMacController.class, APPLICATION_INFO_MAC_UI, bundle);
         loadWithController("/fxml/deployment-info-dlg.fxml", DeploymentInfoDlgController.class, DEPLOYMENT_INFO_DLG, bundle);
         loadWithController("/fxml/deployment-info.fxml", DeploymentInfoController.class, DEPLOYMENT_INFO, bundle);
+        loadWithController("/fxml/jvm.fxml", JvmInfoController.class, JVM_INFO, bundle);
+        loadWithController("/fxml/resources.fxml", ResourcesController.class, RESOURCES_DATA, bundle);
         var mainMenu = (MenuBar)FXMLLoader.load(getClass().getResource("/fxml/main-menu.fxml"), bundle);
         componentMap.put(MAIN_MENU, mainMenu);
         // load main window last, to make sure all children are loaded

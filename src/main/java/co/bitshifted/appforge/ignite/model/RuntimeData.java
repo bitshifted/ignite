@@ -36,8 +36,6 @@ public class RuntimeData {
 
     static {
         INSTANCE = new RuntimeData();
-        // populate Linux info
-
     }
 
     private SimpleObjectProperty<UserData> userData;
