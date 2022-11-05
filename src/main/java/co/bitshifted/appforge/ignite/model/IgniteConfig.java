@@ -52,9 +52,6 @@ public class IgniteConfig {
         this.applicationInfoProperty = new SimpleObjectProperty<>();
         this.jvmConfigurationProperty = new SimpleObjectProperty<>();
         this.resourcesProperty = new SimpleObjectProperty<>();
-
-//        this.serverProperty.addListener((observableValue, server, t1) -> dirtyProperty.set(true));
-//        this.applicationIdProperty.addListener((observable, oldValue, newValue) -> dirtyProperty.set(true));
     }
 
     @JsonProperty(value = "server-url", index = 10)
