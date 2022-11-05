@@ -27,14 +27,14 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
+        <appforge-common.version>0.1.0-SNAPSHOT</appforge-common.version>
+        <ikonli.version>12.3.1</ikonli.version>
+        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+        <controlsfx.version>11.1.2</controlsfx.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
@@ -50,21 +50,7 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.3.0</version>
-        </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -73,16 +59,8 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-invoker</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -91,17 +69,17 @@
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-javafx</artifactId>
-            <version>11.3.5</version>
+            <version>${ikonli.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-fontawesome-pack</artifactId>
-            <version>11.3.5</version>
+            <artifactId>ikonli-bootstrapicons-pack</artifactId>
+            <version>${ikonli.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-devicons-pack</artifactId>
-            <version>11.3.5</version>
+            <version>${ikonli.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -111,69 +89,60 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>${controlsfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>co.bitshifted.appforge</groupId>
+            <artifactId>appforge-common</artifactId>
+            <version>${appforge-common.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <sourceDirectory>src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                        <release>11</release>
-                    </configuration>
-                    <executions>
-                        <!-- Replacing default-compile as it is treated specially by maven -->
-                        <execution>
-                            <id>default-compile</id>
-                            <phase>none</phase>
-                        </execution>
-                        <!-- Replacing default-testCompile as it is treated specially by maven -->
-                        <execution>
-                            <id>default-testCompile</id>
-                            <phase>none</phase>
-                        </execution>
-                        <execution>
-                            <id>java-compile</id>
-                            <phase>compile</phase>
-                            <goals> <goal>compile</goal> </goals>
-                        </execution>
-                        <execution>
-                            <id>java-test-compile</id>
-                            <phase>test-compile</phase>
-                            <goals> <goal>testCompile</goal> </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <configuration>
-                    <jvmTarget>${java.version}</jvmTarget>
-                </configuration>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.maven.plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
+                        <id>run</id>
+                        <configuration>
+                            <mainClass>co.bitshifted.appforge.ignite.Ignite</mainClass>
+                            <options>
+                                <option>--add-opens=javafx.graphics/javafx.scene=ALL-UNNAMED</option>
+                                <option>-Dprism.lcdtext=false</option>
+                            </options>
+                        </configuration>
                     </execution>
                     <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
+                        <id>debug</id>
+                        <configuration>
+                            <mainClass>co.bitshifted.appforge.ignite.Ignite</mainClass>
+                            <options>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005</option>
+                            </options>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

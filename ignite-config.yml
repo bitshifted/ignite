@@ -1,0 +1,45 @@
+---
+application-id: "pvENvlYCXGv"
+server-url: "http://localhost:8080"
+application-info:
+  windows:
+    icons:
+    - source: "resources/icons/ignite-icon.ico"
+      target: "icon.ico"
+      executable: false
+  linux:
+    icons:
+    - source: "resources/icons/ignite-icon-32x32.png"
+      target: "icons/ignite-icon-32x32.png"
+      executable: false
+    - source: "resources/icons/ignite-icon-64x64.png"
+      target: "icons/ignite-icon-64x64.png"
+      executable: false
+    - source: "resources/icons/ignite-icon-128x128.png"
+      target: "icons/ignite-icon-128x128.png"
+      executable: false
+    categories:
+    - "Development"
+    - "Building"
+  mac:
+    icons:
+    - source: "resources/icons/ignite-icon.icns"
+      target: "ignite.icns"
+      executable: false
+  license:
+    source: "LICENSE"
+    target: "LICENSE"
+    executable: false
+  splash-screen:
+    source: "resources/ignite-splash-screen.png"
+    target: "splash.png"
+    executable: false
+  exe-name: "ignite"
+  supported-operating-systems:
+  - "linux"
+  - "mac"
+  - "windows"
+jvm:
+  vendor: "ADOPTIUM"
+  major-version: "17"
+  main-class: "co.bitshifted.appforge.ignite.Ignite"
