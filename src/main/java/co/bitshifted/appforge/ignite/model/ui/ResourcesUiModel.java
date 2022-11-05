@@ -33,7 +33,7 @@ public class ResourcesUiModel {
             this.source = new ArrayList<>();
             this.resourceList = FXCollections.observableArrayList();
         }
-
+        this.resourceList.addListener(new DirtyChangeListener<>());
     }
 
     public List<BasicResource> getSource() {

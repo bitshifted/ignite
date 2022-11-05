@@ -12,6 +12,7 @@ package co.bitshifted.appforge.ignite.ctrl;
 
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.ui.BasicResourceUIModel;
+import co.bitshifted.appforge.ignite.model.ui.DirtyChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -69,6 +70,8 @@ public class BasicResourceController {
     public void initialize() {
         sourceField.textProperty().bindBidirectional(resource.getSourceProperty());
         targetField.textProperty().bindBidirectional(resource.getTargetProperty());
+        sourceField.textProperty().addListener(new DirtyChangeListener<>());
+        targetField.textProperty().addListener(new DirtyChangeListener<>());
     }
 
     @FXML

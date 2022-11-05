@@ -15,6 +15,7 @@ import co.bitshifted.appforge.common.model.JavaVersion;
 import co.bitshifted.appforge.common.model.JvmVendor;
 import co.bitshifted.appforge.ignite.model.DeploymentItemType;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
+import co.bitshifted.appforge.ignite.model.ui.DirtyChangeListener;
 import co.bitshifted.appforge.ignite.model.ui.JvmConfigUiModel;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
 import javafx.beans.value.ChangeListener;
@@ -70,6 +71,14 @@ public class JvmInfoController implements ChangeListener<DeploymentTreeItem> {
             argumentsTextField.textProperty().bindBidirectional(jvmConfigUiModel.argumentsProperty());
             jvmOptionsField.textProperty().bindBidirectional(jvmConfigUiModel.jvmOptionsProperty());
             systemPropertiesField.textProperty().bindBidirectional(jvmConfigUiModel.systemPropertiesProperty());
+            // setup change listeners
+            vendorComboBox.getSelectionModel().selectedItemProperty().addListener(new DirtyChangeListener<>());
+            versionComboBox.getSelectionModel().selectedItemProperty().addListener(new DirtyChangeListener<>());
+            mainClassTextField.textProperty().addListener(new DirtyChangeListener<>());
+            moduleNameTextField.textProperty().addListener(new DirtyChangeListener<>());
+            argumentsTextField.textProperty().addListener(new DirtyChangeListener<>());
+            jvmOptionsField.textProperty().addListener(new DirtyChangeListener<>());
+            systemPropertiesField.textProperty().addListener(new DirtyChangeListener<>());
         }
     }
 }

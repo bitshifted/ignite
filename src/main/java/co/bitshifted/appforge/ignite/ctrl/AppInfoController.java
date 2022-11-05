@@ -16,6 +16,7 @@ import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.DeploymentItemType;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.ui.ApplicationInfoUIModel;
+import co.bitshifted.appforge.ignite.model.ui.DirtyChangeListener;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
 import javafx.beans.value.ChangeListener;
@@ -86,6 +87,11 @@ public class AppInfoController implements ChangeListener<DeploymentTreeItem> {
             } catch(IOException ex) {
                 LOGGER.error("Failed to create view", ex);
             }
+            // setup change listeners
+            windowsSupportCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            macSupportCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            linuxSupportCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            execNameField.textProperty().addListener(new DirtyChangeListener<>());
 
         }
     }

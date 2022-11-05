@@ -37,6 +37,8 @@ public class LinuxAppInfoUIModel {
                 source.getIcons().stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
             this.categoriesUiModel = FXCollections.observableList(createCategoryList(source.getCategories()));
         }
+        iconsUiModel.addListener(new DirtyChangeListener<>());
+        categoriesUiModel.addListener(new DirtyChangeListener<>());
     }
 
     public ObservableList<BasicResourceUIModel> getIconsUiModel() {
