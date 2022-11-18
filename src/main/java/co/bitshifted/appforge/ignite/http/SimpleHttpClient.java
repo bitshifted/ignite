@@ -11,7 +11,8 @@
 package co.bitshifted.appforge.ignite.http;
 
 import co.bitshifted.appforge.common.dto.ApplicationDTO;
-import co.bitshifted.appforge.ignite.model.RuntimeData;
+import co.bitshifted.appforge.common.dto.jdk.InstalledJdkDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -21,8 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +29,7 @@ public class SimpleHttpClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHttpClient.class);
     private static final String LIST_APPLICATIONS_ENDPOINT = "v1/applications";
+    private static final String JDK_MANAGEMENT_ENDPOINT = "/v1/jdks";
 
     private final OkHttpClient okHttpClient;
     private final ObjectMapper mapper;
@@ -68,5 +68,24 @@ public class SimpleHttpClient {
         var call = okHttpClient.newCall(request);
         var response = call.execute();
         return mapper.readValue(response.body().byteStream(), ApplicationDTO.class);
+    }
+
+    public List<InstalledJdkDTO> getInstalledJdks(String serverUrl) throws IOException {
+        LOGGER.debug("Getting installed JDKs list");
+        var target = getTargetUrl(serverUrl, JDK_MANAGEMENT_ENDPOINT);
+        var request = new Request.Builder().url(target).get().build();
+        var call = okHttpClient.newCall(request);
+        var response = call.execute();
+        return mapper.readValue(response.body().byteStream(), new TypeReference<>() {});
+    }
+
+    private String getTargetUrl(String serverUrl, String path) {
+        var target = new StringBuilder(serverUrl);
+        if(serverUrl.endsWith("/")) {
+            target.append(path);
+        } else {
+            target.append("/").append(path);
+        }
+        return target.toString().replace("//", "/");
     }
 }

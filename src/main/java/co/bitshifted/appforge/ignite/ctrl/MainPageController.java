@@ -23,17 +23,16 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.bootstrapicons.BootstrapIcons;
-import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.devicons.Devicons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.kordamp.ikonli.devicons.Devicons;
+
+import static co.bitshifted.appforge.ignite.ui.UiUtils.getIcon;
 
 public class MainPageController implements ListChangeListener<Deployment> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
-    private static final int treeIconsSIze = 17;
     private static final double anchorDistance = 10.0;
 
     @FXML
@@ -80,11 +79,6 @@ public class MainPageController implements ListChangeListener<Deployment> {
         });
     }
 
-    private FontIcon getIcon(Ikon font) {
-        var icon = new FontIcon(font);
-        icon.setIconSize(treeIconsSIze);
-        return icon;
-    }
 
     private TreeItem<DeploymentTreeItem> createDeploymentNode(Deployment deployment) {
         var node = new TreeItem(new DeploymentTreeItem(deployment, DeploymentItemType.DEPLOYMENT), getIcon(BootstrapIcons.BRIEFCASE));
