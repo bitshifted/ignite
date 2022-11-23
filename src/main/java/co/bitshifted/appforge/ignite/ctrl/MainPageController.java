@@ -28,7 +28,7 @@ import org.kordamp.ikonli.devicons.Devicons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static co.bitshifted.appforge.ignite.ui.UiUtils.getIcon;
+import static co.bitshifted.appforge.ignite.util.Helpers.getIcon;
 
 public class MainPageController implements ListChangeListener<Deployment> {
 

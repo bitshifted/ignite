@@ -36,18 +36,25 @@
       </VBox>
    </top>
    <bottom>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox fx:id="buttonsContainer" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="5.0">
+            <HBox fx:id="installedJdkButtons" alignment="CENTER_RIGHT" prefWidth="200.0" spacing="5.0">
                <children>
-                  <ProgressIndicator maxHeight="30.0" />
-                  <Button mnemonicParsing="false" text="%java.dlg.button.install" />
+                  <ProgressIndicator fx:id="jdkProgressIndicator" maxHeight="30.0" visible="false" />
+                  <Button fx:id="installNewJdkButton" mnemonicParsing="false" onAction="#onInstallNewJdk" text="%java.dlg.button.install" />
                   <Button disable="true" mnemonicParsing="false" text="%java.dlg.button.toggle_auto_update" />
                   <Button fx:id="removeJdkButton" disable="true" mnemonicParsing="false" onAction="#onRemoveJdk" text="%java.dlg.button.remove" />
                </children>
                <VBox.margin>
                   <Insets right="5.0" />
                </VBox.margin>
+            </HBox>
+            <HBox fx:id="availableJdkButtons" alignment="CENTER_RIGHT" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <ProgressIndicator fx:id="jdkInstallationprogress" maxHeight="30.0" visible="false" />
+                  <Button fx:id="backToInstalledButton" mnemonicParsing="false" onAction="#onBackToInstalled" text="%java.dlg.button.back_to_installed" />
+                  <Button fx:id="installSelectedJdkButton" disable="true" mnemonicParsing="false" onAction="#onInstallSelectedJdk" text="%java.dlg.button.install_selected" />
+               </children>
             </HBox>
          </children>
          <padding>

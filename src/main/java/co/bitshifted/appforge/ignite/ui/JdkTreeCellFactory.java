@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
+import co.bitshifted.appforge.ignite.util.Helpers;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -20,13 +21,24 @@ import javafx.util.Callback;
 import org.kordamp.ikonli.bootstrapicons.BootstrapIcons;
 import org.kordamp.ikonli.devicons.Devicons;
 
+import java.util.ResourceBundle;
+
 public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeCell<JdkTreeItem>> {
+
+    private final ResourceBundle bundle;
+    private final String rootStringKey;
+
+    public JdkTreeCellFactory(ResourceBundle bundle, String rootStringKey) {
+        this.bundle = bundle;
+        this.rootStringKey = rootStringKey;
+    }
+
     @Override
     public TreeCell<JdkTreeItem> call(TreeView<JdkTreeItem> jdkTreeItemTreeView) {
         return new JdkTreeCell();
     }
 
-  public static class JdkTreeCell extends TreeCell<JdkTreeItem> {
+  public  class JdkTreeCell extends TreeCell<JdkTreeItem> {
       @Override
       protected void updateItem(JdkTreeItem item, boolean empty) {
           super.updateItem(item, empty);
@@ -34,8 +46,8 @@ public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeC
               setText(null);
               setGraphic(null);
           } else {
-              switch (item.type()) {
-                  case ROOT -> setText("Installed JDKs");
+              switch (item.getType()) {
+                  case ROOT -> setText(bundle.getString(rootStringKey));
                   case VENDOR -> setGraphic(getVendorCellNode(item));
                   case MAJOR_VERSION -> setGraphic(getVersionCellNode(item));
                   case RELEASE -> setGraphic(getReleaseCellNode(item));
@@ -46,24 +58,24 @@ public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeC
 
       private Node getVendorCellNode(JdkTreeItem item) {
           var hbox = new HBox(5.0);
-          hbox.getChildren().add(UiUtils.getIcon(BootstrapIcons.BUILDING));
-          hbox.getChildren().add(new Label(item.vendor().getDisplay()));
+          hbox.getChildren().add(Helpers.getIcon(BootstrapIcons.BUILDING));
+          hbox.getChildren().add(new Label(item.getVendor().getDisplay()));
           return hbox;
       }
 
       private Node getVersionCellNode(JdkTreeItem item) {
           var hbox = new HBox(5.0);
-          hbox.getChildren().add(UiUtils.getIcon(Devicons.JAVA));
-          hbox.getChildren().add(new Label(item.majorVersion().getDisplay()));
+          hbox.getChildren().add(Helpers.getIcon(Devicons.JAVA));
+          hbox.getChildren().add(new Label(item.getMajorVersion().getDisplay()));
           hbox.getChildren().add(new CheckBox("Auto update"));
           return hbox;
       }
 
       private Node getReleaseCellNode(JdkTreeItem item) {
           var hbox = new HBox(5.0);
-          hbox.getChildren().add(UiUtils.getIcon(BootstrapIcons.FILE_DIFF));
-          hbox.getChildren().add(new Label(item.release()));
-          if(item.latest()) {
+          hbox.getChildren().add(Helpers.getIcon(BootstrapIcons.FILE_DIFF));
+          hbox.getChildren().add(new Label(item.getRelease()));
+          if(item.isLatest()) {
               var tagLabel = new Label("latest");
               tagLabel.getStyleClass().add("jdk-tag-latest");
               hbox.getChildren().add(tagLabel);

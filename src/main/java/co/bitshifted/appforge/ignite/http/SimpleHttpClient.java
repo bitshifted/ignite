@@ -12,6 +12,7 @@ package co.bitshifted.appforge.ignite.http;
 
 import co.bitshifted.appforge.common.dto.ApplicationDTO;
 import co.bitshifted.appforge.common.dto.jdk.InstalledJdkDTO;
+import co.bitshifted.appforge.common.dto.jdk.JavaPlatformInfoDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
@@ -22,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +32,7 @@ public class SimpleHttpClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHttpClient.class);
     private static final String LIST_APPLICATIONS_ENDPOINT = "v1/applications";
     private static final String JDK_MANAGEMENT_ENDPOINT = "/v1/jdks";
+    private static final String AVAILABLE_JDKS_ENDPOINT = "/v1/jdks/available";
 
     private final OkHttpClient okHttpClient;
     private final ObjectMapper mapper;
@@ -73,6 +76,15 @@ public class SimpleHttpClient {
     public List<InstalledJdkDTO> getInstalledJdks(String serverUrl) throws IOException {
         LOGGER.debug("Getting installed JDKs list");
         var target = getTargetUrl(serverUrl, JDK_MANAGEMENT_ENDPOINT);
+        var request = new Request.Builder().url(target).get().build();
+        var call = okHttpClient.newCall(request);
+        var response = call.execute();
+        return mapper.readValue(response.body().byteStream(), new TypeReference<>() {});
+    }
+
+    public List<JavaPlatformInfoDTO> getAvailableJdks(String serverUrl) throws IOException {
+        LOGGER.debug("Getting available JDKs list");
+        var target = getTargetUrl(serverUrl, AVAILABLE_JDKS_ENDPOINT);
         var request = new Request.Builder().url(target).get().build();
         var call = okHttpClient.newCall(request);
         var response = call.execute();
