@@ -10,26 +10,19 @@
 
 package co.bitshifted.appforge.ignite.http;
 
-import co.bitshifted.appforge.common.dto.jdk.InstalledJdkDTO;
 import co.bitshifted.appforge.common.util.JdkVersionComparator;
 import co.bitshifted.appforge.ignite.model.JdkTreeItemType;
 import co.bitshifted.appforge.ignite.ui.JdkTreeItem;
-import javafx.concurrent.Task;
-import javafx.scene.control.TreeItem;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static co.bitshifted.appforge.ignite.util.Helpers.distinctByKey;
 
-public class ListInstalledJdksTask extends Task<List<JdkTreeItem>> {
-
-    private final SimpleHttpClient client;
-    private final String serverUrl;
+public class ListInstalledJdksTask extends BaseHttpTask<List<JdkTreeItem>> {
 
     public ListInstalledJdksTask(String serverUrl) {
-        this.client = new SimpleHttpClient();
-        this.serverUrl = serverUrl;
+        super(serverUrl);
     }
 
     @Override

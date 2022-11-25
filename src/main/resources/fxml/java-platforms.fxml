@@ -31,12 +31,12 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <Label text="%java.dlg.label.installed" />
+            <Label fx:id="serverErrorLabel" styleClass="error-label" text="Label" visible="false" />
          </children>
       </VBox>
    </top>
    <bottom>
-      <VBox fx:id="buttonsContainer" BorderPane.alignment="CENTER">
+      <VBox fx:id="buttonsContainer" alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <HBox fx:id="installedJdkButtons" alignment="CENTER_RIGHT" prefWidth="200.0" spacing="5.0">
                <children>
