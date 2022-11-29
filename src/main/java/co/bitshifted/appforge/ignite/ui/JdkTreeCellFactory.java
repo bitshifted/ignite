@@ -10,7 +10,9 @@
 
 package co.bitshifted.appforge.ignite.ui;
 
+import co.bitshifted.appforge.ignite.ctrl.JavaPlatformsController;
 import co.bitshifted.appforge.ignite.util.Helpers;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -27,10 +29,13 @@ public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeC
 
     private final ResourceBundle bundle;
     private final String rootStringKey;
+    private final SimpleObjectProperty<JavaPlatformsController.Mode> mode;
 
-    public JdkTreeCellFactory(ResourceBundle bundle, String rootStringKey) {
+    public JdkTreeCellFactory(ResourceBundle bundle, String rootStringKey, SimpleObjectProperty<JavaPlatformsController.Mode> mode) {
         this.bundle = bundle;
         this.rootStringKey = rootStringKey;
+        this.mode = mode;
+        System.out.println("mode: " + mode);
     }
 
     @Override
@@ -67,11 +72,14 @@ public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeC
           var hbox = new HBox(5.0);
           hbox.getChildren().add(Helpers.getIcon(Devicons.JAVA));
           var sb = new StringBuilder(item.getMajorVersion().getDisplay());
-          if(item.isAutoUpdate()) {
-              sb.append(" (Auto  update enabled)");
-          } else {
-              sb.append(" (Auto  update disabled)");
+          if(mode.get() == JavaPlatformsController.Mode.INSTALLED) {
+              if(item.isAutoUpdate()) {
+                  sb.append(" (Auto  update enabled)");
+              } else {
+                  sb.append(" (Auto  update disabled)");
+              }
           }
+
           hbox.getChildren().add(new Label(sb.toString()));
           return hbox;
       }

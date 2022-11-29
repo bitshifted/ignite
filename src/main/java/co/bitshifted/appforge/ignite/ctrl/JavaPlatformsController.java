@@ -44,7 +44,7 @@ public class JavaPlatformsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaPlatformsController.class);
 
-    private enum Mode {INSTALLED, AVAILABLE};
+    public enum Mode {INSTALLED, AVAILABLE};
 
     @FXML
     private ComboBox<Server> serversCombo;
@@ -313,7 +313,7 @@ public class JavaPlatformsController {
             }));
             var jdkTreeRoot = new TreeItem<>(JdkTreeItem.builder().type(JdkTreeItemType.ROOT).build());
             jdkTreeView.setRoot(jdkTreeRoot);
-            jdkTreeView.setCellFactory(new JdkTreeCellFactory(ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME), rootStringKey));
+            jdkTreeView.setCellFactory(new JdkTreeCellFactory(ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME), rootStringKey, currentMode));
             newValue.stream().forEach(vendor -> {
                 var vendorTreeItem = new TreeItem<>(vendor);
                 vendor.getChildren().stream().forEach(version -> {

@@ -21,6 +21,8 @@ import java.util.List;
 public class InstallNewJdkTask extends BaseHttpTask<JdkInstallStatusDTO> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InstallNewJdkTask.class);
+    private static final int MAX_RETRIES = 200;
+    private static final long RETRY_INTERVAL = 5000;
 
     private final JdkInstallRequestDTO installRequest;
 
@@ -36,7 +38,7 @@ public class InstallNewJdkTask extends BaseHttpTask<JdkInstallStatusDTO> {
         var taskId = taskStatus.getTaskId();
         LOGGER.debug("Install task ID: {}", taskId);
         updateValue(taskStatus);
-        for(int i = 0;i < 200; i++) {
+        for(int i = 0;i < MAX_RETRIES; i++) {
             LOGGER.info("Checking installation status...");
             var curStatus = client.getJdkInstallationStatus(serverUrl, taskId);
             updateValue(curStatus);
@@ -46,7 +48,7 @@ public class InstallNewJdkTask extends BaseHttpTask<JdkInstallStatusDTO> {
             } else if(curStatus.getStatus() == JdkInstallationStatus.FAILED) {
                 throw new Exception("Installation failed!");
             }
-            Thread.sleep(5000);
+            Thread.sleep(RETRY_INTERVAL);
         }
         return taskStatus;
     }
