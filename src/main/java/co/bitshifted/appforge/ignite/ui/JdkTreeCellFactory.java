@@ -66,8 +66,13 @@ public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeC
       private Node getVersionCellNode(JdkTreeItem item) {
           var hbox = new HBox(5.0);
           hbox.getChildren().add(Helpers.getIcon(Devicons.JAVA));
-          hbox.getChildren().add(new Label(item.getMajorVersion().getDisplay()));
-          hbox.getChildren().add(new CheckBox("Auto update"));
+          var sb = new StringBuilder(item.getMajorVersion().getDisplay());
+          if(item.isAutoUpdate()) {
+              sb.append(" (Auto  update enabled)");
+          } else {
+              sb.append(" (Auto  update disabled)");
+          }
+          hbox.getChildren().add(new Label(sb.toString()));
           return hbox;
       }
 

@@ -36,10 +36,11 @@ application-info:
     executable: false
   exe-name: "ignite"
   supported-operating-systems:
-  - "linux"
   - "mac"
   - "windows"
+  - "linux"
 jvm:
   vendor: "ADOPTIUM"
+  release: "latest"
   major-version: "17"
   main-class: "co.bitshifted.appforge.ignite.Ignite"

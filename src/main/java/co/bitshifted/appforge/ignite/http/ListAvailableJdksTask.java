@@ -39,7 +39,6 @@ public class ListAvailableJdksTask extends BaseHttpTask<List<JdkTreeItem>> {
                 var releases = releaseDto.getReleases().stream().map(rl -> JdkTreeItem.builder().type(JdkTreeItemType.RELEASE).release(rl).build()).sorted(new JdkVersionComparator().reversed()).collect(Collectors.toList());
                 // mark first item as latest
                 var latestRelease = releases.get(0).getRelease();
-                LOGGER.debug("Latest release: {}", latestRelease);
                 releases.set(0, JdkTreeItem.builder().type(JdkTreeItemType.RELEASE).release(latestRelease).latest(true).build());
                 var majorVersionItem = JdkTreeItem.builder().type(JdkTreeItemType.MAJOR_VERSION).majorVersion(releaseDto.getMajorVersion()).build();
                 majorVersionItem.getChildren().addAll(releases);

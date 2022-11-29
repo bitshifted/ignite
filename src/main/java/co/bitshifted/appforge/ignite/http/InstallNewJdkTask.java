@@ -34,6 +34,7 @@ public class InstallNewJdkTask extends BaseHttpTask<JdkInstallStatusDTO> {
         LOGGER.debug("Start JDK installation task...");
         var taskStatus = client.installNewJdk(serverUrl, List.of(installRequest));
         var taskId = taskStatus.getTaskId();
+        LOGGER.debug("Install task ID: {}", taskId);
         updateValue(taskStatus);
         for(int i = 0;i < 200; i++) {
             LOGGER.info("Checking installation status...");
