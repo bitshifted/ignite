@@ -11,6 +11,7 @@
 package co.bitshifted.appforge.ignite.ctrl;
 
 import co.bitshifted.appforge.common.dto.ApplicationDTO;
+import co.bitshifted.appforge.common.dto.jdk.InstalledJdkDTO;
 import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.Deployment;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
@@ -39,6 +40,8 @@ public class MainMenuController {
     private MenuItem serverConfigMenuItem;
     @FXML
     private MenuItem appConfigMenuItem;
+    @FXML
+    private MenuItem javaPlatformsMenuItem;
 
     public MainMenuController() {
         this.bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
@@ -88,6 +91,19 @@ public class MainMenuController {
         } catch(IOException ex) {
             LOGGER.error("Failed to open dialog", ex);
         }
+    }
 
+    @FXML
+    public void onJavaPlatformAction() {
+        try {
+            var dialog = DialogBuilder.newBuilder(InstalledJdkDTO.class)
+                .withTitle(bundle.getString("java.dlg.title"))
+                .withFxmlContent("/fxml/java-platforms.fxml", bundle, new JavaPlatformsController())
+                .withButtonTypes(ButtonType.CLOSE)
+                .build();
+            dialog.showAndWait();
+        } catch(Exception ex) {
+            LOGGER.error("Failed to open dialog", ex);
+        }
     }
 }

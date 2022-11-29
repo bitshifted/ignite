@@ -15,6 +15,7 @@
         <items>
           <MenuItem fx:id="serverConfigMenuItem" mnemonicParsing="false" onAction="#serverConfigMenuAction" text="%menu.main.configuration.server" />
             <MenuItem fx:id="appConfigMenuItem" mnemonicParsing="false" onAction="#appConfigMenuAction" text="%menu.main.configuration.apps" />
+            <MenuItem fx:id="javaPlatformsMenuItem" mnemonicParsing="false" onAction="#onJavaPlatformAction" text="%menu.main.configuration.jdk" />
         </items>
       </Menu>
   </menus>

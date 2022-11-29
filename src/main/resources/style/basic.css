@@ -13,3 +13,14 @@
     -fx-font-style: italic;
     -fx-text-fill: darkgray;
 }
+
+.jdk-tag-latest {
+    -fx-border-color: blue;
+    -fx-border-radius: 10px;
+    -fx-spacing: 5;
+    -fx-padding-right: 5;
+    -fx-padding-left: 5;
+    -fx-background-radius: 10px;
+    -fx-background-color: lightblue;
+    -fx-alignment: center;
+}

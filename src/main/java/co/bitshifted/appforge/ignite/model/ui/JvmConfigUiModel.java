@@ -21,6 +21,7 @@ public class JvmConfigUiModel {
     private final JvmConfigurationDTO source;
     private final SimpleObjectProperty<JvmVendor> jvmVendorProperty;
     private final SimpleObjectProperty<JavaVersion> javaVersionProperty;
+    private final SimpleStringProperty releaseProperty;
     private final SimpleStringProperty mainClassProperty;
     private final SimpleStringProperty moduleNameProperty;
     private final SimpleStringProperty argumentsProperty;
@@ -31,6 +32,7 @@ public class JvmConfigUiModel {
         this.source = source;
         this.jvmVendorProperty = new SimpleObjectProperty<>(source.getVendor());
         this.javaVersionProperty = new SimpleObjectProperty<>(source.getMajorVersion());
+        this.releaseProperty = new SimpleStringProperty(source.getRelease());
         this.mainClassProperty = new SimpleStringProperty(source.getMainClass());
         this.moduleNameProperty = new SimpleStringProperty(source.getModuleName());
         this.argumentsProperty = new SimpleStringProperty(source.getArguments());
@@ -41,6 +43,7 @@ public class JvmConfigUiModel {
     public JvmConfigurationDTO getSource() {
         source.setVendor(jvmVendorProperty.get());
         source.setMajorVersion(javaVersionProperty.get());
+        source.setRelease(releaseProperty.get());
         source.setMainClass(mainClassProperty.get());
         source.setModuleName(moduleNameProperty.get());
         source.setArguments(argumentsProperty.get());
@@ -56,6 +59,8 @@ public class JvmConfigUiModel {
     public SimpleObjectProperty<JavaVersion> javaVersionProperty() {
         return javaVersionProperty;
     }
+
+    public SimpleStringProperty releaseProperty() {return releaseProperty; }
 
     public SimpleStringProperty mainClassProperty() {
         return mainClassProperty;
