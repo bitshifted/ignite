@@ -11,34 +11,46 @@
 package co.bitshifted.appforge.ignite.model.ui;
 
 import co.bitshifted.appforge.common.model.ApplicationInfoPlatform;
+import co.bitshifted.appforge.common.model.CpuArch;
 import co.bitshifted.appforge.common.model.LinuxApplicationInfo;
+import co.bitshifted.appforge.common.model.WindowsApplicationInfo;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WindowsAppInfoUIModel {
 
-    private final ApplicationInfoPlatform source;
+    private final WindowsApplicationInfo source;
     private final ObservableList<BasicResourceUIModel> iconsUiModel;
+    private final SimpleBooleanProperty archX86Supported;
 
-    public WindowsAppInfoUIModel(ApplicationInfoPlatform source) {
+    public WindowsAppInfoUIModel(WindowsApplicationInfo source) {
         if(source == null) {
-            this.source = new ApplicationInfoPlatform();
+            this.source = new WindowsApplicationInfo();
             this.iconsUiModel = FXCollections.observableArrayList();
         } else {
             this.source = source;
             this.iconsUiModel = FXCollections.observableList(
                 source.getIcons().stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
         }
+        this.archX86Supported = new SimpleBooleanProperty(source.getSupportedCpuArchitectures().contains(CpuArch.X64));
     }
 
     public ObservableList<BasicResourceUIModel> getIconsUiModel() {
         return iconsUiModel;
     }
 
-    public ApplicationInfoPlatform getSource() {
+    public WindowsApplicationInfo getSource() {
         source.setIcons(iconsUiModel.stream().map(ui -> ui.getResource()).collect(Collectors.toList()));
+        // only x64 supported for Windows
+        source.setSupportedCpuArchitectures(Set.of(CpuArch.X64));
         return source;
+    }
+
+    public SimpleBooleanProperty getArchX86SupportedProperty() {
+        return archX86Supported;
     }
 }

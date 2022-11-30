@@ -15,6 +15,7 @@ import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.DeploymentItemType;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.ui.BasicResourceUIModel;
+import co.bitshifted.appforge.ignite.model.ui.DirtyChangeListener;
 import co.bitshifted.appforge.ignite.model.ui.MacAppInfoUiModel;
 import co.bitshifted.appforge.ignite.model.ui.WindowsAppInfoUIModel;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
@@ -23,6 +24,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -45,11 +49,17 @@ public class AppInfoMacController implements ChangeListener<DeploymentTreeItem>,
 
     @FXML
     private VBox iconsContainer;
+    @FXML
+    private CheckBox archX86CheckBox;
+    @FXML
+    private CheckBox archArmCheckBox;
 
     @FXML
     public void initialize() {
         bundle = ResourceBundle.getBundle(IgniteAppConstants.MESSAGE_BUNDLE_NAME);
         RuntimeData.getInstance().selectedDeploymentTreeITemProperty().addListener(this);
+        archX86CheckBox.selectedProperty().addListener((obsVal, oldVal, newVal) -> checkSelectedArchitecture(archX86CheckBox, newVal));
+        archArmCheckBox.selectedProperty().addListener((obsVal, oldVal, newVal) -> checkSelectedArchitecture(archArmCheckBox, newVal));
     }
 
     @Override
@@ -62,6 +72,11 @@ public class AppInfoMacController implements ChangeListener<DeploymentTreeItem>,
             var iconsList = currentMacAppInfoModel.getIconsUiModel().stream().map(ui -> createIconResourceView(ui)).collect(Collectors.toList());
             iconsContainer.getChildren().subList(1, iconsContainer.getChildren().size()).clear();
             iconsContainer.getChildren().addAll(iconsList);
+            archX86CheckBox.selectedProperty().bindBidirectional(currentMacAppInfoModel.getArchX86SupportedProperty());
+            archArmCheckBox.selectedProperty().bindBidirectional(currentMacAppInfoModel.getArchArmSupportedProperty());
+            // setup change listeners
+            archArmCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            archX86CheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
         }
     }
 
@@ -89,6 +104,17 @@ public class AppInfoMacController implements ChangeListener<DeploymentTreeItem>,
         } catch(Exception ex) {
             LOGGER.error("Failed to load view", ex);
             return new Label("Failed to load view: " + ex.getMessage());
+        }
+    }
+
+    private void checkSelectedArchitecture(CheckBox source, boolean value) {
+        if(!archX86CheckBox.isSelected() && !archArmCheckBox.isSelected() && !value) {
+            var alert = new Alert(Alert.AlertType.WARNING);
+            alert.getButtonTypes().clear();
+            alert.getButtonTypes().add(ButtonType.OK);
+            alert.setContentText("At least one CPU architecture must be selected!");
+            alert.showAndWait();
+            source.setSelected(true);
         }
     }
 }

@@ -7,6 +7,8 @@ application-info:
     - source: "resources/icons/ignite-icon.ico"
       target: "icon.ico"
       executable: false
+    supported-cpu-arch:
+    - "X64"
   linux:
     icons:
     - source: "resources/icons/ignite-icon-32x32.png"
@@ -18,14 +20,15 @@ application-info:
     - source: "resources/icons/ignite-icon-128x128.png"
       target: "icons/ignite-icon-128x128.png"
       executable: false
-    categories:
-    - "Development"
-    - "Building"
+    supported-cpu-arch:
+    - "X64"
   mac:
     icons:
     - source: "resources/icons/ignite-icon.icns"
       target: "ignite.icns"
       executable: false
+    supported-cpu-arch:
+    - "X64"
   license:
     source: "LICENSE"
     target: "LICENSE"
@@ -36,9 +39,9 @@ application-info:
     executable: false
   exe-name: "ignite"
   supported-operating-systems:
+  - "linux"
   - "mac"
   - "windows"
-  - "linux"
 jvm:
   vendor: "ADOPTIUM"
   release: "latest"
