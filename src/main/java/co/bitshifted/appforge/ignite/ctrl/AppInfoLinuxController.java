@@ -15,6 +15,7 @@ import co.bitshifted.appforge.ignite.IgniteAppConstants;
 import co.bitshifted.appforge.ignite.model.DeploymentItemType;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import co.bitshifted.appforge.ignite.model.ui.BasicResourceUIModel;
+import co.bitshifted.appforge.ignite.model.ui.DirtyChangeListener;
 import co.bitshifted.appforge.ignite.model.ui.LinuxAppInfoUIModel;
 import co.bitshifted.appforge.ignite.model.ui.LinuxDesktopCategory;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
@@ -24,9 +25,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckBoxTreeItem;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -51,6 +50,10 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
     private VBox iconsContainer;
     @FXML
     private CheckTreeView<LinuxDesktopCategory> categoryTreeView;
+    @FXML
+    private CheckBox archX86CheckBox;
+    @FXML
+    private CheckBox archArmCheckBox;
 
     private LinuxAppInfoUIModel currentLinuxAppInfoModel;
     private final ListChangeListener<TreeItem<LinuxDesktopCategory>> categoryChangeListener;
@@ -85,6 +88,8 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
         });
         categoryTreeView.getRoot().getChildren().setAll(categories);
         RuntimeData.getInstance().selectedDeploymentTreeITemProperty().addListener(this);
+        archX86CheckBox.selectedProperty().addListener((obsVal, oldVal, newVal) -> checkSelectedArchitecture(archX86CheckBox, newVal));
+        archArmCheckBox.selectedProperty().addListener((obsVal, oldVal, newVal) -> checkSelectedArchitecture(archArmCheckBox, newVal));
     }
 
     @Override
@@ -108,6 +113,11 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
                }
            });
            categoryTreeView.getCheckModel().getCheckedItems().addListener(categoryChangeListener);
+           archX86CheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getArchX86SupportedProperty());
+           archArmCheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getArchArmSupportedProperty());
+           // setup change listeners
+            archArmCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            archX86CheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
         }
     }
 
@@ -147,6 +157,17 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
             }
         });
         return out;
+    }
+
+    private void checkSelectedArchitecture(CheckBox source, boolean value) {
+        if(!archX86CheckBox.isSelected() && !archArmCheckBox.isSelected() && !value) {
+            var alert = new Alert(Alert.AlertType.WARNING);
+            alert.getButtonTypes().clear();
+            alert.getButtonTypes().add(ButtonType.OK);
+            alert.setContentText("At least one CPU architecture must be selected!");
+            alert.showAndWait();
+            source.setSelected(true);
+        }
     }
 
 }

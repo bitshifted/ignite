@@ -22,6 +22,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -44,6 +45,8 @@ public class AppInfoWindowsController implements ChangeListener<DeploymentTreeIt
 
     @FXML
     private VBox iconsContainer;
+    @FXML
+    private CheckBox archX86CheckBox;
 
     @FXML
     public void initialize() {
@@ -61,6 +64,7 @@ public class AppInfoWindowsController implements ChangeListener<DeploymentTreeIt
             var iconsList = currentWindowsAppInfoModel.getIconsUiModel().stream().map(ui -> createIconResourceView(ui)).collect(Collectors.toList());
             iconsContainer.getChildren().subList(1, iconsContainer.getChildren().size()).clear();
             iconsContainer.getChildren().addAll(iconsList);
+            archX86CheckBox.selectedProperty().bindBidirectional(currentWindowsAppInfoModel.getArchX86SupportedProperty());
         }
     }
 

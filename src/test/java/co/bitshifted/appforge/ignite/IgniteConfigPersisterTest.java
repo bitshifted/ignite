@@ -10,9 +10,12 @@
 
 package co.bitshifted.appforge.ignite;
 
+import co.bitshifted.appforge.common.model.CpuArch;
 import co.bitshifted.appforge.ignite.persist.IgniteConfigPersister;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IgniteConfigPersisterTest {
 
@@ -21,7 +24,11 @@ public class IgniteConfigPersisterTest {
         var persister = new IgniteConfigPersister();
         var location = getClass().getResource("/ignite-config-javafx.yml").getFile();
         var result = persister.load(location);
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals("http://localhost:8080", result.getServerUrl());
+        assertNotNull(result);
+        assertEquals("http://localhost:8080", result.getServerUrl());
+        var appInfo = result.getApplicationInfo().getLinux();
+        assertEquals(1, appInfo.getSupportedCpuArchitectures().size());
+        assertTrue(appInfo.getSupportedCpuArchitectures().contains(CpuArch.X64));
+
     }
 }
