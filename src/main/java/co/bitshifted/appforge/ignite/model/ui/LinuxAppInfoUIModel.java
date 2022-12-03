@@ -12,6 +12,7 @@ package co.bitshifted.appforge.ignite.model.ui;
 
 import co.bitshifted.appforge.common.model.CpuArch;
 import co.bitshifted.appforge.common.model.LinuxApplicationInfo;
+import co.bitshifted.appforge.common.model.LinuxPackageType;
 import co.bitshifted.appforge.common.model.OperatingSystem;
 import co.bitshifted.appforge.ignite.model.RuntimeData;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,6 +29,9 @@ public class LinuxAppInfoUIModel {
     private final ObservableList<LinuxDesktopCategory> categoriesUiModel;
     private final SimpleBooleanProperty archX86SupportedProperty;
     private final SimpleBooleanProperty archArmSupportedProperty;
+    private final SimpleBooleanProperty debPackageProperty;
+    private final SimpleBooleanProperty rpmPackageProperty;
+    private final SimpleBooleanProperty tarGzPackagePropety;
 
     public LinuxAppInfoUIModel(LinuxApplicationInfo source) {
         if(source == null) {
@@ -40,8 +44,11 @@ public class LinuxAppInfoUIModel {
                 source.getIcons().stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
             this.categoriesUiModel = FXCollections.observableList(createCategoryList(source.getCategories()));
         }
-        this.archX86SupportedProperty = new SimpleBooleanProperty(source != null && source.getSupportedCpuArchitectures().contains(CpuArch.X64));
-        this.archArmSupportedProperty = new SimpleBooleanProperty(source != null && source.getSupportedCpuArchitectures().contains(CpuArch.AARCH64));
+        this.archX86SupportedProperty = new SimpleBooleanProperty( this.source.getSupportedCpuArchitectures().contains(CpuArch.X64));
+        this.archArmSupportedProperty = new SimpleBooleanProperty(this.source.getSupportedCpuArchitectures().contains(CpuArch.AARCH64));
+        this.debPackageProperty = new SimpleBooleanProperty(this.source.getPackageTypes().contains(LinuxPackageType.DEB));
+        this.rpmPackageProperty = new SimpleBooleanProperty(this.source.getPackageTypes().contains(LinuxPackageType.RPM));
+        this.tarGzPackagePropety = new SimpleBooleanProperty(this.source.getPackageTypes().contains(LinuxPackageType.TAR_GZ));
         iconsUiModel.addListener(new DirtyChangeListener<>());
         categoriesUiModel.addListener(new DirtyChangeListener<>());
     }
@@ -60,10 +67,17 @@ public class LinuxAppInfoUIModel {
 
     public SimpleBooleanProperty getArchArmSupportedProperty() {return archArmSupportedProperty; }
 
+    public SimpleBooleanProperty getDebPackageProperty() {return  debPackageProperty; }
+
+    public SimpleBooleanProperty getRpmPackageProperty() { return rpmPackageProperty; }
+
+    public SimpleBooleanProperty getTarGzPackagePropety() { return tarGzPackagePropety; }
+
     public LinuxApplicationInfo getSource() {
         source.setIcons(iconsUiModel.stream().map(ui -> ui.getResource()).collect(Collectors.toList()));
         source.setCategories(categoriesUiModel.stream().map(cat -> cat.name()).collect(Collectors.toList()));
         source.setSupportedCpuArchitectures(getSupportedCpuArchitectures());
+        source.setPackageTypes(getPackageTypes());
         return source;
     }
 
@@ -86,5 +100,19 @@ public class LinuxAppInfoUIModel {
             set.add(CpuArch.AARCH64);
         }
         return set;
+    }
+
+    private Set<LinuxPackageType> getPackageTypes() {
+        var set = new HashSet<LinuxPackageType>();
+        if(debPackageProperty.get()) {
+            set.add(LinuxPackageType.DEB);
+        }
+        if(rpmPackageProperty.get()) {
+            set.add(LinuxPackageType.RPM);
+        }
+        if(tarGzPackagePropety.get()) {
+            set.add(LinuxPackageType.TAR_GZ);
+        }
+        return  set;
     }
 }

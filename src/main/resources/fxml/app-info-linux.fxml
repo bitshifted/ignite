@@ -22,7 +22,18 @@
                   <HBox prefWidth="200.0" spacing="10.0">
                      <children>
                         <CheckBox fx:id="archX86CheckBox" mnemonicParsing="false" text="x86 (Intel/AMD)" />
-                        <CheckBox fx:id="archArmCheckBox" disable="true" mnemonicParsing="false" text="aarch64 (ARM)" />
+                        <CheckBox fx:id="archArmCheckBox" mnemonicParsing="false" text="aarch64 (ARM)" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane collapsible="false" text="%appinfo.linux.title.packaging">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <CheckBox fx:id="debPackageCheckBox" mnemonicParsing="false" text=".deb" />
+                        <CheckBox fx:id="rpmPackageCheckBox" mnemonicParsing="false" text=".rpm" />
+                        <CheckBox fx:id="tarGzPackageCheckBox" mnemonicParsing="false" text=".tar.gz" />
                      </children>
                   </HBox>
                </content>

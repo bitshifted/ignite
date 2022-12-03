@@ -54,6 +54,12 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
     private CheckBox archX86CheckBox;
     @FXML
     private CheckBox archArmCheckBox;
+    @FXML
+    private CheckBox debPackageCheckBox;
+    @FXML
+    private CheckBox rpmPackageCheckBox;
+    @FXML
+    private CheckBox tarGzPackageCheckBox;
 
     private LinuxAppInfoUIModel currentLinuxAppInfoModel;
     private final ListChangeListener<TreeItem<LinuxDesktopCategory>> categoryChangeListener;
@@ -115,9 +121,15 @@ public class AppInfoLinuxController implements ChangeListener<DeploymentTreeItem
            categoryTreeView.getCheckModel().getCheckedItems().addListener(categoryChangeListener);
            archX86CheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getArchX86SupportedProperty());
            archArmCheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getArchArmSupportedProperty());
+           debPackageCheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getDebPackageProperty());
+           rpmPackageCheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getRpmPackageProperty());
+           tarGzPackageCheckBox.selectedProperty().bindBidirectional(currentLinuxAppInfoModel.getTarGzPackagePropety());
            // setup change listeners
             archArmCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
             archX86CheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            debPackageCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            rpmPackageCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
+            tarGzPackageCheckBox.selectedProperty().addListener(new DirtyChangeListener<>());
         }
     }
 
