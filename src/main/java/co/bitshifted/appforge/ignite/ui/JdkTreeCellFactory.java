@@ -35,7 +35,6 @@ public class JdkTreeCellFactory implements Callback<TreeView<JdkTreeItem>, TreeC
         this.bundle = bundle;
         this.rootStringKey = rootStringKey;
         this.mode = mode;
-        System.out.println("mode: " + mode);
     }
 
     @Override

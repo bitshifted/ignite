@@ -20,6 +20,10 @@ application-info:
     - source: "resources/icons/ignite-icon-128x128.png"
       target: "icons/ignite-icon-128x128.png"
       executable: false
+    packageTypes:
+    - "TAR_GZ"
+    - "RPM"
+    - "DEB"
     supported-cpu-arch:
     - "X64"
   mac:
@@ -39,9 +43,9 @@ application-info:
     executable: false
   exe-name: "ignite"
   supported-operating-systems:
-  - "linux"
-  - "mac"
   - "windows"
+  - "mac"
+  - "linux"
 jvm:
   vendor: "ADOPTIUM"
   release: "latest"
