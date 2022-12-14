@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -34,6 +35,8 @@ public class DeploymentInfoDlgController {
     private TextField projectLocationField;
     @FXML
     private TextField configFileNameField;
+    @FXML
+    private CheckBox configurePluginCheckbox;
 
     @FXML
     public void initialize() {
@@ -59,6 +62,7 @@ public class DeploymentInfoDlgController {
                 deployment.setConfigFileName(configFileNameField.getText());
                 LOGGER.debug("Config file name: {}", configFileNameField.getText());
                 deployment.setDependencyManagementType(dependencyCombo.getSelectionModel().getSelectedItem());
+                deployment.getAutoConfigurePomProperty().set(configurePluginCheckbox.isSelected());
                 return deployment;
             }
             return null;

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,8 @@ public final class Deployment {
     private final SimpleObjectProperty<String> configFileNameProperty;
     @JsonIgnore
     private final SimpleObjectProperty<DependencyManagementType> dependencyManagementTypeProperty;
+    @JsonIgnore
+    private final SimpleBooleanProperty autoConfigurePomProperty;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public Deployment(@JsonProperty("location") String location) {
@@ -48,6 +51,7 @@ public final class Deployment {
         this.locationProperty = new SimpleObjectProperty<>(location);
         this.configFileNameProperty = new SimpleObjectProperty<>();
         this.dependencyManagementTypeProperty = new SimpleObjectProperty<>();
+        this.autoConfigurePomProperty = new SimpleBooleanProperty();
     }
 
     @JsonIgnore
@@ -110,5 +114,9 @@ public final class Deployment {
 
     public SimpleObjectProperty<DependencyManagementType> getDependencyManagementTypeProperty() {
         return dependencyManagementTypeProperty;
+    }
+
+    public SimpleBooleanProperty getAutoConfigurePomProperty() {
+        return autoConfigurePomProperty;
     }
 }

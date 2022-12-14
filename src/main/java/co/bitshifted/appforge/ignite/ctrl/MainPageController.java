@@ -105,11 +105,22 @@ public class MainPageController implements ListChangeListener<Deployment> {
     @Override
     public void onChanged(Change<? extends Deployment> change) {
         LOGGER.debug("Deployment list changed");
-        while(change.next() && change.wasAdded()) {
-            change.getAddedSubList().forEach(d -> {
-                deploymentTree.getRoot().getChildren().add(createDeploymentNode(d));
-            });
-
+        while(change.next()) {
+            if(change.wasAdded()) {
+                change.getAddedSubList().forEach(d -> deploymentTree.getRoot().getChildren().add(createDeploymentNode(d)));
+            }
+            if(change.wasRemoved()) {
+                change.getRemoved().forEach(r -> findAndRemoveTreeNode(r));
+            }
         }
+    }
+
+    private void findAndRemoveTreeNode(Deployment target) {
+        var children = deploymentTree.getRoot().getChildren();
+        var potential = children.stream().filter(ti -> ti.getValue().deployment().equals(target)).findFirst();
+        if(potential.isPresent()) {
+            deploymentTree.getRoot().getChildren().remove(potential.get());
+        }
+
     }
 }

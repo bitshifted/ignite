@@ -108,6 +108,12 @@ public class RuntimeData {
         this.deploymentsList.add(deployment);
     }
 
+    public void removeDeployment(Deployment deployment) {
+        var removed = this.userData.get().getDeployments().remove(deployment);
+        LOGGER.debug("Deployment removed: {}", removed);
+        this.deploymentsList.remove(deployment);
+    }
+
     public SimpleObjectProperty<DeploymentTreeItem> selectedDeploymentTreeITemProperty() {
         return selectedDeploymentItem;
     }

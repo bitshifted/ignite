@@ -10,6 +10,7 @@
 
 package co.bitshifted.appforge.ignite.util;
 
+import javafx.stage.Window;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 
