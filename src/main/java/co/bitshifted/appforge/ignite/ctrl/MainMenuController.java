@@ -19,9 +19,12 @@ import co.bitshifted.appforge.ignite.model.Server;
 import co.bitshifted.appforge.ignite.persist.UserDataPersister;
 import co.bitshifted.appforge.ignite.ui.DialogBuilder;
 import co.bitshifted.appforge.ignite.ui.UIRegistry;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +69,43 @@ public class MainMenuController {
                 LOGGER.error("Failed to save deployment list", ex);
             }
         }
+    }
+
+    @FXML
+    public void openDeploymentAction() {
+        var fileChooser = new FileChooser();
+        fileChooser.setTitle(bundle.getString("chooser.file.deployment"));
+        var extFilter = new FileChooser.ExtensionFilter("YAML files (*.yaml, *.yml)", "*.yaml", "*.yml");
+        fileChooser.getExtensionFilters().add(extFilter);
+        var selectedFile = fileChooser.showOpenDialog(UIRegistry.instance().getMainWindow());
+       if (selectedFile != null) {
+           var deployment = new Deployment(selectedFile.getParent());
+           deployment.setConfigFileName(selectedFile.getName());
+           deployment.initConfiguration();
+           RuntimeData.getInstance().addDeployment(deployment);
+           try {
+               UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
+           } catch(IOException ex) {
+               LOGGER.error("Failed to save deployment list", ex);
+           }
+       }
+    }
+
+    @FXML
+    public void closeDeploymentAction() {
+        LOGGER.debug("Removing deployment");
+        var deployment = RuntimeData.getInstance().selectedDeploymentTreeITemProperty().get().deployment();
+        RuntimeData.getInstance().removeDeployment(deployment);
+        try {
+            UserDataPersister.instance().save(RuntimeData.getInstance().getUserData());
+        } catch(IOException ex) {
+            LOGGER.error("Failed to save deployment list", ex);
+        }
+    }
+
+    @FXML
+    public void onExitAction() {
+        System.exit(0);
     }
 
     @FXML

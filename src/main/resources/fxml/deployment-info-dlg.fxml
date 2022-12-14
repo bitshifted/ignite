@@ -43,7 +43,7 @@
                 <ComboBox fx:id="dependencyCombo" prefWidth="150.0" />
             </children>
         </HBox>
-      <CheckBox fx:id="configurePluginCheckbox" mnemonicParsing="false" prefHeight="18.0" prefWidth="374.0" selected="true" text="%deployment.cb.automatic.maven.plugin" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+      <CheckBox fx:id="configurePluginCheckbox" disable="true" mnemonicParsing="false" prefHeight="18.0" prefWidth="374.0" text="%deployment.cb.automatic.maven.plugin" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
     </children>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -3,12 +3,17 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 
 <MenuBar fx:id="mainMenuBar" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.bitshifted.appforge.ignite.ctrl.MainMenuController">
   <menus>
     <Menu fx:id="fileMenu" text="%menu.main.file">
       <items>
         <MenuItem fx:id="newDeploymentMenuItem" mnemonicParsing="false" onAction="#newDeploymentAction" text="%menu.main.file.newdeployment" />
+            <MenuItem mnemonicParsing="false" onAction="#openDeploymentAction" text="%menu.main.file.opendeployment" />
+            <MenuItem mnemonicParsing="false" onAction="#closeDeploymentAction" text="%menu.main.file.closedeployment" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#onExitAction" text="%menu.main.file.exit" />
       </items>
     </Menu>
       <Menu mnemonicParsing="false" text="%menu.main.configuration">
