@@ -1,6 +1,6 @@
 ---
 application-id: "1ed8059a-7245-63e0-9f6c-7511f90fffb5"
-server-url: "http://localhost:8080"
+server-url: "http://testserver:8080"
 application-info:
   windows:
     icons:
@@ -21,9 +21,9 @@ application-info:
       target: "icons/ignite-icon-128x128.png"
       executable: false
     packageTypes:
-    - "TAR_GZ"
     - "RPM"
     - "DEB"
+    - "TAR_GZ"
     supported-cpu-arch:
     - "X64"
   mac:
@@ -33,6 +33,7 @@ application-info:
       executable: false
     supported-cpu-arch:
     - "X64"
+    - "AARCH64"
   license:
     source: "LICENSE"
     target: "LICENSE"
@@ -43,9 +44,9 @@ application-info:
     executable: false
   exe-name: "ignite"
   supported-operating-systems:
-  - "windows"
   - "mac"
   - "linux"
+  - "windows"
 jvm:
   vendor: "ADOPTIUM"
   release: "latest"
