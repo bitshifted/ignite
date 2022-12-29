@@ -21,9 +21,9 @@ application-info:
       target: "icons/ignite-icon-128x128.png"
       executable: false
     packageTypes:
-    - "RPM"
     - "DEB"
     - "TAR_GZ"
+    - "RPM"
     supported-cpu-arch:
     - "X64"
   mac:
@@ -44,11 +44,15 @@ application-info:
     executable: false
   exe-name: "ignite"
   supported-operating-systems:
+  - "windows"
   - "mac"
   - "linux"
-  - "windows"
 jvm:
   vendor: "ADOPTIUM"
   release: "latest"
   major-version: "17"
   main-class: "co.bitshifted.appforge.ignite.Ignite"
+  add-modules: "ALL-MODULE-PATH"
+  jlink-ignore-modules:
+  - "jdk.compiler/com.sun.tools.javac.processing"
+  - "jdk.compiler/com.sun.tools.javac.util"

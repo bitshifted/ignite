@@ -29,6 +29,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.util.converter.DefaultStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +56,10 @@ public class JvmInfoController implements ChangeListener<DeploymentTreeItem> {
     private TextArea jvmOptionsField;
     @FXML
     private TextArea systemPropertiesField;
+    @FXML
+    private TextArea addModulesTextField;
+    @FXML
+    private TextArea ignoreModulesTextArea;
     @FXML
     private ProgressIndicator jvmLoadingProgress;
     @FXML
@@ -155,6 +161,8 @@ public class JvmInfoController implements ChangeListener<DeploymentTreeItem> {
             argumentsTextField.textProperty().bindBidirectional(jvmConfigUiModel.argumentsProperty());
             jvmOptionsField.textProperty().bindBidirectional(jvmConfigUiModel.jvmOptionsProperty());
             systemPropertiesField.textProperty().bindBidirectional(jvmConfigUiModel.systemPropertiesProperty());
+            addModulesTextField.textProperty().bindBidirectional(jvmConfigUiModel.addModulesProperty());
+            ignoreModulesTextArea.textProperty().bindBidirectional(jvmConfigUiModel.jlinkIgnoreModulesProperty());
             // setup change listeners
             vendorComboBox.getSelectionModel().selectedItemProperty().addListener(new DirtyChangeListener<>());
             versionComboBox.getSelectionModel().selectedItemProperty().addListener(new DirtyChangeListener<>());
@@ -163,6 +171,8 @@ public class JvmInfoController implements ChangeListener<DeploymentTreeItem> {
             argumentsTextField.textProperty().addListener(new DirtyChangeListener<>());
             jvmOptionsField.textProperty().addListener(new DirtyChangeListener<>());
             systemPropertiesField.textProperty().addListener(new DirtyChangeListener<>());
+            addModulesTextField.textProperty().addListener(new DirtyChangeListener<>());
+            ignoreModulesTextArea.textProperty().addListener(new DirtyChangeListener<>());
         }
     }
 

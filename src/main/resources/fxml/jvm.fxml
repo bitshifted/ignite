@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="995.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <VBox spacing="10.0">
          <children>
@@ -57,7 +57,7 @@
                <content>
                   <GridPane>
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" percentWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" percentWidth="20.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" percentWidth="90.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
@@ -92,6 +92,26 @@
                      <children>
                         <Label text="Label" />
                         <TextArea fx:id="systemPropertiesField" prefHeight="80.0" prefWidth="200.0" wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane collapsible="false" prefHeight="200.0" prefWidth="200.0" text="%jvm.title.addModules">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label text="%jvm.label.addModules.info" />
+                        <TextArea fx:id="addModulesTextField" prefHeight="108.0" prefWidth="576.0" wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane collapsible="false" prefHeight="200.0" prefWidth="200.0" text="%jvm.title.ignoreModulesJlink">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label text="%jvm.label.ignoreModules.info" />
+                        <TextArea fx:id="ignoreModulesTextArea" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
