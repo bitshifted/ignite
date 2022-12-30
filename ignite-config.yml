@@ -20,6 +20,8 @@ application-info:
     - source: "resources/icons/ignite-icon-128x128.png"
       target: "icons/ignite-icon-128x128.png"
       executable: false
+    categories:
+    - "Building"
     packageTypes:
     - "DEB"
     - "TAR_GZ"
