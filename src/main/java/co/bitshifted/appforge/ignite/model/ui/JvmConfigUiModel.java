@@ -16,6 +16,10 @@ import co.bitshifted.appforge.common.model.JvmVendor;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class JvmConfigUiModel {
 
     private final JvmConfigurationDTO source;
@@ -27,6 +31,8 @@ public class JvmConfigUiModel {
     private final SimpleStringProperty argumentsProperty;
     private final SimpleStringProperty jvmOptionsProperty;
     private final SimpleStringProperty systemPropertiesProperty;
+    private final SimpleStringProperty addModulesProperty;
+    private final SimpleStringProperty jlinkIgnoreModulesProperty;
 
     public JvmConfigUiModel(JvmConfigurationDTO source) {
         this.source = source;
@@ -38,6 +44,8 @@ public class JvmConfigUiModel {
         this.argumentsProperty = new SimpleStringProperty(source.getArguments());
         this.jvmOptionsProperty = new SimpleStringProperty(source.getJvmOptions());
         this.systemPropertiesProperty = new SimpleStringProperty(source.getSystemProperties());
+        this.addModulesProperty = new SimpleStringProperty(source.getAddModules());
+        this.jlinkIgnoreModulesProperty = new SimpleStringProperty(modulesToString(source.getJlinkIgnoreModules()));
     }
 
     public JvmConfigurationDTO getSource() {
@@ -49,6 +57,8 @@ public class JvmConfigUiModel {
         source.setArguments(argumentsProperty.get());
         source.setJvmOptions(jvmOptionsProperty.get());
         source.setSystemProperties(systemPropertiesProperty.get());
+        source.setAddModules(addModulesProperty.get());
+        source.setJlinkIgnoreModules(stringToModules(jlinkIgnoreModulesProperty.get()));
         return source;
     }
 
@@ -80,5 +90,32 @@ public class JvmConfigUiModel {
 
     public SimpleStringProperty systemPropertiesProperty() {
         return systemPropertiesProperty;
+    }
+
+    public SimpleStringProperty addModulesProperty() {
+        return addModulesProperty;
+    }
+
+    public SimpleStringProperty jlinkIgnoreModulesProperty() {
+        return jlinkIgnoreModulesProperty;
+    }
+
+    private String modulesToString(Set<String> moduleNames) {
+        if(moduleNames == null) {
+            return "";
+        }
+        var sb = new StringBuilder();
+        moduleNames.forEach( m -> sb.append(m).append("\n"));
+        return sb.toString().trim();
+    }
+
+    private Set<String> stringToModules(String input) {
+        var result = new HashSet<String>();
+        var newlineSplit = input.split("\n");
+        Arrays.stream(newlineSplit).forEach(s -> {
+            var commaSplit = s.split(",");
+            Arrays.stream(commaSplit).filter(i -> i.length() > 0).forEach(t -> result.add(t.trim()));
+        });
+        return result;
     }
 }

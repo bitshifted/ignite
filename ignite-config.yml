@@ -1,6 +1,6 @@
 ---
 application-id: "1ed8059a-7245-63e0-9f6c-7511f90fffb5"
-server-url: "http://localhost:8080"
+server-url: "http://testserver:8080"
 application-info:
   windows:
     icons:
@@ -20,10 +20,12 @@ application-info:
     - source: "resources/icons/ignite-icon-128x128.png"
       target: "icons/ignite-icon-128x128.png"
       executable: false
+    categories:
+    - "Building"
     packageTypes:
+    - "DEB"
     - "TAR_GZ"
     - "RPM"
-    - "DEB"
     supported-cpu-arch:
     - "X64"
   mac:
@@ -33,6 +35,7 @@ application-info:
       executable: false
     supported-cpu-arch:
     - "X64"
+    - "AARCH64"
   license:
     source: "LICENSE"
     target: "LICENSE"
@@ -51,3 +54,7 @@ jvm:
   release: "latest"
   major-version: "17"
   main-class: "co.bitshifted.appforge.ignite.Ignite"
+  add-modules: "ALL-MODULE-PATH"
+  jlink-ignore-modules:
+  - "jdk.compiler/com.sun.tools.javac.processing"
+  - "jdk.compiler/com.sun.tools.javac.util"
