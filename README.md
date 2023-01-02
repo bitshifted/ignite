@@ -13,3 +13,28 @@ and efficiently.
 
 Ignite is released under Mozilla Public License 2.0. for details, see [LICENSE](./LICENSE) file.
 
+# Building and running
+
+Ignite is written in Java and uses JavaFX for user interface. Build requirements are:
+
+* Java 17 or higher
+* Maven 3
+
+To build the application, run `mvn install` command.
+
+To run it from command line, run
+
+```shell
+mvn javafx:run@run
+```
+
+This will execute JavaFX Maven plugin and launch the application
+
+## Debugging
+
+For debugging purposes, process is the following:
+
+1. Run `mvn javafx:run@debug`
+2. Attach the debugger to the running process
+
+
