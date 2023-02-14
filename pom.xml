@@ -15,7 +15,7 @@
     <parent>
         <groupId>co.bitshifted.appforge</groupId>
         <artifactId>appforge</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.3</version>
     </parent>
     <groupId>co.bitshfited.appforge</groupId>
     <artifactId>ignite</artifactId>
@@ -40,7 +40,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
-        <appforge-common.version>1.0.0</appforge-common.version>
+        <appforge-common.version>1.1.1</appforge-common.version>
         <ikonli.version>12.3.1</ikonli.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <controlsfx.version>11.1.2</controlsfx.version>
@@ -147,7 +147,7 @@
                 <plugin>
                     <groupId>co.bitshifted.appforge</groupId>
                     <artifactId>ignite-maven-plugin</artifactId>
-                    <version>1.0.0-SNAPSHOT</version>
+                    <version>0.0.0-SNAPSHOT</version>
                     <executions>
                         <execution>
                             <id>ignite-deploy</id>

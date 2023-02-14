@@ -26,5 +26,6 @@ target/
 #Intelij IDEA ignores
 .idea/
 *.iml
+.run/
 
 *.DS_Store
