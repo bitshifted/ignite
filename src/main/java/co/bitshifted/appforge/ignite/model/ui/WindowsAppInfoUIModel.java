@@ -18,6 +18,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,10 +34,14 @@ public class WindowsAppInfoUIModel {
             this.iconsUiModel = FXCollections.observableArrayList();
         } else {
             this.source = source;
+            var icons = source.getIcons();
+            if(icons == null) {
+                icons = List.of();
+            }
             this.iconsUiModel = FXCollections.observableList(
-                source.getIcons().stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
+                icons.stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
         }
-        this.archX86Supported = new SimpleBooleanProperty(source.getSupportedCpuArchitectures().contains(CpuArch.X64));
+        this.archX86Supported = new SimpleBooleanProperty(this.source.getSupportedCpuArchitectures().contains(CpuArch.X64));
     }
 
     public ObservableList<BasicResourceUIModel> getIconsUiModel() {

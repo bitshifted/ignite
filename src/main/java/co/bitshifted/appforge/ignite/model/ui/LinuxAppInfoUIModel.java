@@ -40,8 +40,13 @@ public class LinuxAppInfoUIModel {
             this.categoriesUiModel = FXCollections.observableArrayList();
         } else {
             this.source = source;
+            var icons = source.getIcons();
+            if(icons == null) {
+                icons = List.of();
+            }
             this.iconsUiModel = FXCollections.observableList(
-                source.getIcons().stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
+                    icons.stream().map(i -> new BasicResourceUIModel(i)).collect(Collectors.toList()));
+
             this.categoriesUiModel = FXCollections.observableList(createCategoryList(source.getCategories()));
         }
         this.archX86SupportedProperty = new SimpleBooleanProperty( this.source.getSupportedCpuArchitectures().contains(CpuArch.X64));
@@ -49,7 +54,7 @@ public class LinuxAppInfoUIModel {
         this.debPackageProperty = new SimpleBooleanProperty(this.source.getPackageTypes().contains(LinuxPackageType.DEB));
         this.rpmPackageProperty = new SimpleBooleanProperty(this.source.getPackageTypes().contains(LinuxPackageType.RPM));
         this.tarGzPackagePropety = new SimpleBooleanProperty(this.source.getPackageTypes().contains(LinuxPackageType.TAR_GZ));
-        iconsUiModel.addListener(new DirtyChangeListener<>());
+        this.iconsUiModel.addListener(new DirtyChangeListener<>());
         categoriesUiModel.addListener(new DirtyChangeListener<>());
     }
 

@@ -72,7 +72,10 @@ public class IgniteConfig {
     }
 
     public String getApplicationId() {
-        return applicationIdProperty.get().getId();
+        if (applicationIdProperty.get() != null) {
+            return applicationIdProperty.get().getId();
+        }
+        return null;
     }
 
     @JsonProperty(value = "application-info", index = 15)
@@ -85,7 +88,10 @@ public class IgniteConfig {
     }
 
     public ApplicationInfo getApplicationInfo() {
-        return this.applicationInfoProperty.get().getSource();
+        if(this.applicationInfoProperty.get() != null) {
+            return this.applicationInfoProperty.get().getSource();
+        }
+        return new ApplicationInfo();
     }
 
     @JsonProperty(value = "jvm", index = 20)
@@ -98,7 +104,10 @@ public class IgniteConfig {
     }
 
     public JvmConfigurationDTO getJvm() {
-        return this.jvmConfigurationProperty.get().getSource();
+        if(this.jvmConfigurationProperty.get() != null) {
+            return this.jvmConfigurationProperty.get().getSource();
+        }
+        return new JvmConfigurationDTO();
     }
 
     @JsonProperty(value = "resources", index = 25)

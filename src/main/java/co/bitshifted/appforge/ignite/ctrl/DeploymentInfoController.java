@@ -14,6 +14,7 @@ import co.bitshifted.appforge.common.dto.ApplicationDTO;
 import co.bitshifted.appforge.ignite.TaskExecutor;
 import co.bitshifted.appforge.ignite.http.SimpleHttpClient;
 import co.bitshifted.appforge.ignite.model.*;
+import co.bitshifted.appforge.ignite.model.ui.DirtyChangeListener;
 import co.bitshifted.appforge.ignite.ui.DeploymentTreeItem;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -76,7 +77,8 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
             if(applicationsCombo.getItems().isEmpty()) {
                  TaskExecutor.getInstance().start(new ListAppsWorker(deployment));
             }
-
+            serverCombo.valueProperty().addListener(new DirtyChangeListener<>());
+            applicationsCombo.valueProperty().addListener(new DirtyChangeListener<>());
         }
     }
 
@@ -119,12 +121,16 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
             this.deployment = deployment;
             valueProperty().addListener((observableValue, oldValue, newValue) -> {
                 // update application based on ID
-                var appOptional = newValue.stream().filter(d -> d.getId().equals(deployment.getConfiguration().getApplicationId())).findFirst();
-                if(appOptional.isPresent()) {
-                    LOGGER.debug("Found application with ID {}: {}", deployment.getConfiguration().getApplicationId(), appOptional.get());
-                    DeploymentInfoController.this.applicationsCombo.setItems(FXCollections.observableList(newValue));
-                    deployment.getConfiguration().applicationIdProperty().set(appOptional.get());
+                var appId = deployment.getConfiguration().getApplicationId();
+                if (appId != null) {
+                    var appOptional = newValue.stream().filter(d -> d.getId().equals(deployment.getConfiguration().getApplicationId())).findFirst();
+                    if(appOptional.isPresent()) {
+                        LOGGER.debug("Found application with ID {}: {}", deployment.getConfiguration().getApplicationId(), appOptional.get());
+                        DeploymentInfoController.this.applicationsCombo.setItems(FXCollections.observableList(newValue));
+                        deployment.getConfiguration().applicationIdProperty().set(appOptional.get());
+                    }
                 }
+
             });
             stateProperty().addListener(((observableValue, oldValue, newValue) -> {
                 LOGGER.debug("running property listener: {}", newValue);
@@ -139,6 +145,9 @@ public class DeploymentInfoController implements ChangeListener<DeploymentTreeIt
                     var msg = processErrorMessage(getException());
                     appListErrorLabel.setText(msg);
                     appListErrorLabel.setVisible(true);
+                }
+                if(newValue == State.SUCCEEDED) {
+                    applicationsCombo.setItems(FXCollections.observableList(valueProperty().get()));
                 }
             }));
         }
